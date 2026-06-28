@@ -75,23 +75,21 @@ def get_client() -> httpx.Client:
     return client
 
 
-def get(path, params=None, *, max_retries=12, honor_retry_after=True):
-    """GET with retry. Returns parsed JSON or raises after max_retries.
+def get(path, params=None, *, max_retries=12):
+    """GET with aggressive retry until success — the fastest path to ~0 failure.
 
-    honor_retry_after=True sleeps the server-provided Retry-After (the polite,
-    spec-compliant path). Set False for aggressive near-immediate retry — valid
-    here because the 429 is random, not a real backoff signal.
+    The 429 is random (~30% per request, independent — not a congestion signal),
+    so we retry near-immediately with light jitter instead of honoring
+    Retry-After. P(still failing after k tries) = 0.3**k.
     """
     client = get_client()
-    backoff = 0.5
     for _ in range(max_retries):
         STATS.bump("total")
         try:
             resp = client.get(path, params=params)
         except httpx.HTTPError:
             STATS.bump("neterr")
-            time.sleep(backoff)
-            backoff = min(backoff * 2, 8)
+            time.sleep(0.05)
             continue
 
         code = resp.status_code
@@ -100,22 +98,12 @@ def get(path, params=None, *, max_retries=12, honor_retry_after=True):
             return resp.json()
         if code == 429:
             STATS.bump("429")
-            ra = resp.headers.get("Retry-After")
-            STATS.note_retry_after(ra)
-            if honor_retry_after:
-                try:
-                    wait = float(ra)
-                except (TypeError, ValueError):
-                    wait = backoff
-            else:
-                wait = 0.05
-            time.sleep(min(wait, 6) + random.uniform(0, 0.25))
-            backoff = min(backoff * 1.5, 6)
+            STATS.note_retry_after(resp.headers.get("Retry-After"))
+            time.sleep(0.02 + random.uniform(0, 0.05))  # jitter avoids lockstep
             continue
         if 500 <= code < 600:
             STATS.bump("5xx")
-            time.sleep(backoff)
-            backoff = min(backoff * 2, 8)
+            time.sleep(0.1)
             continue
         # 4xx other than 429 — not retryable
         STATS.bump("other")

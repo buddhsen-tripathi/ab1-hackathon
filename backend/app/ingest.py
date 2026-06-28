@@ -4,9 +4,9 @@ and assessments.
 Parallelism unit is the *individual call*, not the patient bundle — all
 ~1,200 child requests go into one worker pool together, so a 429-sleep on
 one call never blocks the three sibling calls behind it (no intra-bundle
-head-of-line blocking). Retries run aggressively (honor_retry_after=False):
-the 429 is random, not a congestion signal, so near-immediate retry is valid
-and collapses the sleep tail to ~0.
+head-of-line blocking). Retries run aggressively: the 429 is random, not a
+congestion signal, so near-immediate retry is valid and collapses the sleep
+tail to ~0.
 """
 import concurrent.futures as cf
 import time
@@ -30,13 +30,13 @@ ENDPOINTS = {
 }
 
 
-def fetch_one(kind, key, honor_retry_after):
+def fetch_one(kind, key):
     """Runs on a worker thread. One endpoint, one patient -> list of rows."""
     path, _ = ENDPOINTS[kind]
-    return get(path, {"patient_id": key}, honor_retry_after=honor_retry_after)
+    return get(path, {"patient_id": key})
 
 
-def run_stream(honor_retry_after=False, max_workers=MAX_WORKERS):
+def run_stream(max_workers=MAX_WORKERS):
     """Run the full pipeline as a generator of structured progress events.
 
     Each yielded dict is a self-describing event (type + payload) that the API
@@ -60,8 +60,7 @@ def run_stream(honor_retry_after=False, max_workers=MAX_WORKERS):
            "message": f"Fetching patient rosters for {len(FACILITIES)} facilities"}
     patients = []
     for fid in FACILITIES:
-        rows = get("/pcc/patients", {"facility_id": fid},
-                   honor_retry_after=honor_retry_after)
+        rows = get("/pcc/patients", {"facility_id": fid})
         patients.extend(rows)
         yield {"type": "roster", "facility": fid, "count": len(rows),
                "running_total": len(patients), "stats": STATS.snapshot()}
@@ -83,7 +82,7 @@ def run_stream(honor_retry_after=False, max_workers=MAX_WORKERS):
     done = 0
     with cf.ThreadPoolExecutor(max_workers=max_workers) as ex:
         fut_to_task = {
-            ex.submit(fetch_one, kind, key, honor_retry_after): kind
+            ex.submit(fetch_one, kind, key): kind
             for kind, key in tasks
         }
         for fut in cf.as_completed(fut_to_task):
@@ -120,10 +119,10 @@ def run_stream(honor_retry_after=False, max_workers=MAX_WORKERS):
            "counts": counts, "stats": STATS.snapshot(), "data": rep}
 
 
-def run(honor_retry_after=False, max_workers=MAX_WORKERS):
+def run(max_workers=MAX_WORKERS):
     """Run the pipeline to completion, printing a trace. Returns the final event."""
     last = None
-    for ev in run_stream(honor_retry_after, max_workers):
+    for ev in run_stream(max_workers):
         last = ev
         if ev["type"] in ("stage_start", "stage_complete", "pipeline_complete"):
             print(ev["type"], ev.get("stage", ""), ev.get("message", ""))
