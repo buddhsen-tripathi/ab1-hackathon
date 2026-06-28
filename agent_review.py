@@ -1,9 +1,10 @@
 """
-Agentic re-review of flag_for_review patients.
+LLM-assisted advisory review of flag_for_review patients.
 
-For each flagged patient, sends raw clinical notes + assessment text to an LLM
-via OpenRouter to extract missing wound fields (wound_type, drainage, stage, etc.)
-Then re-runs eligibility routing and reports which patients changed decision.
+For each flagged MCB patient, sends clinical notes and assessment text to an LLM
+to extract missing wound fields. The LLM output is recorded as an advisory annotation
+only — it does NOT change the routing decision. All routing changes require a human
+clinician to update the source documentation, which then re-runs through eligibility.py.
 
 Usage:
     python3 agent_review.py
@@ -15,7 +16,7 @@ import ast
 import time
 import requests
 import pandas as pd
-from eligibility import route, has_active_wound_dx, build_eligibility_table
+from eligibility import has_active_wound_dx, build_eligibility_table
 
 # ── Config ────────────────────────────────────────────────────────────────────
 
@@ -117,128 +118,74 @@ def build_clinical_text(patient_id: str, patient_int_id: int, notes_df: pd.DataF
     return "\n\n".join(parts) if parts else "No clinical documentation found."
 
 
-def merge_llm_fields(original: dict, llm: dict) -> dict:
-    """Fill missing fields in original with LLM results."""
-    merged = dict(original)
-    for field in ["wound_type", "stage", "location", "length_cm", "width_cm", "depth_cm", "drainage"]:
-        if not merged.get(field) and llm.get(field) is not None:
-            merged[field] = llm[field]
-    return merged
-
-
 def main():
     print("Loading data...")
     patients    = pd.read_csv("data/patients.csv")
-    diagnoses   = pd.read_csv("data/diagnoses.csv")
     notes       = pd.read_csv("data/notes.csv")
     assessments = pd.read_csv("data/assessments.csv")
     eligibility = pd.read_csv("data/eligibility_output.csv")
 
-    # Only process MCB flag_for_review patients
+    # Only annotate MCB flag_for_review patients
     flagged = eligibility[
         (eligibility["routing"] == "flag_for_review") &
         (eligibility["payer_code"] == "MCB")
     ].copy()
-    print(f"Found {len(flagged)} flag_for_review MCB patients to re-review\n")
+    print(f"Found {len(flagged)} flag_for_review MCB patients for LLM advisory review\n")
 
-    # Build patient_id -> internal id map
     id_map = patients.set_index("patient_id")["id"].to_dict()
-
     results = []
 
     for i, (_, row) in enumerate(flagged.iterrows()):
         pid = row["patient_id"]
         iid = id_map.get(pid)
-        print(f"[{i+1}/{len(flagged)}] {pid} — missing: {row['reason'][:60]}")
+        print(f"[{i+1}/{len(flagged)}] {pid} — flagged reason: {row['reason'][:60]}")
 
-        # Build clinical text for LLM
         clinical_text = build_clinical_text(pid, iid, notes, assessments)
-
-        # Call LLM
         llm_result = call_llm(clinical_text)
-        confidence = llm_result.pop("confidence", "unknown")
-        print(f"    LLM extracted: {llm_result}  (confidence: {confidence})")
+        llm_confidence = llm_result.pop("confidence", "unknown")
+        print(f"    LLM advisory: {llm_result}  (llm_confidence: {llm_confidence})\n")
 
-        # Merge LLM fields into existing wound data
-        original_fields = {
-            "wound_type": row.get("wound_type"),
-            "stage":      row.get("stage"),
-            "location":   row.get("location"),
-            "length_cm":  row.get("length_cm"),
-            "width_cm":   row.get("width_cm"),
-            "depth_cm":   row.get("depth_cm"),
-            "drainage":   row.get("drainage"),
-        }
-        enriched = merge_llm_fields(original_fields, llm_result)
-
-        # Re-run routing with enriched fields
-        pat_row = patients[patients["patient_id"] == pid].iloc[0].to_dict()
-        has_dx = has_active_wound_dx(pid, diagnoses)
-        new_decision, new_reason = route(pat_row, enriched, has_dx)
-
-        changed = new_decision != "flag_for_review"
-        print(f"    {'CHANGED -> ' + new_decision.upper() if changed else 'still flag_for_review'}\n")
-
+        # LLM output is advisory only — routing decision stays flag_for_review.
+        # A clinician must review, update source documentation, and re-run
+        # eligibility.py to produce a new routing decision.
         results.append({
-            "patient_id":       pid,
-            "original_routing": "flag_for_review",
-            "original_reason":  row["reason"],
-            "llm_wound_type":   llm_result.get("wound_type"),
-            "llm_drainage":     llm_result.get("drainage"),
-            "llm_stage":        llm_result.get("stage"),
-            "llm_location":     llm_result.get("location"),
-            "llm_length_cm":    llm_result.get("length_cm"),
-            "llm_width_cm":     llm_result.get("width_cm"),
-            "llm_depth_cm":     llm_result.get("depth_cm"),
-            "llm_confidence":   confidence,
-            "new_routing":      new_decision,
-            "new_reason":       new_reason,
-            "changed":          changed,
+            "patient_id":         pid,
+            "routing":            row["routing"],   # unchanged
+            "original_reason":    row["reason"],    # unchanged
+            "llm_wound_type":     llm_result.get("wound_type"),
+            "llm_drainage":       llm_result.get("drainage"),
+            "llm_stage":          llm_result.get("stage"),
+            "llm_location":       llm_result.get("location"),
+            "llm_length_cm":      llm_result.get("length_cm"),
+            "llm_width_cm":       llm_result.get("width_cm"),
+            "llm_depth_cm":       llm_result.get("depth_cm"),
+            "llm_confidence":     llm_confidence,
+            "action_required":    "Clinician must verify LLM suggestions and update source chart before re-routing.",
         })
 
     results_df = pd.DataFrame(results)
     results_df.to_csv("data/agent_review_results.csv", index=False)
 
-    # ── Summary ───────────────────────────────────────────────────────────────
-    print("\n=== Agent Review Summary ===")
-    print(f"Total flagged reviewed: {len(results_df)}")
-    print(f"Changed decision:       {results_df['changed'].sum()}")
-    print(f"  -> auto_accept:       {(results_df['new_routing'] == 'auto_accept').sum()}")
-    print(f"  -> reject:            {(results_df['new_routing'] == 'reject').sum()}")
-    print(f"Still flag_for_review:  {(results_df['new_routing'] == 'flag_for_review').sum()}")
+    print("\n=== LLM Advisory Review Summary ===")
+    print(f"Flagged patients reviewed: {len(results_df)}")
+    print("Routing decisions: unchanged (LLM output is advisory only)")
 
-    print("\n=== Patients upgraded to auto_accept ===")
-    upgraded = results_df[results_df["new_routing"] == "auto_accept"]
-    if len(upgraded):
-        print(upgraded[["patient_id", "llm_wound_type", "llm_drainage", "llm_confidence", "new_reason"]].to_string(index=False))
-    else:
-        print("None")
-
-    print("\n=== Saved to data/agent_review_results.csv ===")
-
-    # Build updated full eligibility output
-    updated_eligibility = pd.read_csv("data/eligibility_output.csv")
-    updated_eligibility["promoted_by_agent"] = False  # default
+    # Annotate eligibility output with LLM suggestions — routing column is NOT modified.
+    updated = pd.read_csv("data/eligibility_output.csv")
+    for col in ["llm_wound_type", "llm_drainage", "llm_stage", "llm_confidence", "action_required"]:
+        updated[col] = None
 
     for _, res in results_df.iterrows():
-        mask = updated_eligibility["patient_id"] == res["patient_id"]
-        updated_eligibility.loc[mask, "routing"] = res["new_routing"]
-        updated_eligibility.loc[mask, "reason"]  = res["new_reason"]
-        # Mark records that were promoted from flag_for_review -> auto_accept
-        if res["new_routing"] == "auto_accept":
-            updated_eligibility.loc[mask, "promoted_by_agent"] = True
-        for f in ["wound_type", "stage", "location", "length_cm", "width_cm", "depth_cm", "drainage"]:
-            llm_val = res.get(f"llm_{f}")
-            if pd.notna(llm_val) and llm_val is not None:
-                current = updated_eligibility.loc[mask, f].values[0]
-                if pd.isna(current) or current is None:
-                    updated_eligibility.loc[mask, f] = llm_val
+        mask = updated["patient_id"] == res["patient_id"]
+        for col in ["llm_wound_type", "llm_drainage", "llm_stage", "llm_confidence", "action_required"]:
+            updated.loc[mask, col] = res.get(col)
 
-    updated_eligibility.to_csv("data/eligibility_output_final.csv", index=False)
-    json_str = updated_eligibility.to_json(orient="records")
+    updated.to_csv("data/eligibility_output_final.csv", index=False)
+    json_str = updated.to_json(orient="records")
     with open("dashboard/public/eligibility_data.json", "w") as f:
         f.write(json_str)
-    print("Updated dashboard/public/eligibility_data.json with final routing decisions.")
+    print("Saved advisory annotations → data/eligibility_output_final.csv")
+    print("Updated dashboard/public/eligibility_data.json")
 
 
 if __name__ == "__main__":
