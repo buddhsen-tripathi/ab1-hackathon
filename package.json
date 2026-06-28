@@ -1,0 +1,18 @@
+{
+  "name": "ab1-hackathon",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Wound-care billing pipeline: FastAPI backend + Next.js frontend.",
+  "scripts": {
+    "dev": "concurrently -k -n be,fe -c cyan,magenta \"npm:dev:be\" \"npm:dev:fe\"",
+    "dev:be": "cd backend && .venv/bin/python -m uvicorn app.main:app --reload --port 8000",
+    "dev:fe": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "setup": "npm run setup:be && npm run setup:fe",
+    "setup:be": "python3 -m venv backend/.venv && backend/.venv/bin/python -m pip install --upgrade pip && backend/.venv/bin/python -m pip install -r backend/requirements.txt",
+    "setup:fe": "cd frontend && npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
