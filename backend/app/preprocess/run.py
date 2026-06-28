@@ -14,12 +14,18 @@ run (connecting is slow), reused everywhere.
 
 Run: python -m app.preprocess.run
 """
+import concurrent.futures as cf
 import json
+import os
 import time
 
 from .. import kb, llm
 from ..db import connect
 from . import parsers, store
+
+# Escalations are independent network calls — fan them out instead of blocking
+# the parse loop one at a time. Tune via LLM_WORKERS (watch provider rate limits).
+LLM_WORKERS = int(os.environ.get("LLM_WORKERS", "16"))
 
 
 def _load_documents(conn):
@@ -61,11 +67,22 @@ def run_stream():
     yield {"type": "stage_start", "stage": "extract", "total": total,
            "message": f"Extracting wound fields from {total} documents"}
 
-    # --- Phase 2: parse in memory (no DB connection held) -----------------
+    # --- Phase 2a: parse in memory; collect the hard docs for escalation ---
+    # The parse + cache lookups are fast and stay serial; the slow part — the
+    # LLM escalation calls — is deferred so we can fan it out below.
     rows = []
     stat = {"cache_hits": 0, "parsed": 0, "escalated": 0,
             "llm_enriched": 0, "errors": 0}
 
+    def _finalize(sig, exts):
+        primary = next((e for e in exts if e.is_primary), exts[0] if exts else None)
+        row_dicts = [e.as_row() for e in exts]
+        conf = primary.confidence if primary else 0.0
+        method = primary.method if primary else "regex"
+        kb.cache_put(sig, row_dicts, method, conf)
+        rows.extend(row_dicts)
+
+    pending = []  # docs that need an LLM call: {doc, exts, primary, sig}
     for i, doc in enumerate(docs, 1):
         try:
             sig = kb.signature(_doc_text(doc))
@@ -80,21 +97,44 @@ def run_stream():
                                exts[0] if exts else None)
                 if primary and llm.needs_escalation(doc, primary):  # 3. gate
                     stat["escalated"] += 1
-                    enrich = llm.escalate(doc, primary.as_row())
-                    if enrich:
-                        stat["llm_enriched"] += 1
-                        _apply_enrichment(exts, enrich)
-                        kb.learn_from(enrich)           # teach the KB
-                row_dicts = [e.as_row() for e in exts]
-                conf = primary.confidence if primary else 0.0
-                method = primary.method if primary else "regex"
-                kb.cache_put(sig, row_dicts, method, conf)  # 4. memoize
-                rows.extend(row_dicts)
+                    pending.append({"doc": doc, "exts": exts, "primary": primary, "sig": sig})
+                else:
+                    _finalize(sig, exts)                # 4. memoize now
         except Exception:                               # one bad doc never kills the batch
             stat["errors"] += 1
         if i % 40 == 0 or i == total:
             yield {"type": "progress", "stage": "extract", "done": i,
                    "total": total, "cascade": dict(stat)}
+
+    # --- Phase 2b: escalate the hard docs CONCURRENTLY ---------------------
+    # Only the network call (llm.escalate) runs on worker threads; applying the
+    # enrichment + KB writes stay on this thread, so no locking is needed.
+    if pending:
+        yield {"type": "progress", "stage": "extract", "done": total, "total": total,
+               "cascade": dict(stat),
+               "message": f"Escalating {len(pending)} docs to the LLM ({LLM_WORKERS} workers)"}
+        done_esc = 0
+        with cf.ThreadPoolExecutor(max_workers=LLM_WORKERS) as ex:
+            fut_to_item = {
+                ex.submit(llm.escalate, it["doc"], it["primary"].as_row()): it
+                for it in pending
+            }
+            for fut in cf.as_completed(fut_to_item):
+                it = fut_to_item[fut]
+                try:
+                    enrich = fut.result()
+                except Exception:
+                    enrich = None
+                if enrich:
+                    stat["llm_enriched"] += 1
+                    _apply_enrichment(it["exts"], enrich)
+                    kb.learn_from(enrich)               # teach the KB
+                _finalize(it["sig"], it["exts"])
+                done_esc += 1
+                if done_esc % 5 == 0 or done_esc == len(pending):
+                    yield {"type": "progress", "stage": "extract", "done": total,
+                           "total": total, "cascade": dict(stat),
+                           "message": f"LLM escalations {done_esc}/{len(pending)}"}
 
     # --- Phase 3: persist (fresh connection, used immediately) ------------
     with connect() as conn:

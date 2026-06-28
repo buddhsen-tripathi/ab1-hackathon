@@ -61,35 +61,28 @@ function SignalGroup({ title, children }: { title: string; children: React.React
 }
 
 function RealtimeSignals({ state }: { state: PipelineState }) {
-  const s = state.stats;
+  const ex = state.extraction;
+  const el = state.eligibility;
   const c = state.cascade;
-  const d = state.decisions;
-  const rows = state.counts
-    ? Object.values(state.counts).reduce((a, b) => a + b, 0)
-    : 0;
+  const d = el?.decisions;
   const dash = "—";
 
   return (
     <div className="space-y-4">
-      <SignalGroup title="Ingestion">
-        <SignalRow label="Requests" value={s ? num(s.total_requests) : dash} />
-        <SignalRow
-          label="Rate limited (429)"
-          value={s ? `${pct(s.observed_429_rate)} · ${num(s.rate_limited_429)}` : dash}
-        />
-        <SignalRow label="Calls / success" value={s ? s.calls_per_success.toFixed(2) : dash} />
-      </SignalGroup>
-      <SignalGroup title="Storage">
-        <SignalRow label="Rows stored" value={rows ? num(rows) : dash} />
-      </SignalGroup>
-      <SignalGroup title="Extraction">
-        <SignalRow label="Escalated to LLM" value={c ? num(c.escalated ?? 0) : dash} />
-        <SignalRow label="LLM-enriched" value={c ? num(c.llm_enriched ?? 0) : dash} />
-      </SignalGroup>
-      <SignalGroup title="Routing">
+      <SignalGroup title="Triage outcome">
         <SignalRow label="Auto-accept" value={d ? num(d.auto_accept ?? 0) : dash} />
         <SignalRow label="Flag for review" value={d ? num(d.flag_for_review ?? 0) : dash} />
         <SignalRow label="Reject" value={d ? num(d.reject ?? 0) : dash} />
+        <SignalRow label="Billable (MCB)" value={el ? num(el.active_mcb) : dash} />
+      </SignalGroup>
+      <SignalGroup title="Extraction">
+        <SignalRow label="Wound records" value={ex ? num(ex.total_wound_rows) : dash} />
+        <SignalRow
+          label="Billing-ready"
+          value={ex ? `${num(ex.billing_ready)} (${ex.billing_ready_pct}%)` : dash}
+        />
+        <SignalRow label="Escalated to LLM" value={c ? num(c.escalated ?? 0) : dash} />
+        <SignalRow label="LLM-enriched" value={c ? num(c.llm_enriched ?? 0) : dash} />
       </SignalGroup>
     </div>
   );

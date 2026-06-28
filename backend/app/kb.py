@@ -165,8 +165,9 @@ def restamp(rows, doc):
 # --- learning (queued in memory, flushed at end of run) -------------------
 
 def learn_abbreviation(surface, expansion, category=None, source="llm"):
-    surface = surface.strip().lower()
-    if not surface or surface in _ABBREV:
+    surface = (surface or "").strip().lower()
+    expansion = (expansion or "").strip()
+    if not surface or not expansion or surface in _ABBREV:  # both columns are NOT NULL
         return
     _ABBREV[surface] = expansion
     _new_abbrev[surface] = (expansion, category, source)
@@ -174,7 +175,11 @@ def learn_abbreviation(surface, expansion, category=None, source="llm"):
 
 
 def learn_lexicon(category, surface, canonical, source="llm"):
-    surface = surface.strip().lower()
+    category = (category or "").strip()
+    surface = (surface or "").strip().lower()
+    canonical = (canonical or "").strip()
+    if not category or not surface or not canonical:  # all three are NOT NULL
+        return
     key = (category, surface)
     if key in _LEXICON:
         return
@@ -183,11 +188,17 @@ def learn_lexicon(category, surface, canonical, source="llm"):
 
 
 def learn_from(enrichment):
-    """Absorb an LLM escalation result's learned artifacts into the KB."""
-    for a in (enrichment or {}).get("abbreviations", []):
-        learn_abbreviation(a["surface"], a["expansion"], a.get("category"))
-    for l in (enrichment or {}).get("lexicon", []):
-        learn_lexicon(l["category"], l["surface"], l["canonical"])
+    """Absorb an LLM escalation result's learned artifacts into the KB.
+
+    The model occasionally emits partial rows (null expansion/canonical, "n/a"
+    surface); the learn_* helpers drop those so the flush never hits a NOT NULL.
+    """
+    for a in (enrichment or {}).get("abbreviations") or []:
+        if isinstance(a, dict):
+            learn_abbreviation(a.get("surface"), a.get("expansion"), a.get("category"))
+    for l in (enrichment or {}).get("lexicon") or []:
+        if isinstance(l, dict):
+            learn_lexicon(l.get("category"), l.get("surface"), l.get("canonical"))
 
 
 # --- DB lifecycle ---------------------------------------------------------

@@ -174,17 +174,6 @@ export default function SignalsPage() {
               </Card>
             </section>
 
-            {/* ---- 2. Pipeline reliability ---- */}
-            <section className="space-y-4">
-              <SectionLabel>Pipeline reliability</SectionLabel>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                <KpiCard label="Total requests" value={num(rs.total_requests)} hint="Last ingest run" icon={CloudArrowDown} />
-                <KpiCard label="Rate limited (429)" value={pct(rs.observed_429_rate)} hint={`${num(rs.rate_limited_429)} retried away`} icon={Warning} />
-                <KpiCard label="Calls / success" value={rs.calls_per_success.toFixed(2)} hint="Retry overhead (1/0.7 ≈ 1.43)" icon={ArrowsClockwise} />
-                <KpiCard label="Permanent failures" value={num(rs.server_5xx + rs.net_errors)} hint="Retry drives this to zero" icon={CheckCircle} />
-              </div>
-            </section>
-
             {/* ---- 3. Extraction readiness ---- */}
             <section className="space-y-4">
               <SectionLabel>Extraction readiness</SectionLabel>

@@ -95,18 +95,41 @@ def info():
 
 
 def needs_escalation(doc, primary):
-    """Confidence gate: escalate only when the LLM can plausibly add value —
-    there's unstructured text AND the heuristic result is uncertain."""
+    """Confidence gate — the LLM is the *rare* specialist, not the default path.
+
+    Escalate ONLY when the model can plausibly recover signal a regex pass
+    missed: hard free-text formats whose heuristic parse came back thin, or an
+    outright parse failure. We deliberately do NOT escalate for:
+      - structured sources (already authoritative),
+      - clean SOAP/structured regex parses (reliable enough),
+      - fields that are simply ABSENT from the document — the model can't invent
+        a depth that was never written, so "missing_depth" is a routing flag,
+        not a reason to pay for a call.
+    """
     text = doc.get("note_text") or doc.get("raw_json")
     if not text or primary is None:
         return False
-    if primary.billing_ready and primary.confidence >= 0.75:
-        return False                              # already clean — don't pay
-    if primary.confidence < 0.75:
-        return True
-    if any(f in BLOCKING_FLAGS for f in primary.flags):
-        return True
-    return primary.source_format in HARD_FORMATS
+
+    # Structured assessment fields are authoritative — never pay.
+    if primary.method == "structured_field":
+        return False
+
+    flags = primary.flags or []
+    if "unparseable" in flags:
+        return True                               # nothing usable — let the LLM try
+
+    # Only hard free-text formats benefit; structured/SOAP regex is reliable.
+    if primary.source_format not in HARD_FORMATS:
+        return False
+
+    # ...and only when the heuristic clearly under-read the text (missed the
+    # wound type or got no measurements at all, or is genuinely low-confidence).
+    poor_yield = (
+        primary.wound_type is None
+        or (primary.length_cm is None and primary.width_cm is None)
+        or (primary.confidence or 0.0) < 0.5
+    )
+    return poor_yield
 
 
 _PROMPT = """You are a clinical wound-care data extractor. Read the RAW documentation \

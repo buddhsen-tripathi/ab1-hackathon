@@ -190,7 +190,8 @@ function reduce(s: PipelineState, ev: Ev, nextId: () => number): PipelineState {
         stages,
         counts: ev.counts ?? s.counts,
         cascade: ev.cascade ?? s.cascade,
-        decisions: ev.summary?.decisions ?? s.decisions,
+        extraction: ev.stage === "extract" ? ev.summary ?? s.extraction : s.extraction,
+        eligibility: ev.stage === "route" ? ev.summary ?? s.eligibility : s.eligibility,
         log,
         stats,
       };
@@ -203,7 +204,8 @@ function reduce(s: PipelineState, ev: Ev, nextId: () => number): PipelineState {
         counts: ev.counts ?? s.counts,
         report: ev.data ?? s.report,
         cascade: ev.cascade ?? s.cascade,
-        decisions: ev.eligibility?.decisions ?? s.decisions,
+        extraction: ev.extraction ?? s.extraction,
+        eligibility: ev.eligibility ?? s.eligibility,
         elapsed: ev.elapsed_sec ?? null,
         log,
       };
