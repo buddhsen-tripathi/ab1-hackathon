@@ -120,19 +120,41 @@ def fetch_results(decision=None, facility_id=None, search=None,
 
 
 def fetch_detail(patient_id):
-    """One eligibility row + the patient's wound extractions (evidence/provenance)."""
+    """Full evidence bundle for one patient so a biller can verify every routed
+    field against its source: the verdict, the wound extractions behind it, and
+    the RAW source records (coverage, diagnoses, assessments, notes).
+
+    Two-key data model (see API.md): coverage/diagnoses key on the string
+    patient_id (FA-001); notes/assessments key on the integer internal_id.
+    """
     with connect() as conn, conn.cursor() as cur:
         cur.execute("SELECT * FROM patient_eligibility WHERE patient_id = %s",
                     (patient_id,))
         result = cur.fetchone()
         if not result:
             return None
+        pid_str, pid_int = result["patient_id"], result["internal_id"]
+
         cur.execute(
             "SELECT * FROM wound_extractions WHERE patient_id = %s "
             "ORDER BY is_primary DESC, confidence DESC",
-            (result["internal_id"],),
+            (pid_int,),
         )
-        return {"result": result, "extractions": cur.fetchall()}
+        extractions = cur.fetchall()
+
+        def raws(table, key):
+            cur.execute(f"SELECT raw FROM {table} WHERE patient_id = %s ORDER BY id",
+                        (key,))
+            return [r["raw"] for r in cur.fetchall()]
+
+        return {
+            "result": result,
+            "extractions": extractions,
+            "coverage": raws("coverage", pid_str),
+            "diagnoses": raws("diagnoses", pid_str),
+            "assessments": raws("assessments", pid_int),
+            "notes": raws("notes", pid_int),
+        }
 
 
 def summary(conn=None):

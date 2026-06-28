@@ -5,6 +5,7 @@ compact, live snapshot of the data (counts, request stats, characterization,
 extraction + eligibility summaries) and streaming the reply from OpenRouter.
 """
 import json
+import re
 
 import httpx
 
@@ -16,6 +17,9 @@ from .preprocess import store as preprocess_store
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 
+# PCC ids look like FA-001 / FB-042 / FC-100.
+PATIENT_RE = re.compile(r"\bF[ABC]-\d{1,4}\b", re.IGNORECASE)
+
 SYSTEM_PROMPT = """\
 You are the analyst assistant embedded in the ABI wound-care billing pipeline \
 dashboard. You help a non-technical biller and the engineering team understand \
@@ -26,10 +30,31 @@ auto_accept, flag_for_review, or reject. Only patients with active Medicare \
 Part B (MCB) coverage are billable.
 
 Rules:
-- Answer using the DATA SNAPSHOT below and the conversation. If a detail is not \
-in the snapshot, say so plainly instead of inventing numbers.
-- Be concise and specific; cite concrete numbers from the snapshot.
+- Answer using the DATA SNAPSHOT, REFERENCED PATIENTS, and the conversation. If a \
+detail is not present, say so plainly instead of inventing numbers.
+- Be concise and specific; cite concrete numbers.
+- When a question names a patient id (e.g. FA-001), use that patient's record in \
+REFERENCED PATIENTS to explain their decision and the evidence behind it.
 - Plain language, short paragraphs. Avoid markdown tables unless asked."""
+
+DASHBOARD_INSTRUCTIONS = """\
+
+DASHBOARDS: when the user asks you to build, show, chart, visualize, plot, or \
+render a dashboard / breakdown / graph, reply with ONE short sentence, then a \
+fenced code block tagged `dashboard` containing JSON of EXACTLY this shape:
+
+```dashboard
+{"title":"<title>","widgets":[
+  {"kind":"kpi","label":"<label>","value":<number|string>,"hint":"<optional>"},
+  {"kind":"bar","title":"<title>","unit":"%","data":[{"label":"<label>","value":<number>}]},
+  {"kind":"table","title":"<title>","columns":["<col>"],"rows":[["<cell>",<number>]]}
+]}
+```
+
+Dashboard rules: use ONLY numbers found in the DATA SNAPSHOT or REFERENCED \
+PATIENTS — never invent values. Use 2-6 widgets. Set "unit":"%" only for \
+percentage bars, otherwise "". For ordinary questions, answer in plain prose with \
+NO dashboard block."""
 
 
 def _safe(fn, default):
@@ -69,6 +94,28 @@ def build_context():
     }
 
 
+def _referenced_patients(messages):
+    """Pre-fetch eligibility detail for any patient ids named in the latest user
+    turn — a lightweight 'tool' that lets the agent drill into specifics."""
+    text = next((m.get("content", "") for m in reversed(messages)
+                 if m.get("role") == "user"), "")
+    ids, seen = [], set()
+    for raw in PATIENT_RE.findall(text):
+        pid = raw.upper()
+        if pid not in seen:
+            seen.add(pid)
+            ids.append(pid)
+    out = {}
+    for pid in ids[:5]:  # cap so a message full of ids can't blow up context
+        try:
+            detail = eligibility_store.fetch_detail(pid)
+            if detail:
+                out[pid] = detail
+        except Exception:
+            continue
+    return out
+
+
 def stream_chat(messages):
     """Yield reply text deltas for a list of {role, content} messages."""
     if not OPENROUTER_API_KEY:
@@ -76,11 +123,15 @@ def stream_chat(messages):
         return
 
     snapshot = build_context()
+    refs = _referenced_patients(messages)
     system = (
         SYSTEM_PROMPT
+        + DASHBOARD_INSTRUCTIONS
         + "\n\nDATA SNAPSHOT (JSON):\n"
         + json.dumps(snapshot, default=str)
     )
+    if refs:
+        system += "\n\nREFERENCED PATIENTS (JSON):\n" + json.dumps(refs, default=str)
     payload = {
         "model": OPENROUTER_MODEL,
         "messages": [{"role": "system", "content": system}, *messages],
