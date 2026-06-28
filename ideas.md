@@ -1,7 +1,7 @@
 # Creative Ideas — ABI Wound-Care Billing Pipeline
 
 Built on top of what already exists: ingestion w/ rate-limit handling, 300 patients
-in SQLite, and `backend/app/characterize.py` already detecting dirty-data traps
+in Neon Postgres, and `backend/app/characterize.py` already detecting dirty-data traps
 (doubled words, laterality conflicts, multi-wound, Envive narrative blobs).
 
 The creative layer should target the judging criteria that **aren't** about raw

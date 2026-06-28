@@ -8,6 +8,8 @@
     "dev:be": "cd backend && .venv/bin/python -m uvicorn app.main:app --reload --port 8000",
     "dev:fe": "cd frontend && npm run dev",
     "build": "cd frontend && npm run build",
+    "db:reset": "cd backend && .venv/bin/python -m app.reset_db --yes",
+    "db:reset:all": "cd backend && .venv/bin/python -m app.reset_db --all --yes",
     "setup": "npm run setup:be && npm run setup:fe",
     "setup:be": "python3 -m venv backend/.venv && backend/.venv/bin/python -m pip install --upgrade pip && backend/.venv/bin/python -m pip install -r backend/requirements.txt",
     "setup:fe": "cd frontend && npm install"
