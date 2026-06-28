@@ -5,7 +5,7 @@ import { PatientTable } from './components/PatientTable'
 import { PatientDrawer } from './components/PatientDrawer'
 import { ApiHealthMonitor } from './components/ApiHealthMonitor'
 import { SyncBar } from './components/SyncBar'
-import { DecisionBadge } from './components/DecisionBadge'
+import { Bot, CheckCircle2, CloudCog, Database, Search, ShieldCheck, TriangleAlert } from 'lucide-react'
 
 type Tab = 'all' | 'auto_accept' | 'flag_for_review' | 'reject' | 'missing_docs'
 
@@ -76,8 +76,19 @@ export default function App() {
 
   const handleSync = async () => {
     try {
-      await fetch('/api/sync', { method: 'POST' })
-      setSyncStatus(prev => ({ ...prev!, running: true, status: 'running', current_step: 'Starting...' }))
+      await fetch('/api/sync?incremental=true&use_llm=true', { method: 'POST' })
+      setSyncStatus({
+        running: true,
+        total: 0,
+        processed: 0,
+        errors: 0,
+        started_at: new Date().toISOString(),
+        status: 'running',
+        current_step: 'Checking PCC for changes...',
+        mode: stats?.last_sync ? 'incremental' : 'full',
+        since: stats?.last_sync || null,
+        changed_patients: 0,
+      })
     } catch {}
   }
 
@@ -115,32 +126,24 @@ export default function App() {
     return () => clearInterval(id)
   }, [])
 
-  const tabCounts: Record<Tab, number> = {
-    all: stats?.total_patients || 0,
-    auto_accept: stats?.auto_accept || 0,
-    flag_for_review: stats?.flag_for_review || 0,
-    reject: stats?.reject || 0,
-    missing_docs: patients.filter(p => (p.missing_fields || []).length > 0 && activeTab === 'missing_docs').length || 0,
-  }
-
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
+    <div className="min-h-screen app-shell flex flex-col">
       {/* Top nav */}
-      <header className="bg-slate-900 text-white px-6 py-4 shadow-lg flex-shrink-0">
-        <div className="max-w-screen-xl mx-auto flex items-center justify-between">
+      <header className="app-header flex-shrink-0">
+        <div className="max-w-[1480px] mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-sky-500 rounded-lg flex items-center justify-center font-bold text-sm">CL</div>
+              <div className="brand-mark" aria-hidden="true"><ShieldCheck size={19} strokeWidth={2.2} /></div>
               <div>
-                <h1 className="text-xl font-bold tracking-tight">ClaimLens AI</h1>
-                <p className="text-xs text-slate-400">Evidence-backed Medicare Part B wound care billing triage</p>
+                <h1 className="text-lg font-semibold">ClaimLens AI</h1>
+                <p className="hidden sm:block text-xs text-slate-400">Evidence-backed Part B wound billing control</p>
               </div>
             </div>
           </div>
           <div className="flex items-center gap-4">
             {backendDown && (
-              <div className="bg-red-900/50 border border-red-700 text-red-300 text-xs px-3 py-1.5 rounded-lg">
-                ⚠ Backend offline — start the FastAPI server
+              <div className="status-chip status-chip-danger">
+                <TriangleAlert size={14} /> Backend offline
               </div>
             )}
             <SyncBar status={syncStatus} onSync={handleSync} />
@@ -148,25 +151,53 @@ export default function App() {
         </div>
       </header>
 
-      <main className="flex-1 max-w-screen-xl mx-auto w-full px-6 py-5 space-y-5">
+      <main className="flex-1 max-w-[1480px] mx-auto w-full px-4 sm:px-6 py-5 space-y-4">
+
+        <section className="system-strip" aria-label="System capabilities">
+          <div className="system-item">
+            <Database size={15} />
+            <span>PCC pipeline</span>
+            <strong>{backendDown ? 'Offline' : 'Connected'}</strong>
+          </div>
+          <div className="system-item">
+            <CloudCog size={15} />
+            <span>Sync mode</span>
+            <strong>{stats?.incremental_sync_ready ? 'Incremental ready' : 'Full refresh required'}</strong>
+          </div>
+          <div className="system-item">
+            <Bot size={15} />
+            <span>Claude assist</span>
+            <strong className={stats?.llm_configured ? 'text-emerald-700' : 'text-amber-700'}>
+              {stats?.llm_configured ? 'Configured' : 'Key required'}
+            </strong>
+          </div>
+          <div className="system-item hidden lg:flex">
+            <CheckCircle2 size={15} />
+            <span>Last run</span>
+            <strong>{stats?.last_sync_mode ? `${stats.last_sync_mode} · ${stats.last_sync_count} updated` : 'Not synced'}</strong>
+          </div>
+        </section>
 
         {/* Metric cards */}
         <MetricCards stats={stats} />
 
         {/* Work queue */}
-        <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+        <section className="queue-panel">
           {/* Queue header */}
           <div className="border-b border-slate-200 px-5 pt-4">
-            <div className="flex items-center justify-between mb-3">
-              <h2 className="font-bold text-slate-900">Claim Work Queue</h2>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+              <div>
+                <h2 className="font-semibold text-slate-900">Claim work queue</h2>
+                <p className="text-xs text-slate-500 mt-0.5">Prioritized by readiness score and documentation risk</p>
+              </div>
               <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">🔍</span>
+                <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input
                   type="text"
                   placeholder="Search patient, wound type..."
                   value={search}
                   onChange={e => setSearch(e.target.value)}
-                  className="pl-8 pr-4 py-1.5 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-400 w-64"
+                  className="search-input"
                 />
               </div>
             </div>
@@ -192,7 +223,7 @@ export default function App() {
                         : t.id === 'auto_accept' ? stats.auto_accept
                         : t.id === 'flag_for_review' ? stats.flag_for_review
                         : t.id === 'reject' ? stats.reject
-                        : patients.filter(p => (p.missing_fields||[]).length > 0).length}
+                        : stats.docs_gap_count}
                     </span>
                   )}
                 </button>
@@ -208,7 +239,7 @@ export default function App() {
               loading={loading}
             />
           </div>
-        </div>
+        </section>
 
         {/* API health */}
         {stats?.api_health && stats.api_health.total_requests > 0 && (
@@ -217,15 +248,15 @@ export default function App() {
 
         {/* Empty state: no data yet */}
         {!loading && stats?.total_patients === 0 && !backendDown && (
-          <div className="bg-sky-50 border border-sky-200 rounded-xl p-6 text-center">
-            <p className="text-2xl mb-2">🚀</p>
+          <div className="bg-sky-50 border border-sky-200 rounded-lg p-6 text-center">
+            <Database className="mx-auto mb-2 text-sky-600" size={28} />
             <p className="font-semibold text-sky-800 mb-1">No patient data yet</p>
             <p className="text-sm text-sky-600 mb-4">Click "Sync Data" to pull 300 patients from the PCC API across 3 facilities.</p>
             <button
               onClick={handleSync}
               className="bg-sky-600 hover:bg-sky-700 text-white text-sm font-semibold px-6 py-2.5 rounded-lg shadow-sm transition-colors"
             >
-              Start Sync →
+              Start full sync
             </button>
           </div>
         )}
@@ -233,9 +264,9 @@ export default function App() {
 
       {/* Footer */}
       <footer className="border-t border-slate-200 bg-white px-6 py-3 flex-shrink-0">
-        <div className="max-w-screen-xl mx-auto flex items-center justify-between text-xs text-slate-400">
-          <span>ClaimLens AI · ABI Hackathon · No black-box routing — every decision is backed by source-level evidence.</span>
-          <span>Powered by Claude + PCC Mock API</span>
+        <div className="max-w-[1480px] mx-auto flex flex-col sm:flex-row gap-1 items-center justify-between text-xs text-slate-500">
+          <span>No black-box routing. Every decision is backed by source-level evidence.</span>
+          <span>Claude assisted · PCC connected · Synthetic data only</span>
         </div>
       </footer>
 

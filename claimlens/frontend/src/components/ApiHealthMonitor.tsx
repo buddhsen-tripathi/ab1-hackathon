@@ -1,5 +1,6 @@
 import React from 'react'
 import { ApiHealth } from '../types'
+import { Activity, Clock3, ShieldCheck } from 'lucide-react'
 
 interface Props {
   health: ApiHealth | null
@@ -27,14 +28,15 @@ export function ApiHealthMonitor({ health, lastSync }: Props) {
     : 100
 
   return (
-    <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+    <section className="bg-white border border-slate-200 rounded-lg p-4 shadow-sm">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+          <Activity size={15} className="text-emerald-600" />
           <span className="text-xs font-semibold text-slate-600 uppercase tracking-wide">API Pipeline Health</span>
         </div>
         {lastSync && (
-          <span className="text-xs text-slate-400">
+          <span className="text-xs text-slate-500 inline-flex items-center gap-1.5">
+            <Clock3 size={13} />
             Last sync: {new Date(lastSync).toLocaleString()}
           </span>
         )}
@@ -49,16 +51,16 @@ export function ApiHealthMonitor({ health, lastSync }: Props) {
       <div className="mt-3 flex items-center gap-2">
         <div className="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
           <div
-            className="h-full bg-gradient-to-r from-green-500 to-sky-500 rounded-full"
+            className="h-full bg-emerald-500 rounded-full"
             style={{ width: `${successRate}%` }}
           />
         </div>
         <span className="text-xs text-slate-500">
           {health.failed_requests === 0
-            ? 'All requests succeeded after retry'
+            ? <span className="inline-flex items-center gap-1"><ShieldCheck size={13} /> All requests recovered after retry</span>
             : `${health.failed_requests} failed after max retries`}
         </span>
       </div>
-    </div>
+    </section>
   )
 }

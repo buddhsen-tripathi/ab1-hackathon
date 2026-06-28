@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Patient } from '../types'
 import { ScoreRing } from './ScoreRing'
 import { DecisionBadge } from './DecisionBadge'
 import { EvidenceTrace } from './EvidenceTrace'
 import { WoundComparator } from './WoundComparator'
 import { ScoreBreakdown } from './ScoreBreakdown'
+import { Bot, Check, CheckCircle2, Copy, RefreshCw, Sparkles, X, XCircle } from 'lucide-react'
 
 interface Props {
   patient: Patient | null
@@ -17,7 +18,7 @@ function TabBtn({ id, label, active, onClick, badge }: { id: Tab; label: string;
   return (
     <button
       onClick={onClick}
-      className={`px-3 py-2 text-sm font-medium border-b-2 transition-colors whitespace-nowrap flex items-center gap-1.5 ${
+      className={`px-2 sm:px-3 py-2 text-xs sm:text-sm font-medium border-b-2 transition-colors whitespace-nowrap flex items-center gap-1.5 ${
         active
           ? 'border-sky-500 text-sky-600'
           : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
@@ -40,15 +41,24 @@ function CopyButton({ text }: { text: string }) {
         setCopied(true)
         setTimeout(() => setCopied(false), 2000)
       }}
-      className="text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-1.5 rounded-lg transition-colors font-medium"
+      className="inline-flex items-center gap-1.5 text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-1.5 rounded-md transition-colors font-medium"
     >
-      {copied ? '✓ Copied' : 'Copy to clipboard'}
+      {copied ? <><Check size={13} /> Copied</> : <><Copy size={13} /> Copy</>}
     </button>
   )
 }
 
 export function PatientDrawer({ patient, onClose }: Props) {
   const [tab, setTab] = useState<Tab>('packet')
+  const [summary, setSummary] = useState(patient?.summary_narrative || '')
+  const [summaryLoading, setSummaryLoading] = useState(false)
+  const [summaryError, setSummaryError] = useState('')
+
+  useEffect(() => {
+    setTab('packet')
+    setSummary(patient?.summary_narrative || '')
+    setSummaryError('')
+  }, [patient?.patient_id])
 
   if (!patient) return null
 
@@ -71,6 +81,22 @@ export function PatientDrawer({ patient, onClose }: Props) {
     patient.wound_location ? `· ${patient.wound_location}` : null,
   ].filter(Boolean).join(' ')
 
+  const requestSummary = async () => {
+    if (!patient) return
+    setSummaryLoading(true)
+    setSummaryError('')
+    try {
+      const response = await fetch(`/api/patients/${patient.patient_id}/ai-summary`, { method: 'POST' })
+      const data = await response.json()
+      if (!response.ok) throw new Error(data.error || 'Summary generation failed')
+      setSummary(data.summary)
+    } catch (error) {
+      setSummaryError(error instanceof Error ? error.message : 'Summary generation failed')
+    } finally {
+      setSummaryLoading(false)
+    }
+  }
+
   return (
     <div className="fixed inset-0 z-40 flex justify-end" onClick={onClose}>
       {/* Backdrop */}
@@ -88,7 +114,7 @@ export function PatientDrawer({ patient, onClose }: Props) {
               <span className="text-sm font-mono text-slate-400">{patient.patient_id}</span>
               <span className="text-slate-300">·</span>
               <span className="text-sm text-slate-500">{patient.facility_name}</span>
-              {patient.is_new_admission && (
+              {!!patient.is_new_admission && (
                 <span className="bg-sky-100 text-sky-700 text-xs px-2 py-0.5 rounded-full font-medium">New Admission</span>
               )}
             </div>
@@ -101,9 +127,10 @@ export function PatientDrawer({ patient, onClose }: Props) {
             <ScoreRing score={patient.claim_score} size={72} />
             <button
               onClick={onClose}
+              aria-label="Close claim packet"
               className="text-slate-400 hover:text-slate-600 text-xl font-light ml-2 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-100 transition-colors"
             >
-              ×
+              <X size={19} />
             </button>
           </div>
         </div>
@@ -114,7 +141,7 @@ export function PatientDrawer({ patient, onClose }: Props) {
         </div>
 
         {/* Tabs */}
-        <div className="border-b border-slate-200 px-5 flex gap-1 flex-shrink-0">
+        <div className="border-b border-slate-200 px-3 sm:px-5 flex gap-1 flex-shrink-0 overflow-x-auto">
           <TabBtn id="packet" label="Claim Packet" active={tab === 'packet'} onClick={() => setTab('packet')} />
           <TabBtn id="evidence" label="Evidence Trace" active={tab === 'evidence'} onClick={() => setTab('evidence')} />
           <TabBtn id="breakdown" label="Score Breakdown" active={tab === 'breakdown'} onClick={() => setTab('breakdown')} />
@@ -128,12 +155,31 @@ export function PatientDrawer({ patient, onClose }: Props) {
 
           {tab === 'packet' && (
             <div className="space-y-5">
+              <section className="ai-summary-panel">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex items-center gap-2">
+                    <span className="ai-summary-icon"><Bot size={16} /></span>
+                    <div>
+                      <h3 className="text-sm font-semibold text-slate-900">Claude packet summary</h3>
+                      <p className="text-xs text-slate-500">Concise narrative for biller handoff</p>
+                    </div>
+                  </div>
+                  <button className="secondary-button" onClick={requestSummary} disabled={summaryLoading}>
+                    {summaryLoading ? <RefreshCw size={14} className="animate-spin" /> : <Sparkles size={14} />}
+                    {summary ? 'Refresh' : 'Generate'}
+                  </button>
+                </div>
+                {summary && <p className="mt-3 text-sm leading-6 text-slate-700">{summary}</p>}
+                {!summary && !summaryError && <p className="mt-3 text-xs text-slate-500">Generate an evidence-constrained summary from this scored claim packet.</p>}
+                {summaryError && <p className="mt-3 text-xs text-amber-700">{summaryError}</p>}
+              </section>
+
               {/* Coverage */}
               <Section title="Coverage">
                 <div className="flex items-center gap-2">
                   {patient.has_medicare_part_b ? (
                     <>
-                      <span className="text-green-500 text-lg">✅</span>
+                      <CheckCircle2 className="text-emerald-600 flex-shrink-0" size={18} />
                       <span className="text-sm text-slate-700">
                         <strong>Active Medicare Part B</strong> — {patient.coverage_payer_name || 'Medicare Part B'}
                         {patient.coverage_effective_from && (
@@ -143,7 +189,7 @@ export function PatientDrawer({ patient, onClose }: Props) {
                     </>
                   ) : (
                     <>
-                      <span className="text-red-500 text-lg">❌</span>
+                      <XCircle className="text-red-500 flex-shrink-0" size={18} />
                       <span className="text-sm text-slate-700">No active Medicare Part B coverage found</span>
                     </>
                   )}
@@ -166,9 +212,9 @@ export function PatientDrawer({ patient, onClose }: Props) {
                     .map(f => (
                       <div key={f.label} className="flex items-center gap-2 text-sm">
                         {f.value ? (
-                          <span className="text-green-500 text-base">✅</span>
+                          <CheckCircle2 className="text-emerald-600 flex-shrink-0" size={16} />
                         ) : (
-                          <span className="text-red-400 text-base">❌</span>
+                          <XCircle className="text-red-400 flex-shrink-0" size={16} />
                         )}
                         <span className="text-slate-500 w-20 flex-shrink-0">{f.label}:</span>
                         <span className={f.value ? 'text-slate-800 font-medium' : 'text-slate-400 italic'}>
@@ -270,7 +316,7 @@ export function PatientDrawer({ patient, onClose }: Props) {
               <div className="flex flex-wrap gap-2">
                 {missing.map(m => (
                   <span key={m} className="bg-red-50 border border-red-200 text-red-700 text-xs px-3 py-1.5 rounded-full font-medium">
-                    ❌ {m}
+                    {m}
                   </span>
                 ))}
               </div>

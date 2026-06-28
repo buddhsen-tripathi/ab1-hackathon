@@ -2,6 +2,7 @@ import React from 'react'
 import { Patient } from '../types'
 import { DecisionBadge } from './DecisionBadge'
 import { ScoreRing } from './ScoreRing'
+import { ArrowRight, Check, FileSearch } from 'lucide-react'
 
 interface Props {
   patients: Patient[]
@@ -23,7 +24,7 @@ export function PatientTable({ patients, onSelect, loading }: Props) {
   if (patients.length === 0) {
     return (
       <div className="text-center py-16 text-slate-400">
-        <p className="text-4xl mb-3">📋</p>
+        <FileSearch className="mx-auto mb-3 text-slate-300" size={32} />
         <p className="text-sm font-medium">No patients found</p>
         <p className="text-xs mt-1">Run a sync to load patient data</p>
       </div>
@@ -42,7 +43,7 @@ export function PatientTable({ patients, onSelect, loading }: Props) {
             <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide">Score</th>
             <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide">Decision</th>
             <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide">Missing</th>
-            <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide">Action</th>
+            <th className="text-right px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide">Packet</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-slate-100 bg-white">
@@ -110,15 +111,17 @@ export function PatientTable({ patients, onSelect, loading }: Props) {
                       )}
                     </div>
                   ) : (
-                    <span className="text-green-500 text-xs font-medium">Complete</span>
+                    <span className="inline-flex items-center gap-1 text-emerald-600 text-xs font-medium"><Check size={13} /> Complete</span>
                   )}
                 </td>
-                <td className="px-4 py-3">
+                <td className="px-4 py-3 text-right">
                   <button
-                    className="text-xs font-medium text-sky-600 hover:text-sky-800 hover:underline"
+                    className="icon-button ml-auto"
                     onClick={e => { e.stopPropagation(); onSelect(p) }}
+                    title="Open claim packet"
+                    aria-label={`Open claim packet for ${name}`}
                   >
-                    View packet →
+                    <ArrowRight size={16} />
                   </button>
                 </td>
               </tr>

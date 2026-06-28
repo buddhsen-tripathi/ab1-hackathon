@@ -1,16 +1,22 @@
 import React from 'react'
 import { Stats } from '../types'
+import { Activity, CheckCircle2, CircleAlert, FileWarning, Gauge, Users } from 'lucide-react'
 
 interface Props {
   stats: Stats | null
 }
 
-function Card({ label, value, sub, color }: { label: string; value: string | number; sub?: string; color?: string }) {
+function Card({ label, value, sub, color, icon: Icon }: { label: string; value: string | number; sub?: string; color?: string; icon: React.ElementType }) {
   return (
-    <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-sm">
-      <p className="text-xs font-medium text-slate-500 uppercase tracking-wide">{label}</p>
-      <p className={`text-2xl font-bold mt-1 ${color || 'text-slate-900'}`}>{value}</p>
-      {sub && <p className="text-xs text-slate-400 mt-0.5">{sub}</p>}
+    <div className="metric-card">
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <p className="metric-label">{label}</p>
+          <p className={`text-2xl font-semibold mt-1.5 tabular-nums ${color || 'text-slate-900'}`}>{value}</p>
+        </div>
+        <span className="metric-icon"><Icon size={16} strokeWidth={1.8} /></span>
+      </div>
+      {sub && <p className="text-xs text-slate-500 mt-1">{sub}</p>}
     </div>
   )
 }
@@ -32,36 +38,42 @@ export function MetricCards({ stats }: Props) {
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
       <Card
+        icon={Users}
         label="Patients Synced"
         value={stats.total_patients}
         sub="across 3 facilities"
         color="text-slate-900"
       />
       <Card
+        icon={CheckCircle2}
         label="Ready to Bill"
         value={stats.auto_accept}
         sub="auto_accept"
         color="text-green-600"
       />
       <Card
+        icon={CircleAlert}
         label="Needs Review"
         value={stats.flag_for_review}
         sub="flag_for_review"
         color="text-amber-600"
       />
       <Card
+        icon={FileWarning}
         label="Not Eligible"
         value={stats.reject}
         sub="reject"
         color="text-red-500"
       />
       <Card
+        icon={Activity}
         label="API Retries"
         value={stats.api_health.total_retries}
         sub={`${stats.api_health.total_429s} rate limits hit`}
         color="text-sky-600"
       />
       <Card
+        icon={Gauge}
         label="Avg Confidence"
         value={`${stats.avg_confidence_pct}%`}
         sub="extraction accuracy"

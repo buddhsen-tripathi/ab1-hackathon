@@ -16,6 +16,11 @@ export interface EvidenceItem {
 export interface WoundInfo {
   wound_type: string | null
   wound_location: string | null
+  wound_stage?: string | null
+  length_cm?: number | null
+  width_cm?: number | null
+  depth_cm?: number | null
+  drainage?: string | null
   wound_number?: number
 }
 
@@ -58,6 +63,8 @@ export interface Patient {
   biller_action: string | null
   routing_reason: string | null
   missing_doc_request: string | null
+  summary_narrative: string | null
+  summary_generated_by: string | null
 
   raw_notes: string[] | null
   processed_at: string | null
@@ -68,9 +75,14 @@ export interface Stats {
   auto_accept: number
   flag_for_review: number
   reject: number
+  docs_gap_count: number
   medicare_b_count: number
   avg_confidence_pct: number
   last_sync: string | null
+  last_sync_mode: 'full' | 'incremental' | null
+  last_sync_count: number
+  llm_configured: boolean
+  incremental_sync_ready: boolean
   api_health: ApiHealth
 }
 
@@ -90,4 +102,7 @@ export interface SyncStatus {
   started_at: string | null
   status: 'idle' | 'running' | 'complete'
   current_step: string
+  mode: 'full' | 'incremental'
+  since: string | null
+  changed_patients: number
 }

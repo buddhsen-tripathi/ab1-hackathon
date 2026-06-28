@@ -1,5 +1,6 @@
 import React from 'react'
 import { SyncStatus } from '../types'
+import { Check, RefreshCw } from 'lucide-react'
 
 interface Props {
   status: SyncStatus | null
@@ -29,7 +30,9 @@ export function SyncBar({ status, onSync }: Props) {
         </div>
       )}
       {status?.status === 'complete' && !running && (
-        <span className="text-xs text-green-600 font-medium">✓ Sync complete</span>
+        <span className="hidden sm:flex items-center gap-1.5 text-xs text-emerald-300 font-medium">
+          <Check size={14} /> {status.mode === 'incremental' ? `${status.changed_patients} updated` : 'Full sync complete'}
+        </span>
       )}
       <button
         onClick={onSync}
@@ -47,8 +50,8 @@ export function SyncBar({ status, onSync }: Props) {
           </>
         ) : (
           <>
-            <span>↻</span>
-            Sync Data
+            <RefreshCw size={15} />
+            {status?.status === 'complete' ? 'Sync changes' : 'Sync data'}
           </>
         )}
       </button>

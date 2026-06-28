@@ -1,67 +1,76 @@
-#!/bin/bash
-set -e
+#!/usr/bin/env bash
+set -Eeuo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BACKEND="$SCRIPT_DIR/backend"
 FRONTEND="$SCRIPT_DIR/frontend"
+VENV="$SCRIPT_DIR/.venv"
+BACKEND_LOG="${TMPDIR:-/tmp}/claimlens-backend.log"
+FRONTEND_LOG="${TMPDIR:-/tmp}/claimlens-frontend.log"
 
-echo ""
-echo "  ██████╗██╗      █████╗ ██╗███╗   ███╗██╗     ███████╗███╗   ██╗███████╗"
-echo "  ██╔════╝██║     ██╔══██╗██║████╗ ████║██║     ██╔════╝████╗  ██║██╔════╝"
-echo "  ██║     ██║     ███████║██║██╔████╔██║██║     █████╗  ██╔██╗ ██║███████╗"
-echo "  ██║     ██║     ██╔══██║██║██║╚██╔╝██║██║     ██╔══╝  ██║╚██╗██║╚════██║"
-echo "  ╚██████╗███████╗██║  ██║██║██║ ╚═╝ ██║███████╗███████╗██║ ╚████║███████║"
-echo "   ╚═════╝╚══════╝╚═╝  ╚═╝╚═╝╚═╝     ╚═╝╚══════╝╚══════╝╚═╝  ╚═══╝╚══════╝"
-echo ""
-echo "  ClaimLens AI — Evidence-backed Medicare Part B wound care billing triage"
-echo ""
+cleanup() {
+  [[ -n "${BACKEND_PID:-}" ]] && kill "$BACKEND_PID" 2>/dev/null || true
+  [[ -n "${FRONTEND_PID:-}" ]] && kill "$FRONTEND_PID" 2>/dev/null || true
+}
+trap cleanup EXIT INT TERM
 
-# Check for ANTHROPIC_API_KEY
-if [ -z "$ANTHROPIC_API_KEY" ]; then
-    echo "  ⚠️  ANTHROPIC_API_KEY not set — LLM extraction will be skipped."
-    echo "     Export it with: export ANTHROPIC_API_KEY=sk-ant-..."
-    echo ""
-fi
-
-# Kill any existing instances
-pkill -f "uvicorn main:app" 2>/dev/null || true
-pkill -f "vite" 2>/dev/null || true
-sleep 1
-
-echo "  Starting backend (FastAPI) on port 8000..."
-cd "$BACKEND"
-python3 -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload > /tmp/claimlens-backend.log 2>&1 &
-BACKEND_PID=$!
-
-echo "  Starting frontend (Vite) on port 5173..."
-cd "$FRONTEND"
-npm run dev > /tmp/claimlens-frontend.log 2>&1 &
-FRONTEND_PID=$!
-
-# Wait for backend
-echo ""
-echo "  Waiting for services..."
-for i in {1..15}; do
-    if curl -s http://localhost:8000/health > /dev/null 2>&1; then
-        break
-    fi
-    sleep 1
+for port in 8000 5173; do
+  if lsof -ti ":$port" >/dev/null 2>&1; then
+    echo "Port $port is already in use. Stop the existing service, then run ./start.sh again."
+    exit 1
+  fi
 done
 
-echo ""
-echo "  ✅ ClaimLens AI is running!"
-echo ""
-echo "  🌐 Dashboard:  http://localhost:5173"
-echo "  🔧 API:        http://localhost:8000"
-echo "  📋 API docs:   http://localhost:8000/docs"
-echo ""
-echo "  → Click 'Sync Data' in the UI to pull 300 patients from the PCC API."
-echo "  → Set use_llm=true in the sync call for Claude-powered extraction."
-echo ""
-echo "  Logs: /tmp/claimlens-backend.log  /tmp/claimlens-frontend.log"
-echo ""
-echo "  Press Ctrl+C to stop."
-echo ""
+echo "ClaimLens AI"
+echo "Setting up the local environment..."
 
-trap "kill $BACKEND_PID $FRONTEND_PID 2>/dev/null; echo '  Stopped.'; exit 0" INT TERM
-wait
+if [[ ! -x "$VENV/bin/python" ]]; then
+  python3 -m venv "$VENV"
+fi
+
+if ! "$VENV/bin/python" -c "import fastapi, uvicorn, httpx, anthropic, dotenv" >/dev/null 2>&1; then
+  "$VENV/bin/python" -m pip install -r "$BACKEND/requirements.txt"
+fi
+
+if [[ ! -f "$FRONTEND/node_modules/vite/bin/vite.js" ]] || [[ ! -d "$FRONTEND/node_modules/lucide-react" ]]; then
+  (cd "$FRONTEND" && npm install)
+fi
+
+if [[ -f "$BACKEND/.env" ]]; then
+  echo "Claude assist: configured from backend/.env"
+else
+  echo "Claude assist: optional key not configured (the deterministic extractor still works)"
+fi
+
+echo "Starting API and dashboard..."
+(cd "$BACKEND" && exec "$VENV/bin/python" -m uvicorn main:app --host 127.0.0.1 --port 8000 >"$BACKEND_LOG" 2>&1) &
+BACKEND_PID=$!
+(cd "$FRONTEND" && exec node node_modules/vite/bin/vite.js --host 127.0.0.1 >"$FRONTEND_LOG" 2>&1) &
+FRONTEND_PID=$!
+
+for _ in {1..30}; do
+  if curl -fsS http://127.0.0.1:8000/health >/dev/null 2>&1 && curl -fsS http://127.0.0.1:5173/ >/dev/null 2>&1; then
+    echo
+    echo "Dashboard: http://localhost:5173"
+    echo "API docs:  http://localhost:8000/docs"
+    echo "Press Ctrl+C once to stop both services."
+    wait
+    exit 0
+  fi
+  if ! kill -0 "$BACKEND_PID" 2>/dev/null; then
+    echo "Backend failed to start:"
+    tail -30 "$BACKEND_LOG"
+    exit 1
+  fi
+  if ! kill -0 "$FRONTEND_PID" 2>/dev/null; then
+    echo "Frontend failed to start:"
+    tail -30 "$FRONTEND_LOG"
+    exit 1
+  fi
+  sleep 1
+done
+
+echo "Services did not become ready in 30 seconds."
+echo "Backend log: $BACKEND_LOG"
+echo "Frontend log: $FRONTEND_LOG"
+exit 1

@@ -57,6 +57,8 @@ def init_db():
             biller_action TEXT,
             missing_doc_request TEXT,
             routing_reason TEXT,
+            summary_narrative TEXT,
+            summary_generated_by TEXT,
 
             raw_notes TEXT,
             raw_assessments TEXT,
@@ -78,6 +80,15 @@ def init_db():
             value TEXT
         );
     """)
+    conn.commit()
+    # Lightweight migrations for existing local databases.
+    existing = {row[1] for row in conn.execute("PRAGMA table_info(patients)").fetchall()}
+    for column, definition in {
+        "summary_narrative": "TEXT",
+        "summary_generated_by": "TEXT",
+    }.items():
+        if column not in existing:
+            conn.execute(f"ALTER TABLE patients ADD COLUMN {column} {definition}")
     conn.commit()
     conn.close()
 
@@ -145,6 +156,16 @@ def get_patient(patient_id: str):
     return dict(row) if row else None
 
 
+def update_patient_summary(patient_id: str, summary: str, generated_by: str):
+    conn = get_conn()
+    conn.execute(
+        "UPDATE patients SET summary_narrative = ?, summary_generated_by = ? WHERE patient_id = ?",
+        (summary, generated_by, patient_id),
+    )
+    conn.commit()
+    conn.close()
+
+
 def get_stats():
     conn = get_conn()
     row = conn.execute("""
@@ -153,6 +174,7 @@ def get_stats():
             SUM(CASE WHEN routing_decision = 'auto_accept' THEN 1 ELSE 0 END) as auto_accept,
             SUM(CASE WHEN routing_decision = 'flag_for_review' THEN 1 ELSE 0 END) as flag_for_review,
             SUM(CASE WHEN routing_decision = 'reject' THEN 1 ELSE 0 END) as reject,
+            SUM(CASE WHEN missing_fields IS NOT NULL AND missing_fields != '[]' THEN 1 ELSE 0 END) as docs_gap_count,
             SUM(CASE WHEN has_medicare_part_b = 1 THEN 1 ELSE 0 END) as medicare_b_count,
             AVG(CASE WHEN extraction_confidence > 0 THEN extraction_confidence ELSE NULL END) as avg_confidence
         FROM patients

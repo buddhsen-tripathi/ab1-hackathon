@@ -1,5 +1,6 @@
 import React from 'react'
 import { Patient } from '../types'
+import { Check } from 'lucide-react'
 
 interface Props {
   patient: Patient
@@ -21,7 +22,7 @@ function volume(w: any): string {
 
 export function WoundComparator({ patient }: Props) {
   const wounds = patient.all_wounds
-  if (!wounds || wounds.length === 0) return null
+  if (!Array.isArray(wounds) || wounds.length === 0) return null
 
   return (
     <div>
@@ -66,7 +67,7 @@ export function WoundComparator({ patient }: Props) {
                   </td>
                   <td className="px-3 py-2">
                     {isPrimary ? (
-                      <span className="text-green-600 font-bold text-base" title="Primary wound selected">✓</span>
+                      <span className="text-green-600" title="Primary wound selected"><Check size={17} /></span>
                     ) : (
                       <span className="text-slate-300">—</span>
                     )}

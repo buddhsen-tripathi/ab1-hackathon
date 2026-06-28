@@ -23,6 +23,10 @@ def get_anthropic_client():
     return _anthropic_client
 
 
+def llm_is_configured() -> bool:
+    return bool(os.environ.get("ANTHROPIC_API_KEY"))
+
+
 WOUND_TYPE_MAP = {
     "pressure_ulcer": "Pressure Ulcer",
     "pressure ulcer": "Pressure Ulcer",
@@ -79,7 +83,7 @@ WOUND_TYPE_CANONICAL = {
 
 DRAINAGE_MAP = {
     "none": "none", "no drainage": "none", "dry": "none",
-    "light": "light", "scant": "light", "minimal": "light", "small": "light",
+    "light": "light", "slight": "light", "scant": "light", "minimal": "light", "small": "light",
     "moderate": "moderate", "mod": "moderate",
     "heavy": "heavy", "large": "heavy", "copious": "heavy", "profuse": "heavy",
 }
@@ -308,7 +312,7 @@ _PATTERNS = {
         r"[\d.]+\s*cm\s*[xX×]\s*[\d.]+\s*cm\s*[xX×]\s*([\d.]+)\s*cm",
     ],
     "measurements_compact": [
-        r"Meas(?:urements?)?\s*([\d.]+)\s*[xX×]\s*([\d.]+)\s*[xX×]\s*([\d.]+)\s*cm",
+        r"Meas(?:urements?)?\s*(?:aprx\.?|approx(?:imately)?\.?)?\s*([\d.]+)\s*[xX×]\s*([\d.]+)\s*[xX×]\s*([\d.]+)\s*cm",
         r"([\d.]+)\s*x\s*([\d.]+)\s*x\s*([\d.]+)\s*cm",
     ],
     "drainage": [
@@ -460,6 +464,8 @@ async def extract_from_note_llm(note: dict) -> dict:
     if not text or len(text.strip()) < 20:
         return {}
 
+    if not llm_is_configured():
+        return {}
     client = get_anthropic_client()
     try:
         loop = asyncio.get_event_loop()
@@ -504,6 +510,55 @@ async def extract_from_note_llm(note: dict) -> dict:
         return {}
 
 
+SUMMARY_PROMPT = """You are assisting a Medicare Part B wound-care biller.
+Write a concise, factual 2-3 sentence claim-readiness summary from the structured packet below.
+State the routing decision, strongest evidence, documentation gaps, and next action.
+Do not invent facts and do not provide medical advice. Return plain text only.
+
+Packet:
+{packet}
+"""
+
+
+async def generate_patient_summary(patient: dict) -> str:
+    """Generate a concise biller-facing narrative from an already-scored packet."""
+    if not llm_is_configured():
+        raise RuntimeError("ANTHROPIC_API_KEY is not configured")
+
+    packet = {
+        "patient_id": patient.get("patient_id"),
+        "coverage": "Active Medicare Part B" if patient.get("has_medicare_part_b") else "No active Medicare Part B",
+        "wound_type": patient.get("wound_type"),
+        "location": patient.get("wound_location"),
+        "stage": patient.get("wound_stage"),
+        "measurements_cm": {
+            "length": patient.get("length_cm"),
+            "width": patient.get("width_cm"),
+            "depth": patient.get("depth_cm"),
+        },
+        "drainage": patient.get("drainage"),
+        "claim_score": patient.get("claim_score"),
+        "routing_decision": patient.get("routing_decision"),
+        "missing_fields": patient.get("missing_fields") or [],
+        "routing_reason": patient.get("routing_reason"),
+        "biller_action": patient.get("biller_action"),
+    }
+    client = get_anthropic_client()
+    loop = asyncio.get_event_loop()
+    response = await loop.run_in_executor(
+        None,
+        lambda: client.messages.create(
+            model=os.environ.get("ANTHROPIC_MODEL", "claude-haiku-4-5-20251001"),
+            max_tokens=220,
+            messages=[{
+                "role": "user",
+                "content": SUMMARY_PROMPT.format(packet=json.dumps(packet, indent=2)),
+            }],
+        ),
+    )
+    return response.content[0].text.strip()
+
+
 def merge_extractions(assessment_result: dict, note_result: dict) -> dict:
     """
     Merge extraction from assessment (highest priority) and note.
@@ -538,8 +593,49 @@ def merge_extractions(assessment_result: dict, note_result: dict) -> dict:
 def detect_multi_wound(notes: list) -> list:
     """Detect if notes describe multiple wounds and extract them all."""
     wounds = []
+    seen = set()
     for note in notes:
         text = note.get("note_text") or ""
+        # PCC prose format: a primary wound followed by a shorthand heel wound.
+        primary_pattern = re.compile(
+            r"(?P<type>Pressure\s+Ulcer|Diabetic|Venous|Arterial|Surgical|Abscess|Burn)\s+"
+            r"(?P<location>[A-Za-z ]+?)\s+measures\s+(?:aprx\.?|approx(?:imately)?\.?)?\s*"
+            r"(?P<length>[\d.]+)\s*[xX×]\s*(?P<width>[\d.]+)\s*cm,?\s*depth\s*"
+            r"(?P<depth>[\d.]+)\s*cm",
+            re.IGNORECASE,
+        )
+        secondary_pattern = re.compile(
+            r"Heel\s+wound\s+also\s+eval\s*-\s*(?P<location>[A-Za-z ]+?)\s+"
+            r"(?P<length>[\d.]+)\s*[xX×]\s*(?P<width>[\d.]+),?\s*"
+            r"(?P<depth>[\d.]+)\s*cm\s+deep",
+            re.IGNORECASE,
+        )
+        primary_match = primary_pattern.search(text)
+        secondary_match = secondary_pattern.search(text)
+        if primary_match and secondary_match:
+            for index, match in enumerate([primary_match, secondary_match], 1):
+                is_secondary = match is secondary_match
+                raw_type = "Pressure Ulcer" if is_secondary else primary_match.group("type")
+                nearby = text[match.end():match.end() + 100]
+                amount_match = re.search(r"(none|no|scant|minimal|min|slight|light|moderate|heavy|copious)\s+(?:\w+\s+)?drainage", nearby, re.IGNORECASE)
+                result = {
+                    "wound_type": normalize_wound_type(raw_type),
+                    "wound_location": match.group("location").strip().replace("L ", "Left ").replace("R ", "Right "),
+                    "wound_stage": None,
+                    "length_cm": float(match.group("length")),
+                    "width_cm": float(match.group("width")),
+                    "depth_cm": float(match.group("depth")),
+                    "drainage": normalize_drainage(amount_match.group(1)) if amount_match else None,
+                    "confidence": 0.88,
+                    "source": "note_multi_wound",
+                    "note_format": "multi_wound",
+                    "evidence": {"measurements": f'"{match.group(0)}"'},
+                    "wound_number": index,
+                }
+                key = (result["wound_type"], result["length_cm"], result["width_cm"], result["depth_cm"])
+                if key not in seen:
+                    seen.add(key)
+                    wounds.append(result)
         # Look for multiple wound sections
         # Patterns like "Wound #1", "Wound 1:", "Second wound", numbered sections
         sections = re.split(
@@ -553,9 +649,59 @@ def detect_multi_wound(notes: list) -> list:
                 result = extract_from_note_regex(pseudo_note)
                 if result.get("wound_type"):
                     result["wound_number"] = i
+                    key = (result.get("wound_type"), result.get("length_cm"), result.get("width_cm"), result.get("depth_cm"))
+                    if key not in seen:
+                        seen.add(key)
+                        wounds.append(result)
+
+        # Prose multi-wound notes often identify wounds by repeated measurements
+        # rather than numbered headings. Use a local context window per LxWxD tuple.
+        dimension_pattern = re.compile(
+            r"([\d.]+)\s*(?:cm\s*)?[xX×]\s*([\d.]+)\s*(?:cm\s*)?[xX×]\s*([\d.]+)\s*cm",
+            re.IGNORECASE,
+        )
+        matches = list(dimension_pattern.finditer(text))
+        if len(matches) >= 2:
+            for index, match in enumerate(matches, 1):
+                context = text[max(0, match.start() - 100):min(len(text), match.end() + 120)]
+                context_lower = context.lower()
+                wound_type = None
+                for phrase in sorted(WOUND_TYPE_MAP, key=len, reverse=True):
+                    if phrase in context_lower:
+                        wound_type = WOUND_TYPE_MAP[phrase]
+                        break
+                if not wound_type and "heel wound" in context_lower:
+                    wound_type = "Pressure Ulcer"
+                if not wound_type:
+                    continue
+
+                location = None
+                for candidate in ["left foot", "right foot", "left ankle", "right ankle", "left heel", "right heel", "sacrum", "sacral region", "coccyx"]:
+                    if candidate in context_lower:
+                        location = candidate.title()
+                        break
+                stage_match = re.search(r"stage\s*(2|3|4|unstageable)", context, re.IGNORECASE)
+                drainage_match = re.search(r"(none|no|scant|minimal|light|moderate|heavy|copious)\s+(?:\w+\s+)?drainage", context, re.IGNORECASE)
+                result = {
+                    "wound_type": wound_type,
+                    "wound_location": location,
+                    "wound_stage": stage_match.group(1).lower() if stage_match else None,
+                    "length_cm": float(match.group(1)),
+                    "width_cm": float(match.group(2)),
+                    "depth_cm": float(match.group(3)),
+                    "drainage": normalize_drainage(drainage_match.group(1)) if drainage_match else None,
+                    "confidence": 0.82,
+                    "source": "note_multi_wound",
+                    "note_format": "multi_wound",
+                    "evidence": {"measurements": f'"{match.group(0)}"'},
+                    "wound_number": index,
+                }
+                key = (result["wound_type"], result["length_cm"], result["width_cm"], result["depth_cm"])
+                if key not in seen:
+                    seen.add(key)
                     wounds.append(result)
 
-    return wounds
+    return wounds if len(wounds) >= 2 else []
 
 
 def select_primary_wound(wounds: list) -> Optional[dict]:

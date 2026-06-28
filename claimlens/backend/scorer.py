@@ -121,8 +121,16 @@ def compute_claim_score(patient_data: dict) -> dict:
 
     score = max(0, min(100, score))
 
-    # Routing decision
-    if score >= 90:
+    # Hard routing gates preserve the challenge contract: auto_accept requires
+    # active Part B, a wound, and every required documentation field.
+    hard_reject = not patient_data.get("has_medicare_part_b") or not patient_data.get("wound_type")
+    if hard_reject:
+        score = min(score, 49)
+        routing_decision = "reject"
+    elif missing_fields:
+        score = min(score, 89)
+        routing_decision = "flag_for_review"
+    elif score >= 90:
         routing_decision = "auto_accept"
     elif score >= 50:
         routing_decision = "flag_for_review"

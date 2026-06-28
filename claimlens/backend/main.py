@@ -11,8 +11,12 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from db import init_db, get_all_patients, get_patient, get_stats, get_api_health, get_sync_state
-from pipeline import run_sync, sync_progress
+from db import (
+    init_db, get_all_patients, get_patient, get_stats, get_api_health,
+    get_sync_state, update_patient_summary,
+)
+from pipeline import PIPELINE_VERSION, run_sync, sync_progress
+from extractor import generate_patient_summary, llm_is_configured
 
 app = FastAPI(title="ClaimLens AI", version="1.0.0")
 
@@ -28,7 +32,7 @@ init_db()
 
 def _parse_json_fields(p: dict) -> dict:
     """Parse JSON string fields back to Python objects."""
-    for field in ["evidence_trace", "score_breakdown", "missing_fields", "diagnoses", "raw_assessments"]:
+    for field in ["evidence_trace", "score_breakdown", "missing_fields", "diagnoses", "raw_assessments", "all_wounds"]:
         if isinstance(p.get(field), str):
             try:
                 p[field] = json.loads(p[field])
@@ -86,9 +90,14 @@ async def get_overview_stats():
         "auto_accept": stats.get("auto_accept") or 0,
         "flag_for_review": stats.get("flag_for_review") or 0,
         "reject": stats.get("reject") or 0,
+        "docs_gap_count": stats.get("docs_gap_count") or 0,
         "medicare_b_count": stats.get("medicare_b_count") or 0,
         "avg_confidence_pct": round((avg_conf or 0) * 100, 1),
         "last_sync": last_sync,
+        "last_sync_mode": get_sync_state("last_sync_mode"),
+        "last_sync_count": int(get_sync_state("last_sync_count") or 0),
+        "llm_configured": llm_is_configured(),
+        "incremental_sync_ready": bool(last_sync) and get_sync_state("pipeline_version") == PIPELINE_VERSION,
         "api_health": {
             "total_requests": api_health.get("total_requests") or 0,
             "total_429s": api_health.get("total_429s") or 0,
@@ -103,12 +112,54 @@ async def get_overview_stats():
 async def start_sync(
     background_tasks: BackgroundTasks,
     use_llm: bool = Query(True),
+    incremental: bool = Query(True),
 ):
     if sync_progress["running"]:
         return {"status": "already_running", "progress": sync_progress}
 
-    background_tasks.add_task(run_sync, use_llm=use_llm)
-    return {"status": "started", "message": "Sync pipeline started in background"}
+    background_tasks.add_task(run_sync, use_llm=use_llm, incremental=incremental)
+    return {
+        "status": "started",
+        "mode": "incremental" if incremental and get_sync_state("last_sync") and get_sync_state("pipeline_version") == PIPELINE_VERSION else "full",
+        "llm_enabled": use_llm and llm_is_configured(),
+        "message": "Sync pipeline started in background",
+    }
+
+
+@app.post("/api/patients/{patient_id}/ai-summary")
+async def create_ai_summary(patient_id: str, refresh: bool = Query(False)):
+    patient = get_patient(patient_id)
+    if not patient:
+        return JSONResponse({"error": "Patient not found"}, status_code=404)
+    patient = _parse_json_fields(patient)
+    if patient.get("summary_narrative") and not refresh:
+        return {
+            "summary": patient["summary_narrative"],
+            "generated_by": patient.get("summary_generated_by") or "claude",
+            "cached": True,
+        }
+    if not llm_is_configured():
+        return JSONResponse(
+            {"error": "LLM is not configured. Add ANTHROPIC_API_KEY to claimlens/backend/.env and restart."},
+            status_code=503,
+        )
+    try:
+        summary = await generate_patient_summary(patient)
+        model = os.environ.get("ANTHROPIC_MODEL", "claude-haiku-4-5-20251001")
+        update_patient_summary(patient_id, summary, model)
+        return {"summary": summary, "generated_by": model, "cached": False}
+    except Exception as exc:
+        return JSONResponse({"error": f"Summary generation failed: {exc}"}, status_code=502)
+
+
+@app.get("/api/system/status")
+async def system_status():
+    return {
+        "llm_configured": llm_is_configured(),
+        "llm_model": os.environ.get("ANTHROPIC_MODEL", "claude-haiku-4-5-20251001"),
+        "incremental_sync_ready": bool(get_sync_state("last_sync")) and get_sync_state("pipeline_version") == PIPELINE_VERSION,
+        "last_sync": get_sync_state("last_sync"),
+    }
 
 
 @app.get("/api/sync/status")

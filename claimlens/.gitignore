@@ -3,6 +3,7 @@ __pycache__/
 *.pyc
 *.pyo
 .env
+.venv/
 
 # Database (generated at runtime)
 backend/claimlens.db
