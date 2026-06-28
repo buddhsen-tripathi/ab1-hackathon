@@ -57,10 +57,11 @@ Patient record
 │  GATE 3 · Extraction Completeness + Confidence      │
 │  All required fields present? Confidence ≥ 75%?     │
 └─────────────────────────────────────────────────────┘
-     │ missing fields → FLAG  (specific fields named)
-     │ confidence < 40% → REJECT
-     │ confidence 40–74% → FLAG  (verify before billing)
-     │ complete + ≥ 75% → AUTO-ACCEPT ✓
+     │ missing fields + conf ≥ 40%  → FLAG (names the fields)
+     | missing fields + conf < 40%  → REJECT
+     | complete + conflict/multi    → FLAG
+     | complete + conf ≥ 75%        → AUTO-ACCEPT
+     | complete + conf < 75%        → FLAG
 ```
 
 ---
