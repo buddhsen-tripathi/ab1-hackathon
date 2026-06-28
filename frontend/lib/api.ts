@@ -1,4 +1,4 @@
-import type { StatsResponse, Patient } from "./types";
+import type { StatsResponse, Patient, DbTablePage } from "./types";
 
 export const API_BASE =
   process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
@@ -16,6 +16,11 @@ export const api = {
   patients: (facilityId?: number) =>
     getJSON<Patient[]>(
       facilityId ? `/patients?facility_id=${facilityId}` : "/patients",
+    ),
+  dbTables: () => getJSON<Record<string, number>>("/db/tables"),
+  dbTable: (name: string, limit = 50, offset = 0) =>
+    getJSON<DbTablePage>(
+      `/db/table/${name}?limit=${limit}&offset=${offset}`,
     ),
   ingest: async () => {
     const res = await fetch(`${API_BASE}/ingest`, { method: "POST" });

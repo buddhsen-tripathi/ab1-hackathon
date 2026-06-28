@@ -16,10 +16,11 @@ function toneFor(type: string): string {
 
 export function EventLog({ log, className }: { log: LogEntry[]; className?: string }) {
   const endRef = React.useRef<HTMLDivElement>(null);
+  const lastText = log[log.length - 1]?.text;
 
   React.useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-  }, [log.length]);
+  }, [log.length, lastText]);
 
   return (
     <div className={cn("flex h-full flex-col", className)}>

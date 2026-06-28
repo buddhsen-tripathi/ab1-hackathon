@@ -1,10 +1,4 @@
-import {
-  ChartBar,
-  CloudArrowDown,
-  FlowArrow,
-  Users,
-  type Icon,
-} from "@phosphor-icons/react";
+import { FlowArrow, Table, Waveform, type Icon } from "@phosphor-icons/react";
 
 export interface NavItem {
   href: string;
@@ -14,7 +8,6 @@ export interface NavItem {
 
 export const NAV_ITEMS: NavItem[] = [
   { href: "/", label: "Pipeline", icon: FlowArrow },
-  { href: "/ingestion", label: "Ingestion", icon: CloudArrowDown },
-  { href: "/characterization", label: "Characterization", icon: ChartBar },
-  { href: "/patients", label: "Patients", icon: Users },
+  { href: "/signals", label: "Signals", icon: Waveform },
+  { href: "/data", label: "Data", icon: Table },
 ];

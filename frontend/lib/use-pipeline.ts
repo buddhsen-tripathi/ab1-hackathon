@@ -17,6 +17,8 @@ export interface LogEntry {
   id: number;
   type: string;
   text: string;
+  /** Entries sharing a key collapse into one rolling line (e.g. progress ticks). */
+  key?: string;
 }
 
 export interface PipelineState {
@@ -89,8 +91,19 @@ function describe(ev: Ev): string {
   }
 }
 
+// Repeated progress ticks for one stage collapse into a single updating line,
+// so the stream stays readable instead of scrolling hundreds of near-identical rows.
+function appendLog(prev: LogEntry[], entry: LogEntry): LogEntry[] {
+  const last = prev[prev.length - 1];
+  if (entry.key && last && last.key === entry.key) {
+    return [...prev.slice(0, -1), { ...entry, id: last.id }];
+  }
+  return [...prev, entry].slice(-250);
+}
+
 function reduce(s: PipelineState, ev: Ev, nextId: () => number): PipelineState {
-  const log = [...s.log, { id: nextId(), type: ev.type, text: describe(ev) }].slice(-250);
+  const key = ev.type === "progress" ? `progress:${ev.stage}` : undefined;
+  const log = appendLog(s.log, { id: nextId(), type: ev.type, text: describe(ev), key });
   const stats = ev.stats ?? s.stats;
 
   switch (ev.type) {

@@ -62,6 +62,20 @@ export interface StatsResponse {
   data: DataReport;
 }
 
+export interface DbColumn {
+  name: string;
+  type: string;
+}
+
+export interface DbTablePage {
+  table: string;
+  total: number;
+  limit: number;
+  offset: number;
+  columns: DbColumn[];
+  rows: Record<string, unknown>[];
+}
+
 export interface Patient {
   id: number;
   facility_id: number;
