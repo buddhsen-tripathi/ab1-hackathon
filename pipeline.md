@@ -128,16 +128,38 @@ cheapest first:
 ```
 1. signature → cache    identical text seen before? restamp the cached result, skip everything
 2. heuristic parse      regex / structured-field parsers → WoundExtraction(s), KB-normalized
-3. confidence gate      low confidence OR blocking flag OR hard format? → escalate
+3. confidence gate      hard free-text with a thin parse (or a parse failure)? → escalate
 4. LLM escalation       the model reads the RAW text, resolves fields, AND teaches the KB
 ```
 
 **Method** per extraction is recorded as `structured_field`, `regex`, or `llm`.
 
-**The confidence gate** (`llm.needs_escalation`) is what keeps the LLM cheap:
-heuristics handle the confident majority for free; only documents that are
-low-confidence (`< 0.75`), carry a blocking flag, or are in a hard free-text
-format (Envive narrative, shorthand, unknown) escalate to the model.
+**The confidence gate** (`llm.needs_escalation`) is what keeps the LLM the *rare
+specialist* rather than the default path. It escalates only when the model can
+plausibly recover signal a regex pass missed:
+
+- **Skips** structured assessment fields (authoritative) and clean SOAP/structured
+  regex parses (reliable enough).
+- **Never escalates for absent fields** — if a depth was never written in the note,
+  re-reading it won't recover it, so `missing_depth` is a routing flag, not a call.
+- **Escalates** hard free-text formats (Envive narrative, shorthand, unknown) whose
+  heuristic parse came back thin (missing wound type, no measurements, or low
+  confidence), or an outright parse failure.
+
+In practice this escalates **~15%** of documents (≈118 of 774 on a cold cache,
+almost all of them shorthand notes) — vs ~71% under a naïve "any low-confidence"
+gate.
+
+**The LLM call** (`llm.escalate`, gated by `LLM_ENABLED`, default on) sends the
+raw text + the heuristic's partial result to `OPENROUTER_MODEL` and requires a
+strict-JSON reply: resolved `fields`, plus reusable `abbreviations` / `lexicon`
+to teach the KB, plus a `confidence`. Token usage and latency are recorded in
+`llm.STATS`; a `MAX_CALLS` budget caps spend per run.
+
+**Escalations run concurrently.** The parse loop is serial and fast; the slow
+LLM calls are collected and fanned out across a thread pool (`LLM_WORKERS`,
+default 16) — only the network call runs on workers, while applying the
+enrichment and KB writes stay on the main thread, so no locking is needed.
 
 **The self-growing knowledge base** (`kb.py`) is the clever part. When the LLM
 resolves something — a new abbreviation (`stg` → `stage`) or synonym (`weeping` →
@@ -146,6 +168,9 @@ so the next run handles that case deterministically and the LLM fires less over
 time. Identical note text is memoized in `kb_extractions`, so re-runs are nearly
 free. The KB is loaded into memory once per run (Neon is slow), parsed against
 in-memory, and flushed in one batch at the end.
+
+The confidence score attached to each extraction (source-quality based) is
+documented separately in [confidence_scoring.md](./confidence_scoring.md).
 
 ---
 
