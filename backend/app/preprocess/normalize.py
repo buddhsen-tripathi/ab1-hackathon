@@ -6,24 +6,16 @@ the controlled vocabularies in schema.py.
 """
 import re
 
+from .. import kb
+
 # --- abbreviation knowledge-base seam ------------------------------------
-# Minimal inline map for now. The real KB (DB-backed, learned from data to
-# reduce LLM latency) replaces this dict later without touching call sites.
-ABBREVIATIONS = {
-    r"\baprx\b": "approx",
-    r"\bpt\b": "patient",
-    r"\bw/\b": "with",
-    r"\bs/p\b": "status post",
-    r"\bmeas\b": "measures",
-}
+# Now DB-backed: kb owns the abbreviation map (seeded + learned from the LLM
+# escalation layer) and the expansion logic. This stays a thin delegate so the
+# parsers' call sites never change as the KB grows.
 
 
 def expand_abbreviations(text: str) -> str:
-    if not text:
-        return text
-    for pat, repl in ABBREVIATIONS.items():
-        text = re.sub(pat, repl, text, flags=re.IGNORECASE)
-    return text
+    return kb.expand(text)
 
 
 # --- text cleaning -------------------------------------------------------
@@ -69,7 +61,9 @@ def normalize_drainage(text: str):
     if not text:
         return None
     m = _DRAINAGE_RE.search(text)
-    return _DRAINAGE_MAP[m.group(1).lower()] if m else None
+    if m:
+        return _DRAINAGE_MAP[m.group(1).lower()]
+    return kb.lexicon_lookup("drainage_amount", text)  # learned synonyms
 
 
 _DRAINAGE_TYPE_RE = re.compile(
@@ -101,7 +95,7 @@ def normalize_wound_type(text: str):
     for pat, canonical in _WOUND_TYPE_PATTERNS:
         if pat.search(text):
             return canonical
-    return None
+    return kb.lexicon_lookup("wound_type", text)  # learned synonyms
 
 
 # --- stage ---------------------------------------------------------------

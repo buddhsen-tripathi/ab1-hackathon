@@ -60,8 +60,14 @@ SCHEMA = [
 
 
 def connect():
-    """Open a Neon connection. Rows come back as dicts."""
-    return psycopg.connect(DATABASE_URL, row_factory=dict_row)
+    """Open a Neon connection. Rows come back as dicts.
+
+    prepare_threshold=None disables server-side prepared statements, which the
+    pooled (pgbouncer transaction-mode) endpoint does not support.
+    """
+    return psycopg.connect(
+        DATABASE_URL, row_factory=dict_row, prepare_threshold=None
+    )
 
 
 def init():
@@ -212,6 +218,15 @@ def counts(conn):
     return out
 
 
+def truncate(conn):
+    """Wipe all ingested data (keeps the schema). Returns rows removed."""
+    before = sum(counts(conn).values())
+    with conn.cursor() as cur:
+        cur.execute("TRUNCATE " + ", ".join(TABLES) + " RESTART IDENTITY")
+    conn.commit()
+    return before
+
+
 def fetch_patients(facility_id=None):
     with connect() as conn, conn.cursor() as cur:
         if facility_id is not None:
@@ -262,18 +277,32 @@ def _infer_columns(rows):
     return [{"name": k, "type": types.get(k, "str")} for k in order]
 
 
-def fetch_table(name, limit=50, offset=0):
-    """Paginated view of a table's original records (the `raw` JSONB payload)."""
+def fetch_table(name, limit=50, offset=0, search=None, facility_id=None):
+    """Paginated view of a table's original records (the `raw` JSONB payload).
+
+    search   = case-insensitive substring across the whole row (raw::text ILIKE)
+    facility_id = only applies to the patients table (the one with that column)
+    """
     if name not in TABLES:
         raise ValueError(f"unknown table: {name}")
     limit = max(1, min(int(limit), 200))
     offset = max(0, int(offset))
+
+    clauses, params = [], []
+    if search:
+        clauses.append("raw::text ILIKE %s")
+        params.append(f"%{search}%")
+    if facility_id is not None and name == "patients":
+        clauses.append("facility_id = %s")
+        params.append(facility_id)
+    where = (" WHERE " + " AND ".join(clauses)) if clauses else ""
+
     with connect() as conn, conn.cursor() as cur:
-        cur.execute(f"SELECT COUNT(*) AS n FROM {name}")
+        cur.execute(f"SELECT COUNT(*) AS n FROM {name}{where}", params)
         total = cur.fetchone()["n"]
         cur.execute(
-            f"SELECT raw FROM {name} ORDER BY id LIMIT %s OFFSET %s",
-            (limit, offset),
+            f"SELECT raw FROM {name}{where} ORDER BY id LIMIT %s OFFSET %s",
+            params + [limit, offset],
         )
         rows = [r["raw"] for r in cur.fetchall()]
     return {

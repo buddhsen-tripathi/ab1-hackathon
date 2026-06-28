@@ -4,9 +4,26 @@ Owns its own table so it doesn't collide with the raw-ingestion db.py schema.
 A full preprocess run truncates and re-inserts (the rows are derived; cheap to
 rebuild). Incremental rebuild can come later alongside the `since` sync.
 """
+from contextlib import contextmanager
+
 from psycopg.types.json import Jsonb
 
 from ..db import connect
+
+
+@contextmanager
+def _session(conn):
+    """Reuse a caller-owned connection, or open a short-lived one. Reusing one
+    connection per run avoids Neon's 2-6s per-connect cold-start tax."""
+    if conn is not None:
+        yield conn          # caller owns commit/close
+    else:
+        c = connect()
+        try:
+            yield c
+            c.commit()
+        finally:
+            c.close()
 
 DDL = """
 CREATE TABLE IF NOT EXISTS wound_extractions (
@@ -49,11 +66,9 @@ _COLS = [
 _JSONB_COLS = {"flags", "extra"}
 
 
-def init():
-    with connect() as conn:
-        with conn.cursor() as cur:
-            cur.execute(DDL)
-        conn.commit()
+def init(conn=None):
+    with _session(conn) as c, c.cursor() as cur:
+        cur.execute(DDL)
 
 
 def _to_params(row):
@@ -64,18 +79,26 @@ def _to_params(row):
     return out
 
 
-def replace_all(rows):
-    placeholders = ",".join(["%s"] * len(_COLS))
-    sql = f"INSERT INTO wound_extractions ({','.join(_COLS)}) VALUES ({placeholders})"
-    with connect() as conn:
-        with conn.cursor() as cur:
-            cur.execute("TRUNCATE wound_extractions RESTART IDENTITY")
-            cur.executemany(sql, [_to_params(r) for r in rows])
-        conn.commit()
+def replace_all(rows, conn=None):
+    # Single multi-row INSERT per chunk = one round-trip per chunk (executemany
+    # round-trips per row, which is painfully slow over Neon).
+    cols_sql = ",".join(_COLS)
+    one = "(" + ",".join(["%s"] * len(_COLS)) + ")"
+    chunk = max(1, 30000 // len(_COLS))
+    with _session(conn) as c, c.cursor() as cur:
+        cur.execute("TRUNCATE wound_extractions RESTART IDENTITY")
+        for i in range(0, len(rows), chunk):
+            batch = rows[i:i + chunk]
+            values_sql = ",".join([one] * len(batch))
+            params = [p for r in batch for p in _to_params(r)]
+            cur.execute(
+                f"INSERT INTO wound_extractions ({cols_sql}) VALUES {values_sql}",
+                params,
+            )
 
 
-def summary():
-    with connect() as conn, conn.cursor() as cur:
+def summary(conn=None):
+    with _session(conn) as c, c.cursor() as cur:
         def one(sql):
             cur.execute(sql)
             return cur.fetchall()
@@ -88,13 +111,14 @@ def summary():
         }
         billing = one("SELECT COUNT(*) n FROM wound_extractions WHERE billing_ready")[0]["n"]
         primary = one("SELECT COUNT(*) n FROM wound_extractions WHERE is_primary")[0]["n"]
+        # NULLIF guards against division-by-zero on an empty table.
         coverage = one(
             """SELECT
-                 ROUND(100.0*COUNT(*) FILTER (WHERE wound_type IS NOT NULL)/COUNT(*),1) wound_type,
-                 ROUND(100.0*COUNT(*) FILTER (WHERE length_cm IS NOT NULL)/COUNT(*),1) length,
-                 ROUND(100.0*COUNT(*) FILTER (WHERE width_cm IS NOT NULL)/COUNT(*),1) width,
-                 ROUND(100.0*COUNT(*) FILTER (WHERE depth_cm IS NOT NULL)/COUNT(*),1) depth,
-                 ROUND(100.0*COUNT(*) FILTER (WHERE drainage_amount IS NOT NULL)/COUNT(*),1) drainage
+                 COALESCE(ROUND(100.0*COUNT(*) FILTER (WHERE wound_type IS NOT NULL)/NULLIF(COUNT(*),0),1),0) wound_type,
+                 COALESCE(ROUND(100.0*COUNT(*) FILTER (WHERE length_cm IS NOT NULL)/NULLIF(COUNT(*),0),1),0) length,
+                 COALESCE(ROUND(100.0*COUNT(*) FILTER (WHERE width_cm IS NOT NULL)/NULLIF(COUNT(*),0),1),0) width,
+                 COALESCE(ROUND(100.0*COUNT(*) FILTER (WHERE depth_cm IS NOT NULL)/NULLIF(COUNT(*),0),1),0) depth,
+                 COALESCE(ROUND(100.0*COUNT(*) FILTER (WHERE drainage_amount IS NOT NULL)/NULLIF(COUNT(*),0),1),0) drainage
                FROM wound_extractions"""
         )[0]
         flags = {
@@ -104,6 +128,15 @@ def summary():
                 "FROM wound_extractions GROUP BY 1 ORDER BY 2 DESC"
             )
         }
+        methods = {
+            r["method"]: r["n"]
+            for r in one("SELECT method, COUNT(*) n FROM wound_extractions "
+                         "GROUP BY 1 ORDER BY 2 DESC")
+        }
+        avg_conf = one(
+            "SELECT COALESCE(ROUND(AVG(confidence)::numeric, 3), 0) c "
+            "FROM wound_extractions"
+        )[0]["c"]
         return {
             "total_wound_rows": total,
             "primary_wounds": primary,
@@ -112,4 +145,6 @@ def summary():
             "by_source_format": by_fmt,
             "field_coverage_pct": {k: float(v) for k, v in coverage.items()},
             "flag_distribution": flags,
+            "method_distribution": methods,
+            "avg_confidence": float(avg_conf),
         }

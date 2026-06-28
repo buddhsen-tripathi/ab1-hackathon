@@ -13,6 +13,8 @@ import time
 from collections import Counter
 
 from . import db, characterize
+from .eligibility import run as eligibility_run
+from .preprocess import run as preprocess_run
 from .pcc_client import get, STATS
 
 FACILITIES = [101, 102, 103]
@@ -46,14 +48,23 @@ def run_stream(max_workers=MAX_WORKERS):
     """
     t0 = time.time()
     STATS.reset()
-    db.init()
-    conn = db.connect()
+    # Emit the start event first so the UI shows life immediately, before the
+    # (sometimes slow) Neon cold-start connection blocks anything.
     yield {
         "type": "pipeline_start",
         "ts": t0,
         "facilities": FACILITIES,
         "max_workers": max_workers,
     }
+
+    # ---- Stage: connect (Neon can cold-start for a few seconds) ----
+    # We DON'T hold a connection open across the run: the long records fetch
+    # below would leave it idle long enough for Neon to drop it (SSL EOF).
+    # Each write stage opens its own short-lived connection instead.
+    yield {"type": "stage_start", "stage": "connect",
+           "message": "Connecting to database"}
+    db.init()
+    yield {"type": "stage_complete", "stage": "connect"}
 
     # ---- Stage: roster ----
     yield {"type": "stage_start", "stage": "roster",
@@ -64,7 +75,8 @@ def run_stream(max_workers=MAX_WORKERS):
         patients.extend(rows)
         yield {"type": "roster", "facility": fid, "count": len(rows),
                "running_total": len(patients), "stats": STATS.snapshot()}
-    db.upsert_patients(conn, patients)
+    with db.connect() as conn:
+        db.upsert_patients(conn, patients)
     yield {"type": "stage_complete", "stage": "roster",
            "total_patients": len(patients), "stats": STATS.snapshot()}
 
@@ -97,14 +109,15 @@ def run_stream(max_workers=MAX_WORKERS):
     yield {"type": "stage_complete", "stage": "records", "done": done,
            "by_kind": dict(by_kind), "stats": STATS.snapshot()}
 
-    # ---- Stage: store (single bulk write, SQLite conn stays single-threaded) ----
+    # ---- Stage: store (one fresh connection, bulk write) ----
     yield {"type": "stage_start", "stage": "store",
-           "message": "Bulk writing records to SQLite"}
-    db.upsert_bundle(
-        conn, results["diagnoses"], results["coverage"],
-        results["notes"], results["assessments"],
-    )
-    counts = db.counts(conn)
+           "message": "Bulk writing records to the database"}
+    with db.connect() as conn:
+        db.upsert_bundle(
+            conn, results["diagnoses"], results["coverage"],
+            results["notes"], results["assessments"],
+        )
+        counts = db.counts(conn)
     yield {"type": "stage_complete", "stage": "store", "counts": counts}
 
     # ---- Stage: characterize ----
@@ -113,10 +126,26 @@ def run_stream(max_workers=MAX_WORKERS):
     rep = characterize.report()
     yield {"type": "stage_complete", "stage": "characterize"}
 
+    # ---- Stage: extract (preprocess cascade + LLM escalation gate) ----
+    extraction = None
+    llm_info = None
+    for ev in preprocess_run.run_stream():
+        if ev.get("type") == "stage_complete":
+            extraction = ev.get("summary")
+            llm_info = ev.get("llm")
+        yield ev
+
+    # ---- Stage: route (reconcile sources + billing decision) ----
+    eligibility = None
+    for ev in eligibility_run.run_stream():
+        if ev.get("type") == "stage_complete":
+            eligibility = ev.get("summary")
+        yield ev
+
     elapsed = round(time.time() - t0, 1)
-    conn.close()
     yield {"type": "pipeline_complete", "elapsed_sec": elapsed,
-           "counts": counts, "stats": STATS.snapshot(), "data": rep}
+           "counts": counts, "stats": STATS.snapshot(), "data": rep,
+           "extraction": extraction, "eligibility": eligibility, "llm": llm_info}
 
 
 def run(max_workers=MAX_WORKERS):
