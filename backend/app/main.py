@@ -9,7 +9,7 @@ Endpoints:
 import json
 import traceback
 
-from fastapi import BackgroundTasks, FastAPI, Query
+from fastapi import BackgroundTasks, FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 
@@ -41,6 +41,25 @@ def patients(facility_id: int | None = Query(default=None)):
     return db.fetch_patients(facility_id)
 
 
+@app.get("/db/tables")
+def db_tables():
+    """Row counts per stored table (drives the table picker)."""
+    return db.list_tables()
+
+
+@app.get("/db/table/{name}")
+def db_table(
+    name: str,
+    limit: int = Query(default=50, ge=1, le=200),
+    offset: int = Query(default=0, ge=0),
+):
+    """Paginated rows of a stored table's original records."""
+    try:
+        return db.fetch_table(name, limit=limit, offset=offset)
+    except ValueError as exc:
+        raise HTTPException(status_code=404, detail=str(exc))
+
+
 @app.post("/ingest")
 def trigger_ingest(background_tasks: BackgroundTasks):
     background_tasks.add_task(ingest.run)
@@ -48,7 +67,7 @@ def trigger_ingest(background_tasks: BackgroundTasks):
 
 
 @app.get("/pipeline/stream")
-def pipeline_stream(honor_retry_after: bool = Query(default=False)):
+def pipeline_stream():
     """Run the full pipeline and stream each stage event as Server-Sent Events.
 
     The frontend opens an EventSource on this endpoint and visualizes progress
@@ -57,7 +76,7 @@ def pipeline_stream(honor_retry_after: bool = Query(default=False)):
 
     def event_source():
         try:
-            for ev in ingest.run_stream(honor_retry_after=honor_retry_after):
+            for ev in ingest.run_stream():
                 yield f"data: {json.dumps(ev)}\n\n"
         except Exception as exc:  # surface failures to the UI instead of hanging
             err = {

@@ -222,3 +222,65 @@ def fetch_patients(facility_id=None):
         else:
             cur.execute("SELECT raw FROM patients ORDER BY id")
         return [r["raw"] for r in cur.fetchall()]
+
+
+# ---- Generic table browsing (for the DB viewer) ----------------------------
+
+TABLES = ("patients", "diagnoses", "coverage", "notes", "assessments")
+
+
+def list_tables():
+    """Return row counts per table (drives the table picker)."""
+    with connect() as conn:
+        return counts(conn)
+
+
+def _typename(v):
+    if isinstance(v, bool):
+        return "bool"
+    if isinstance(v, int):
+        return "int"
+    if isinstance(v, float):
+        return "float"
+    if isinstance(v, (dict, list)):
+        return "json"
+    return "str"
+
+
+def _infer_columns(rows):
+    """Ordered column list with an inferred type, from the union of row keys."""
+    order, seen, types = [], set(), {}
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        for k, v in row.items():
+            if k not in seen:
+                seen.add(k)
+                order.append(k)
+            if v is not None and k not in types:
+                types[k] = _typename(v)
+    return [{"name": k, "type": types.get(k, "str")} for k in order]
+
+
+def fetch_table(name, limit=50, offset=0):
+    """Paginated view of a table's original records (the `raw` JSONB payload)."""
+    if name not in TABLES:
+        raise ValueError(f"unknown table: {name}")
+    limit = max(1, min(int(limit), 200))
+    offset = max(0, int(offset))
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(f"SELECT COUNT(*) AS n FROM {name}")
+        total = cur.fetchone()["n"]
+        cur.execute(
+            f"SELECT raw FROM {name} ORDER BY id LIMIT %s OFFSET %s",
+            (limit, offset),
+        )
+        rows = [r["raw"] for r in cur.fetchall()]
+    return {
+        "table": name,
+        "total": total,
+        "limit": limit,
+        "offset": offset,
+        "columns": _infer_columns(rows),
+        "rows": rows,
+    }
