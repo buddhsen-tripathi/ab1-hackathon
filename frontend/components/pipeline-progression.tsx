@@ -26,11 +26,11 @@ const NODES: Node[] = [
   { key: "records", label: "Records", icon: CloudArrowDown },
   { key: "store", label: "Store", icon: Database },
   { key: "characterize", label: "Characterize", icon: ChartBar },
-  { key: "extract", label: "Extract", icon: Stethoscope, planned: true },
-  { key: "route", label: "Route", icon: Receipt, planned: true },
+  { key: "extract", label: "Extract", icon: Stethoscope },
+  { key: "route", label: "Route", icon: Receipt },
 ];
 
-const RUNTIME = ["roster", "records", "store", "characterize"];
+const RUNTIME = ["roster", "records", "store", "characterize", "extract", "route"];
 
 function statusOf(state: PipelineState, key: string, planned?: boolean) {
   if (planned) return "planned";
@@ -46,7 +46,7 @@ function overallProgress(state: PipelineState) {
     const s = state.stages[k];
     if (s?.status === "complete") prog += 1;
     else if (s?.status === "running") {
-      prog += k === "records" && s.total ? (s.done ?? 0) / s.total : 0.5;
+      prog += s.total ? (s.done ?? 0) / s.total : 0.5;
     }
   }
   return Math.min(1, prog / RUNTIME.length);

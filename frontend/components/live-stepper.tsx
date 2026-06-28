@@ -40,7 +40,7 @@ const RUNTIME_STAGES: StageDef[] = [
   {
     key: "store",
     title: "Store",
-    description: "Bulk write full-fidelity raw JSON to SQLite.",
+    description: "Bulk write full-fidelity raw JSON to Neon Postgres.",
     icon: Database,
   },
   {
@@ -49,24 +49,22 @@ const RUNTIME_STAGES: StageDef[] = [
     description: "Profile note formats, payer signal and dirty-data traps.",
     icon: ChartBar,
   },
-];
-
-const PLANNED_STAGES: StageDef[] = [
   {
     key: "extract",
     title: "Extract",
-    description: "Wound type, stage, location, measurements and drainage.",
+    description:
+      "Heuristic + KB cascade pulls wound fields; low-confidence docs escalate to the LLM layer.",
     icon: Stethoscope,
-    planned: true,
   },
   {
     key: "route",
     title: "Route",
     description: "Reconcile sources, assign auto-accept / flag / reject with a reason.",
     icon: Receipt,
-    planned: true,
   },
 ];
+
+const PLANNED_STAGES: StageDef[] = [];
 
 function statusOf(stage: StageState | undefined, planned?: boolean): string {
   if (planned) return "planned";

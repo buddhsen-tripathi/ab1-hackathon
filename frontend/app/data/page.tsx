@@ -5,11 +5,13 @@ import {
   ArrowsClockwise,
   CaretLeft,
   CaretRight,
+  MagnifyingGlass,
   Table as TableIcon,
 } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { DataGrid } from "@/components/data-grid";
+import { Input } from "@/components/ui/input";
 import { EmptyState } from "@/components/ui/empty-state";
 import { LoadBoundary } from "@/components/ui/load-boundary";
 import { PageHeader } from "@/components/ui/page-header";
@@ -25,12 +27,32 @@ export default function DataPage() {
   const tables = useFetch(() => api.dbTables());
   const [table, setTable] = React.useState("patients");
   const [page, setPage] = React.useState(1);
+  const [searchInput, setSearchInput] = React.useState("");
+  const [search, setSearch] = React.useState("");
+  const [facility, setFacility] = React.useState<number | null>(null);
+
+  // Debounce the search box so we don't hit the DB on every keystroke.
+  React.useEffect(() => {
+    const t = setTimeout(() => {
+      setSearch(searchInput);
+      setPage(1);
+    }, 400);
+    return () => clearTimeout(t);
+  }, [searchInput]);
 
   const offset = (page - 1) * PAGE_SIZE;
-  const data = useFetch(() => api.dbTable(table, PAGE_SIZE, offset), [table, offset]);
+  const data = useFetch(
+    () => api.dbTable(table, PAGE_SIZE, offset, { search, facilityId: facility }),
+    [table, offset, search, facility],
+  );
 
   const selectTable = (t: string) => {
     setTable(t);
+    setPage(1);
+  };
+
+  const selectFacility = (f: number | null) => {
+    setFacility(f);
     setPage(1);
   };
 
@@ -94,6 +116,41 @@ export default function DataPage() {
             </button>
           );
         })}
+      </div>
+
+      {/* Filters */}
+      <div className="mb-4 flex flex-wrap items-center gap-3">
+        <div className="relative w-full max-w-xs">
+          <MagnifyingGlass className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            placeholder={`Search ${titleize(table)}…`}
+            className="pl-8"
+          />
+        </div>
+        {table === "patients" && (
+          <div className="flex flex-wrap items-center gap-1.5">
+            {[null, 101, 102, 103].map((f) => {
+              const active = facility === f;
+              return (
+                <button
+                  key={String(f)}
+                  type="button"
+                  onClick={() => selectFacility(f)}
+                  className={cn(
+                    "rounded-full px-3 py-1 text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                    active
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-muted text-muted-foreground hover:text-foreground",
+                  )}
+                >
+                  {f === null ? "All facilities" : `Facility ${f}`}
+                </button>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       <Card className="overflow-hidden p-0">

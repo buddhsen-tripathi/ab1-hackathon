@@ -32,13 +32,23 @@ export interface PipelineState {
   error: string | null;
 }
 
-export const STAGE_ORDER = ["roster", "records", "store", "characterize"] as const;
+export const STAGE_ORDER = [
+  "roster",
+  "records",
+  "store",
+  "characterize",
+  "extract",
+  "route",
+] as const;
 
 const STAGE_LABEL: Record<string, string> = {
+  connect: "Connect",
   roster: "Fetch rosters",
   records: "Fetch records",
   store: "Store",
   characterize: "Characterize",
+  extract: "Extract",
+  route: "Route",
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -65,14 +75,27 @@ function describe(ev: Ev): string {
   const label = (s: string) => STAGE_LABEL[s] ?? s;
   switch (ev.type) {
     case "pipeline_start":
-      return `Pipeline started — facilities ${(ev.facilities ?? []).join(", ")}, ${ev.max_workers} workers`;
+      return `Pipeline started — facilities ${(ev.facilities ?? []).join(", ")}`;
     case "stage_start":
       return `▶ ${label(ev.stage)}${ev.message ? ` — ${ev.message}` : ""}`;
     case "roster":
       return `   facility ${ev.facility}: ${ev.count} patients (total ${ev.running_total})`;
-    case "progress":
-      return `   ${label(ev.stage)}: ${ev.done}/${ev.total} · ${ev.stats?.rate_limited_429 ?? 0} × 429 retried`;
+    case "progress": {
+      let tail = "";
+      if (ev.stage === "records") tail = ` · ${ev.stats?.rate_limited_429 ?? 0} × 429 retried`;
+      else if (ev.stage === "extract" && ev.cascade)
+        tail = ` · ${ev.cascade.escalated ?? 0} escalated`;
+      return `   ${label(ev.stage)}: ${ev.done}/${ev.total}${tail}`;
+    }
     case "stage_complete": {
+      if (ev.stage === "extract" && ev.cascade) {
+        const c = ev.cascade;
+        return `✓ Extract complete — ${c.total ?? 0} docs · ${c.escalated ?? 0} escalated · ${c.llm_enriched ?? 0} LLM-enriched`;
+      }
+      if (ev.stage === "route" && ev.summary?.decisions) {
+        const d = ev.summary.decisions;
+        return `✓ Route complete — ${d.auto_accept ?? 0} auto · ${d.flag_for_review ?? 0} flag · ${d.reject ?? 0} reject`;
+      }
       const extra = ev.total_patients
         ? ` — ${ev.total_patients} patients`
         : ev.counts
