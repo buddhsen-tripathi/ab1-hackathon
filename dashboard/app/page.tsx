@@ -37,6 +37,7 @@ type Patient = {
   data_source: string | null;
   routing: "auto_accept" | "flag_for_review" | "reject";
   reason: string;
+  promoted_by_agent: boolean;
 };
 
 const ROUTING_STYLES = {
@@ -270,12 +271,23 @@ export default function Dashboard() {
                         )}
                       </TableCell>
                       <TableCell>
-                        <Badge
-                          variant="outline"
-                          className={`text-[11px] ${style.badge}`}
-                        >
-                          {style.label}
-                        </Badge>
+                        <div className="flex items-center gap-1.5">
+                          <Badge
+                            variant="outline"
+                            className={`text-[11px] ${style.badge}`}
+                          >
+                            {style.label}
+                          </Badge>
+                          {p.promoted_by_agent && (
+                            <Badge
+                              variant="outline"
+                              className="text-[10px] bg-violet-500/15 text-violet-400 border-violet-500/30"
+                              title="Routing upgraded by AI agent review"
+                            >
+                              AI
+                            </Badge>
+                          )}
+                        </div>
                       </TableCell>
                     </TableRow>
                   );
@@ -359,6 +371,17 @@ export default function Dashboard() {
                       {selected.data_source ?? "—"}
                     </span>
                   </div>
+
+                  {selected.promoted_by_agent && (
+                    <div className="rounded-md border border-violet-500/30 bg-violet-500/10 px-3 py-2">
+                      <p className="text-[11px] text-violet-400 font-medium">
+                        AI Agent Review
+                      </p>
+                      <p className="text-[11px] text-violet-300/70 mt-0.5 leading-relaxed">
+                        Originally flagged for review. Missing fields were extracted from clinical notes by the LLM agent and routing was upgraded to auto accept.
+                      </p>
+                    </div>
+                  )}
 
                   <button
                     onClick={() => setSelected(null)}
