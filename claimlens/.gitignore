@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+
+# Database (generated at runtime)
+backend/claimlens.db
+backend/claimlens.db-shm
+backend/claimlens.db-wal
+
+# Node
+frontend/node_modules/
+frontend/dist/
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
