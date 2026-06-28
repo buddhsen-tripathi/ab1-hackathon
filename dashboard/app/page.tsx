@@ -469,9 +469,9 @@ function PatientTable({
                     {p.payer_code}
                   </span>
                 </TableCell>
-                <TableCell>
+                <TableCell className="capitalize">
                   {p.wound_type ?? (
-                    <span className="text-muted-foreground">—</span>
+                    <span className="text-muted-foreground normal-case">—</span>
                   )}
                 </TableCell>
                 <TableCell>
@@ -488,21 +488,20 @@ function PatientTable({
                   )}
                 </TableCell>
                 <TableCell>
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex flex-col gap-0.5">
                     <Badge
                       variant="outline"
-                      className={`text-[11px] ${style.badge}`}
+                      className={`text-[11px] ${style.badge} w-fit`}
                     >
                       {style.label}
                     </Badge>
-                    {p.promoted_by_agent && (
-                      <Badge
-                        variant="outline"
-                        className="text-[10px] bg-violet-500/15 text-violet-400 border-violet-500/30"
-                        title="Routing upgraded by AI agent review"
-                      >
-                        AI
-                      </Badge>
+                    {p.confidence != null && (
+                      <span className={`text-[10px] font-mono ${
+                        p.confidence >= 0.75 ? "text-emerald-400/70" :
+                        p.confidence >= 0.40 ? "text-amber-400/70" : "text-rose-400/70"
+                      }`}>
+                        {(p.confidence * 100).toFixed(0)}%
+                      </span>
                     )}
                   </div>
                 </TableCell>
