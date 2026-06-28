@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { LoadBoundary } from "@/components/ui/load-boundary";
 import { PageHeader } from "@/components/ui/page-header";
 import { StatusPill } from "@/components/ui/status-pill";
+import { PatientDetail } from "@/components/patient-detail";
 import { api } from "@/lib/api";
 import { useFetch } from "@/lib/use-fetch";
 import type { EligibilityResult } from "@/lib/types";
@@ -61,6 +62,7 @@ function dims(r: EligibilityResult) {
 export default function WorklistPage() {
   const { data, loading, error, reload } = useFetch(() => api.eligibility());
 
+  const [selected, setSelected] = React.useState<string | null>(null);
   const [search, setSearch] = React.useState("");
   const [decision, setDecision] = React.useState<string | null>(null);
   const [facility, setFacility] = React.useState<number | null>(null);
@@ -107,10 +109,23 @@ export default function WorklistPage() {
     {
       key: "wound",
       header: "Wound",
-      render: (r) =>
-        r.wound_type
-          ? titleize(r.wound_type) + (r.stage ? ` (stage ${r.stage})` : "")
-          : "—",
+      render: (r) => (
+        <span className="flex items-center gap-1.5">
+          <span>
+            {r.wound_type
+              ? titleize(r.wound_type) + (r.stage ? ` (stage ${r.stage})` : "")
+              : "—"}
+          </span>
+          {r.secondary_wound_count > 0 && (
+            <span
+              className="rounded-full bg-muted px-1.5 py-0.5 text-[10px] tabular-nums text-muted-foreground"
+              title={`${r.secondary_wound_count} other wound(s) present`}
+            >
+              +{r.secondary_wound_count}
+            </span>
+          )}
+        </span>
+      ),
     },
     { key: "size", header: "L × W × D (cm)", render: dims },
     { key: "drainage_amount", header: "Drainage", render: (r) => r.drainage_amount ?? "—" },
@@ -201,6 +216,7 @@ export default function WorklistPage() {
               columns={columns}
               data={rows}
               rowKey={(r) => r.internal_id}
+              onRowClick={(r) => setSelected(r.patient_id)}
             />
           ) : (
             <EmptyState
@@ -211,6 +227,10 @@ export default function WorklistPage() {
           )}
         </div>
       </LoadBoundary>
+
+      {selected && (
+        <PatientDetail patientId={selected} onClose={() => setSelected(null)} />
+      )}
     </div>
   );
 }

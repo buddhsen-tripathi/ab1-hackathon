@@ -2,7 +2,12 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { API_BASE } from "./api";
-import type { DataReport, RequestStats } from "./types";
+import type {
+  DataReport,
+  EligibilitySummary,
+  ExtractionSummary,
+  RequestStats,
+} from "./types";
 
 export type StageStatus = "idle" | "running" | "complete";
 
@@ -27,6 +32,9 @@ export interface PipelineState {
   stats: RequestStats | null;
   counts: Record<string, number> | null;
   report: DataReport | null;
+  cascade: Record<string, number> | null;
+  extraction: ExtractionSummary | null;
+  eligibility: EligibilitySummary | null;
   log: LogEntry[];
   elapsed: number | null;
   error: string | null;
@@ -66,6 +74,9 @@ const INITIAL: PipelineState = {
   stats: null,
   counts: null,
   report: null,
+  cascade: null,
+  extraction: null,
+  eligibility: null,
   log: [],
   elapsed: null,
   error: null,
@@ -135,6 +146,9 @@ function reduce(s: PipelineState, ev: Ev, nextId: () => number): PipelineState {
         ...s,
         status: "running",
         stages: initialStages(),
+        cascade: null,
+        extraction: null,
+        eligibility: null,
         log,
         error: null,
         elapsed: null,
@@ -159,7 +173,7 @@ function reduce(s: PipelineState, ev: Ev, nextId: () => number): PipelineState {
         ...s.stages,
         [ev.stage]: { ...prev, status: "running" as StageStatus, done: ev.done, total: ev.total },
       };
-      return { ...s, stages, log, stats };
+      return { ...s, stages, log, stats, cascade: ev.cascade ?? s.cascade };
     }
     case "stage_complete": {
       const prev = s.stages[ev.stage] ?? { status: "complete" as StageStatus };
@@ -171,7 +185,15 @@ function reduce(s: PipelineState, ev: Ev, nextId: () => number): PipelineState {
           done: prev.total ?? ev.done ?? prev.done,
         },
       };
-      return { ...s, stages, counts: ev.counts ?? s.counts, log, stats };
+      return {
+        ...s,
+        stages,
+        counts: ev.counts ?? s.counts,
+        cascade: ev.cascade ?? s.cascade,
+        decisions: ev.summary?.decisions ?? s.decisions,
+        log,
+        stats,
+      };
     }
     case "pipeline_complete":
       return {
@@ -180,6 +202,8 @@ function reduce(s: PipelineState, ev: Ev, nextId: () => number): PipelineState {
         stats: ev.stats ?? stats,
         counts: ev.counts ?? s.counts,
         report: ev.data ?? s.report,
+        cascade: ev.cascade ?? s.cascade,
+        decisions: ev.eligibility?.decisions ?? s.decisions,
         elapsed: ev.elapsed_sec ?? null,
         log,
       };

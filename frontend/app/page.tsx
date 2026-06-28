@@ -2,7 +2,15 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { ArrowRight, CircleNotch, Coins, Play, Stop, WarningDiamond } from "@phosphor-icons/react";
+import {
+  ArrowRight,
+  CircleNotch,
+  Coins,
+  Play,
+  Stop,
+  Terminal,
+  WarningDiamond,
+} from "@phosphor-icons/react";
 import { BarList } from "@/components/ui/bar-list";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,10 +22,9 @@ import {
 } from "@/components/ui/card";
 import { StatusPill } from "@/components/ui/status-pill";
 import { EventLog } from "@/components/event-log";
-import { LiveStepper } from "@/components/live-stepper";
 import { PageHeader } from "@/components/ui/page-header";
 import { PipelineProgression } from "@/components/pipeline-progression";
-import { usePipeline, useElapsedSeconds } from "@/lib/use-pipeline";
+import { usePipeline, useElapsedSeconds, type PipelineState } from "@/lib/use-pipeline";
 import { num, pct, titleize } from "@/lib/utils";
 
 function Stat({ label, value }: { label: string; value: React.ReactNode }) {
@@ -27,6 +34,63 @@ function Stat({ label, value }: { label: string; value: React.ReactNode }) {
       <p className="mt-0.5 truncate font-mono text-sm font-semibold tabular-nums text-foreground">
         {value}
       </p>
+    </div>
+  );
+}
+
+function SignalRow({ label, value }: { label: string; value: React.ReactNode }) {
+  return (
+    <div className="flex items-baseline justify-between gap-3 py-1.5">
+      <span className="text-xs text-muted-foreground">{label}</span>
+      <span className="font-mono text-sm tabular-nums text-foreground">{value}</span>
+    </div>
+  );
+}
+
+function SignalGroup({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <p className="mb-1.5 text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70">
+        {title}
+      </p>
+      <div className="divide-y divide-border/60 rounded-md border border-border bg-muted/20 px-3">
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function RealtimeSignals({ state }: { state: PipelineState }) {
+  const s = state.stats;
+  const c = state.cascade;
+  const d = state.decisions;
+  const rows = state.counts
+    ? Object.values(state.counts).reduce((a, b) => a + b, 0)
+    : 0;
+  const dash = "—";
+
+  return (
+    <div className="space-y-4">
+      <SignalGroup title="Ingestion">
+        <SignalRow label="Requests" value={s ? num(s.total_requests) : dash} />
+        <SignalRow
+          label="Rate limited (429)"
+          value={s ? `${pct(s.observed_429_rate)} · ${num(s.rate_limited_429)}` : dash}
+        />
+        <SignalRow label="Calls / success" value={s ? s.calls_per_success.toFixed(2) : dash} />
+      </SignalGroup>
+      <SignalGroup title="Storage">
+        <SignalRow label="Rows stored" value={rows ? num(rows) : dash} />
+      </SignalGroup>
+      <SignalGroup title="Extraction">
+        <SignalRow label="Escalated to LLM" value={c ? num(c.escalated ?? 0) : dash} />
+        <SignalRow label="LLM-enriched" value={c ? num(c.llm_enriched ?? 0) : dash} />
+      </SignalGroup>
+      <SignalGroup title="Routing">
+        <SignalRow label="Auto-accept" value={d ? num(d.auto_accept ?? 0) : dash} />
+        <SignalRow label="Flag for review" value={d ? num(d.flag_for_review ?? 0) : dash} />
+        <SignalRow label="Reject" value={d ? num(d.reject ?? 0) : dash} />
+      </SignalGroup>
     </div>
   );
 }
@@ -44,13 +108,14 @@ export default function PipelinePage() {
   const traps = report
     ? report.notes.doubled_word_trap + report.assessments.laterality_conflict_trap
     : 0;
+  const lastLine = state.log[state.log.length - 1]?.text;
 
   return (
     <div className="flex min-h-[calc(100vh-3.5rem)] flex-col p-8 md:min-h-screen">
       <PageHeader
         eyebrow="ABI wound-care billing"
         title="Pipeline"
-        description="Run the end-to-end pipeline and watch each stage stream live, from rate-limited PCC ingestion to data characterization."
+        description="Run the end-to-end pipeline and watch each stage stream live, from rate-limited PCC ingestion to billing decisions."
         actions={
           running ? (
             <Button variant="outline" onClick={stop}>
@@ -66,7 +131,7 @@ export default function PipelinePage() {
         }
       />
 
-      {/* Top: pipeline progression */}
+      {/* Top: progression + KPIs + a one-line live event ticker */}
       <Card>
         <CardHeader className="flex-row items-center justify-between gap-4 space-y-0">
           <CardTitle className="text-base">Pipeline progression</CardTitle>
@@ -88,28 +153,35 @@ export default function PipelinePage() {
               value={records?.total ? `${num(records.done ?? 0)} / ${num(records.total)}` : "—"}
             />
             <Stat label="429 rate" value={stats ? pct(stats.observed_429_rate) : "—"} />
-            <Stat
-              label="Elapsed"
-              value={state.status === "idle" ? "—" : `${elapsed.toFixed(1)}s`}
-            />
+            <Stat label="Elapsed" value={state.status === "idle" ? "—" : `${elapsed.toFixed(1)}s`} />
+          </div>
+          {/* one-line live event ticker */}
+          <div className="flex items-center gap-2 rounded-md border border-border bg-muted/30 px-3 py-2">
+            {running ? (
+              <CircleNotch className="h-3.5 w-3.5 shrink-0 animate-spin text-sky-500" />
+            ) : (
+              <Terminal className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+            )}
+            <span className="truncate font-mono text-xs text-muted-foreground">
+              {lastLine ?? "Idle — press Run pipeline to start."}
+            </span>
           </div>
         </CardContent>
       </Card>
 
-      {/* Bottom: visualiser of the actual steps */}
+      {/* Bottom: realtime signals (left) + raw event stream (right) */}
       <Card className="mt-6 flex flex-1 flex-col overflow-hidden">
         <CardHeader>
-          <CardTitle className="text-base">Pipeline steps</CardTitle>
+          <CardTitle className="text-base">Live run</CardTitle>
           <CardDescription>
-            The actual steps as they execute. Extract and route are the next build,
-            scoped in ideas.md.
+            Realtime signals and the raw event stream as the pipeline executes.
           </CardDescription>
         </CardHeader>
         <CardContent className="grid min-h-0 flex-1 gap-6 lg:grid-cols-5">
-          <div className="lg:col-span-3">
-            <LiveStepper state={state} />
+          <div className="lg:col-span-2">
+            <RealtimeSignals state={state} />
           </div>
-          <div className="flex min-h-[20rem] flex-col overflow-hidden rounded-lg border border-border lg:col-span-2">
+          <div className="flex min-h-[20rem] flex-col overflow-hidden rounded-lg border border-border lg:col-span-3">
             <EventLog log={state.log} />
           </div>
         </CardContent>

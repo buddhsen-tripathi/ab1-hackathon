@@ -10,6 +10,7 @@ import {
   Stop,
   TrashSimple,
 } from "@phosphor-icons/react";
+import { ChatDashboard, extractDashboard } from "@/components/ui/chat-dashboard";
 import { API_BASE } from "@/lib/api";
 import { cn } from "@/lib/utils";
 
@@ -20,26 +21,45 @@ interface Msg {
 
 const SUGGESTIONS = [
   "Summarize this run for a biller in 3 bullets",
-  "Which facility has the most auto-accepts?",
-  "Top reasons patients are flagged for review",
+  "Build a dashboard of decisions by facility",
   "Why is wound depth missing so often?",
+  "Explain the routing decision for FA-001",
 ];
 
 function Bubble({ msg, busy }: { msg: Msg; busy?: boolean }) {
   const isUser = msg.role === "user";
+
+  if (isUser) {
+    return (
+      <div className="flex justify-end">
+        <div className="max-w-[85%] whitespace-pre-wrap rounded-lg bg-primary px-3.5 py-2 text-sm leading-relaxed text-primary-foreground">
+          {msg.content}
+        </div>
+      </div>
+    );
+  }
+
+  const { text, spec, building } = extractDashboard(msg.content);
+  const empty = !text && !spec && !building;
+
   return (
-    <div className={cn("flex", isUser ? "justify-end" : "justify-start")}>
+    <div className="flex justify-start">
       <div
         className={cn(
-          "max-w-[85%] whitespace-pre-wrap rounded-lg px-3.5 py-2 text-sm leading-relaxed",
-          isUser
-            ? "bg-primary text-primary-foreground"
-            : "bg-muted text-foreground",
+          "rounded-lg bg-muted px-3.5 py-2 text-sm leading-relaxed text-foreground",
+          spec ? "w-full max-w-full" : "max-w-[85%]",
         )}
       >
-        {msg.content || (busy && (
+        {text && <p className="whitespace-pre-wrap">{text}</p>}
+        {building && (
+          <p className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground">
+            <CircleNotch className="h-3.5 w-3.5 animate-spin" /> Building dashboard…
+          </p>
+        )}
+        {spec && <ChatDashboard spec={spec} />}
+        {empty && busy && (
           <CircleNotch className="h-4 w-4 animate-spin text-muted-foreground" />
-        ))}
+        )}
       </div>
     </div>
   );
@@ -215,7 +235,7 @@ export function AgentChat() {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={onKeyDown}
               rows={1}
-              placeholder="Ask about the pipeline, the data, or a routing decision..."
+              placeholder="Ask for a summary, a chart, or a patient by id (e.g. FA-001)…"
               className="max-h-40 min-h-[36px] flex-1 resize-none bg-transparent py-1.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
             />
             {busy ? (

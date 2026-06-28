@@ -107,6 +107,36 @@ export interface EligibilityResult {
   secondary_wound_count: number;
 }
 
+export interface WoundExtractionRow {
+  id: number;
+  source_doc: string;
+  source_format: string;
+  method: string;
+  wound_index: number;
+  is_primary: boolean;
+  wound_type: string | null;
+  stage: string | null;
+  location: string | null;
+  laterality: string | null;
+  length_cm: number | null;
+  width_cm: number | null;
+  depth_cm: number | null;
+  drainage_amount: string | null;
+  drainage_type: string | null;
+  confidence: number;
+  flags: string[];
+  raw_span: string | null;
+}
+
+export interface EligibilityDetail {
+  result: EligibilityResult;
+  extractions: WoundExtractionRow[];
+  coverage: Record<string, unknown>[];
+  diagnoses: Record<string, unknown>[];
+  assessments: Record<string, unknown>[];
+  notes: Record<string, unknown>[];
+}
+
 export interface LlmStats {
   calls: number;
   errors: number;

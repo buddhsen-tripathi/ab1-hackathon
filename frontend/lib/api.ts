@@ -5,6 +5,7 @@ import type {
   ExtractionSummary,
   EligibilitySummary,
   EligibilityResult,
+  EligibilityDetail,
   LlmObservability,
 } from "./types";
 
@@ -58,6 +59,8 @@ export const api = {
     const qs = q.toString();
     return getJSON<EligibilityResult[]>(`/eligibility${qs ? `?${qs}` : ""}`);
   },
+  eligibilityDetail: (patientId: string) =>
+    getJSON<EligibilityDetail>(`/eligibility/${patientId}`),
   ingest: async () => {
     const res = await fetch(`${API_BASE}/ingest`, { method: "POST" });
     if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
