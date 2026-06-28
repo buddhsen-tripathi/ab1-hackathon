@@ -93,7 +93,7 @@ const FACILITY_NAMES: Record<number, string> = {
   103: "Facility C",
 };
 
-type Tab = "all" | "flag_for_review" | "reject";
+type Tab = "all" | "auto_accept" | "flag_for_review" | "reject";
 
 function fmt(v: number | null) {
   return v != null ? v.toFixed(1) : "—";
@@ -562,6 +562,8 @@ export default function Dashboard() {
 
   const filtered = useMemo(() => {
     return patients.filter((p) => {
+      if (activeTab === "auto_accept" && p.routing !== "auto_accept")
+        return false;
       if (activeTab === "flag_for_review" && p.routing !== "flag_for_review")
         return false;
       if (activeTab === "reject" && p.routing !== "reject") return false;
@@ -602,6 +604,11 @@ export default function Dashboard() {
 
   const TABS: { id: Tab; label: string; count?: number }[] = [
     { id: "all", label: "All Patients", count: patients.length },
+    {
+      id: "auto_accept",
+      label: "Auto Accept",
+      count: patients.filter((p) => p.routing === "auto_accept").length,
+    },
     {
       id: "flag_for_review",
       label: "Flag for Review",
