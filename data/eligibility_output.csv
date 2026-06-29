@@ -1,0 +1,301 @@
+patient_id,facility_id,first_name,last_name,payer_code,mcb_coverage_active,active_wound_dx,wound_type,stage,location,length_cm,width_cm,depth_cm,drainage,data_source,confidence,missing_fields,routing,reason
+FA-001,101,Agnes,Dunbar,MCB,True,True,pressure ulcer,Stage 3,Right hip,2.9,2.8,,heavy,assessment_narrative+note_text,0.68,depth_cm,flag_for_review,Missing required field(s): Depth. Review chart and obtain missing data before billing.
+FA-002,101,Leon,Dawson,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FA-003,101,Philip,Oates,MCB,True,True,venous,,Right lower leg,8.0,3.5,0.2,moderate,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; venous; L 8.0 × W 3.5 × D 0.2 cm; moderate drainage; source: assessment_structured+note_multi (98%)
+FA-004,101,Virginia,Donnelly,MCD,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCD
+FA-005,101,Kristina,Bergstrom,MCB,True,True,,,Right lower leg,3.1,3.4,,moderate,assessment_narrative+note_text,0.51,wound_type,flag_for_review,Missing required field(s): Wound type. Review chart and obtain missing data before billing.
+FA-006,101,Helen,Reyes,MCB,True,True,diabetic,,Left foot,2.7,1.5,1.1,heavy,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; diabetic; L 2.7 × W 1.5 × D 1.1 cm; heavy drainage; source: assessment_structured+note_multi (98%)
+FA-007,101,Ima,Stanton,MCD,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCD
+FA-008,101,Eleanor,Yates,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FA-009,101,Roscoe,Dunbar,MCB,True,True,,,Left foot,5.3,4.5,0.8,moderate,assessment_narrative+note_multi,0.51,wound_type,flag_for_review,Missing required field(s): Wound type. Review chart and obtain missing data before billing.
+FA-010,101,Oliver,Watts,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FA-011,101,Ethel,Upton,MCB,True,True,pressure ulcer,Stage 2,Sacral region,1.2,1.5,0.4,light,assessment_structured+note_text,0.98,,auto_accept,MCB coverage active; active wound diagnosis; pressure ulcer Stage 2; L 1.2 × W 1.5 × D 0.4 cm; light drainage; source: assessment_structured+note_text (98%)
+FA-012,101,Robert,Coleman,MCB,True,True,abscess,,Right cervical,1.2,0.7,0.2,moderate,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; abscess; L 1.2 × W 0.7 × D 0.2 cm; moderate drainage; source: assessment_structured+note_multi (98%)
+FA-013,101,Melvin,Figueroa,MCB,True,True,abscess,,,1.4,1.2,,light,assessment_narrative+note_multi,0.85,,auto_accept,MCB coverage active; active wound diagnosis; abscess; L 1.4 × W 1.2 cm; light drainage; source: assessment_narrative+note_multi (85%)
+FA-014,101,Harriet,Yuen,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FA-015,101,Vernon,Ramirez,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FA-016,101,Olive,Larsson,MCB,True,True,,,Right lower leg,7.6,4.2,0.6,moderate,assessment_narrative+note_multi,0.51,wound_type,flag_for_review,Missing required field(s): Wound type. Review chart and obtain missing data before billing.
+FA-017,101,Morris,Jefferson,MCB,True,True,venous,,Left lower leg,6.3,5.7,0.2,moderate,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; venous; L 6.3 × W 5.7 × D 0.2 cm; moderate drainage; source: assessment_structured+note_multi (98%)
+FA-018,101,Leonard,Valentine,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FA-019,101,Ivan,Oneal,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FA-020,101,Vernon,Jacobs,MCB,True,True,diabetic,,Left plantar,3.2,2.3,0.6,none,assessment_structured+note_text,0.98,,auto_accept,MCB coverage active; active wound diagnosis; diabetic; L 3.2 × W 2.3 × D 0.6 cm; none drainage; source: assessment_structured+note_text (98%)
+FA-021,101,Hannah,Reyes,MCB,True,True,arterial,,Right lower extremity,2.6,1.3,0.5,moderate,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; arterial; L 2.6 × W 1.3 × D 0.5 cm; moderate drainage; source: assessment_structured+note_multi (98%)
+FA-022,101,Oliver,Webb,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FA-023,101,Kristina,Lefebvre,MCB,True,True,diabetic,,Right plantar,4.1,3.6,0.7,moderate,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; diabetic; L 4.1 × W 3.6 × D 0.7 cm; moderate drainage; source: assessment_structured+note_multi (98%)
+FA-024,101,Ralph,Nakamura,MCB,True,True,pressure ulcer,Stage 3,Right buttock,6.8,4.4,1.6,heavy,assessment_structured+note_text,0.98,,auto_accept,MCB coverage active; active wound diagnosis; pressure ulcer Stage 3; L 6.8 × W 4.4 × D 1.6 cm; heavy drainage; source: assessment_structured+note_text (98%)
+FA-025,101,Evelyn,Perry,MCB,True,True,pressure ulcer,Stage 4,Left heel,5.3,7.3,2.3,moderate,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; pressure ulcer Stage 4; L 5.3 × W 7.3 × D 2.3 cm; moderate drainage; source: assessment_structured+note_multi (98%)
+FA-026,101,Hubert,Kim,MCB,True,False,surgical,,Abdominal wall,3.8,2.2,1.8,heavy,assessment_structured+note_multi,0.98,,flag_for_review,Wound documented in notes but no supporting ICD-10 diagnosis on record — claim will be denied without diagnosis code. Clinician must add wound diagnosis before billing.
+FA-027,101,Howard,Nkrumah,MCB,True,True,abscess,,Right cervical,0.8,1.1,0.6,light,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; abscess; L 0.8 × W 1.1 × D 0.6 cm; light drainage; source: assessment_structured+note_multi (98%)
+FA-028,101,Xenia,Jensen,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FA-029,101,Fannie,Dunbar,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FA-030,101,Simon,Fleming,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FA-031,101,Howard,Yates,MCD,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCD
+FA-032,101,Una,Haynes,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FA-033,101,Nettie,Abbott,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FA-034,101,Kristina,Warren,MCB,True,True,pressure ulcer,Stage 2,Left heel,3.0,2.2,,moderate,assessment_narrative+note_text,0.68,depth_cm,flag_for_review,Missing required field(s): Depth. Review chart and obtain missing data before billing.
+FA-035,101,Pearl,Yuen,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FA-036,101,Wilfred,Newton,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FA-037,101,Floyd,Lawson,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FA-038,101,Norma,Lynch,MCB,True,True,diabetic,,Left plantar,3.1,1.7,0.3,,assessment_structured+note_multi,0.98,drainage_amount,flag_for_review,Missing required field(s): Drainage. Review chart and obtain missing data before billing.
+FA-039,101,Wilfred,Haines,MCB,True,True,diabetic,,Right plantar,1.4,1.7,0.7,moderate,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; diabetic; L 1.4 × W 1.7 × D 0.7 cm; moderate drainage; source: assessment_structured+note_multi (98%)
+FA-040,101,Oliver,Webb,MCB,True,True,,,Right plantar,3.0,0.9,0.4,light,assessment_narrative+note_multi,0.51,wound_type,flag_for_review,Missing required field(s): Wound type. Review chart and obtain missing data before billing.
+FA-041,101,Helen,Holt,MCB,True,True,arterial,,Right lower extremity,1.3,0.8,0.8,moderate,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; arterial; L 1.3 × W 0.8 × D 0.8 cm; moderate drainage; source: assessment_structured+note_multi (98%)
+FA-042,101,Olive,Kaczmarek,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FA-043,101,Jean,Jennings,MCB,True,True,abscess,,Right cervical,1.9,0.6,0.4,moderate,assessment_structured+note_text,0.98,,auto_accept,MCB coverage active; active wound diagnosis; abscess; L 1.9 × W 0.6 × D 0.4 cm; moderate drainage; source: assessment_structured+note_text (98%)
+FA-044,101,Russel,Nguyen,MCB,True,True,burn,,Left upper arm,2.8,1.8,0.1,moderate,assessment_structured+note_text,0.98,,auto_accept,MCB coverage active; active wound diagnosis; burn; L 2.8 × W 1.8 × D 0.1 cm; moderate drainage; source: assessment_structured+note_text (98%)
+FA-045,101,Doris,Xavier,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FA-046,101,Calvin,Elliot,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FA-047,101,Irene,Nakamura,MCB,True,True,diabetic,,Right plantar,2.2,1.0,1.4,moderate,assessment_structured+note_text,0.98,,auto_accept,MCB coverage active; active wound diagnosis; diabetic; L 2.2 × W 1.0 × D 1.4 cm; moderate drainage; source: assessment_structured+note_text (98%)
+FA-048,101,Ethel,Nguyen,MCB,True,True,venous,,Left lower leg,5.4,5.4,0.2,moderate,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; venous; L 5.4 × W 5.4 × D 0.2 cm; moderate drainage; source: assessment_structured+note_multi (98%)
+FA-049,101,Oscar,Vanhook,MCB,True,True,pressure ulcer,,Right buttock,3.8,4.1,0.9,moderate,assessment_structured+note_multi,0.98,stage,flag_for_review,Missing required field(s): Stage. Review chart and obtain missing data before billing.
+FA-050,101,Willis,Quinn,MCB,True,True,arterial,,Right lower extremity,0.7,2.5,0.7,light,assessment_structured+note_text,0.98,,auto_accept,MCB coverage active; active wound diagnosis; arterial; L 0.7 × W 2.5 × D 0.7 cm; light drainage; source: assessment_structured+note_text (98%)
+FA-051,101,Jean,Watts,MCB,True,True,abscess,,,0.9,1.4,0.3,light,assessment_narrative+note_multi,0.85,,auto_accept,MCB coverage active; active wound diagnosis; abscess; L 0.9 × W 1.4 × D 0.3 cm; light drainage; source: assessment_narrative+note_multi (85%)
+FA-052,101,Edna,Kowalski,MCB,True,False,,,Abdominal wall,2.8,3.2,,moderate,assessment_narrative+note_text,0.51,wound_type,reject,MCB patient with no wound diagnosis and no wound documentation.
+FA-053,101,Carl,Nakamura,MCB,True,True,pressure ulcer,Stage 3,Right buttock,6.7,4.5,1.5,heavy,assessment_structured+note_text,0.98,,auto_accept,MCB coverage active; active wound diagnosis; pressure ulcer Stage 3; L 6.7 × W 4.5 × D 1.5 cm; heavy drainage; source: assessment_structured+note_text (98%)
+FA-054,101,Thelma,Elliot,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FA-055,101,Emil,Espinoza,MCB,True,True,abscess,,Right cervical,0.5,1.5,0.4,moderate,assessment_structured+note_text,0.98,,auto_accept,MCB coverage active; active wound diagnosis; abscess; L 0.5 × W 1.5 × D 0.4 cm; moderate drainage; source: assessment_structured+note_text (98%)
+FA-056,101,Clifford,Thornton,MCB,True,True,,,Left foot,5.2,1.7,0.7,moderate,assessment_narrative+note_multi,0.51,wound_type,flag_for_review,Missing required field(s): Wound type. Review chart and obtain missing data before billing.
+FA-057,101,Della,Frazier,MCB,True,True,abscess,,Right cervical,0.8,0.8,,moderate,assessment_narrative+note_text,0.85,,auto_accept,MCB coverage active; active wound diagnosis; abscess; L 0.8 × W 0.8 cm; moderate drainage; source: assessment_narrative+note_text (85%)
+FA-058,101,Luther,Ewing,MCD,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCD
+FA-059,101,Phyllis,Figueroa,MCB,True,True,abscess,,Right cervical,1.6,1.1,0.4,moderate,assessment_structured+note_text,0.98,,auto_accept,MCB coverage active; active wound diagnosis; abscess; L 1.6 × W 1.1 × D 0.4 cm; moderate drainage; source: assessment_structured+note_text (98%)
+FA-060,101,Dorothy,Lefebvre,MCB,True,True,venous,,Left lower leg,3.5,5.4,0.7,moderate,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; venous; L 3.5 × W 5.4 × D 0.7 cm; moderate drainage; source: assessment_structured+note_multi (98%)
+FA-061,101,Theodore,Elliot,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FA-062,101,Perry,Jefferson,MCD,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCD
+FA-063,101,Irene,Nguyen,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FA-064,101,Bernard,Obrien,MCD,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCD
+FA-065,101,Gertrude,Coleman,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FA-066,101,Gilbert,Watts,MCB,True,True,pressure ulcer,,Right buttock,4.7,4.4,1.5,moderate,assessment_structured+note_multi,0.98,stage,flag_for_review,Missing required field(s): Stage. Review chart and obtain missing data before billing.
+FA-067,101,Emma,Ibarra,MCB,True,False,surgical,,Abdominal wall,4.8,1.0,1.9,heavy,assessment_structured+note_text,0.98,,flag_for_review,Wound documented in notes but no supporting ICD-10 diagnosis on record — claim will be denied without diagnosis code. Clinician must add wound diagnosis before billing.
+FA-068,101,Wilfred,Fleming,MCB,True,True,pressure ulcer,Stage 2,Left buttock,4.0,2.2,0.3,,assessment_structured+note_multi,0.98,drainage_amount,flag_for_review,Missing required field(s): Drainage. Review chart and obtain missing data before billing.
+FA-069,101,Donald,Tanner,MCB,True,True,pressure ulcer,,Sacral region,3.4,2.1,1.7,heavy,assessment_structured+note_multi,0.98,stage,flag_for_review,Missing required field(s): Stage. Review chart and obtain missing data before billing.
+FA-070,101,Della,Greer,MCB,True,True,burn,,Left upper arm,2.6,3.5,0.2,moderate,assessment_structured+note_text,0.98,,auto_accept,MCB coverage active; active wound diagnosis; burn; L 2.6 × W 3.5 × D 0.2 cm; moderate drainage; source: assessment_structured+note_text (98%)
+FA-071,101,Edna,Dawson,MCB,True,True,diabetic,,Left foot,2.8,3.9,1.6,heavy,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; diabetic; L 2.8 × W 3.9 × D 1.6 cm; heavy drainage; source: assessment_structured+note_multi (98%)
+FA-072,101,Clara,Elliot,MCB,True,True,venous,,Left lower leg,2.5,4.5,0.2,heavy,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; venous; L 2.5 × W 4.5 × D 0.2 cm; heavy drainage; source: assessment_structured+note_multi (98%)
+FA-073,101,Julia,Ibarra,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FA-074,101,Ruth,Vega,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FA-075,101,Ivan,Medina,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FA-076,101,Curtis,Frazier,MCD,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCD
+FA-077,101,Queenie,Goldstein,MCB,True,True,diabetic,,Left foot,4.3,4.7,1.2,heavy,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; diabetic; L 4.3 × W 4.7 × D 1.2 cm; heavy drainage; source: assessment_structured+note_multi (98%)
+FA-078,101,Martha,Vance,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FA-079,101,Charlotte,Xiong,MCB,True,False,surgical,,Abdominal wall,2.1,3.3,1.1,moderate,assessment_structured+note_multi,0.98,,flag_for_review,Wound documented in notes but no supporting ICD-10 diagnosis on record — claim will be denied without diagnosis code. Clinician must add wound diagnosis before billing.
+FA-080,101,Rosa,Nakamura,MCB,True,True,diabetic,,Left plantar,2.1,2.0,1.3,light,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; diabetic; L 2.1 × W 2.0 × D 1.3 cm; light drainage; source: assessment_structured+note_multi (98%)
+FA-081,101,Vera,Yuen,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FA-082,101,Francis,Watts,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FA-083,101,Frank,Ortega,MCB,True,True,,,Right lower extremity,1.6,1.7,,light,assessment_narrative+note_multi,0.51,wound_type,flag_for_review,Missing required field(s): Wound type. Review chart and obtain missing data before billing.
+FA-084,101,Beverly,Ingram,HMO,False,False,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FA-085,101,Lewis,Okonkwo,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FA-086,101,Ima,Coleman,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FA-087,101,Doris,Haynes,MCD,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCD
+FA-088,101,Yvonne,Valentine,MCB,True,True,diabetic,,Left plantar,1.9,3.2,1.2,moderate,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; diabetic; L 1.9 × W 3.2 × D 1.2 cm; moderate drainage; source: assessment_structured+note_multi (98%)
+FA-089,101,Frances,Sanchez,MCB,True,True,venous,,Left lower leg,3.6,3.1,0.1,moderate,assessment_structured+note_text,0.98,,auto_accept,MCB coverage active; active wound diagnosis; venous; L 3.6 × W 3.1 × D 0.1 cm; moderate drainage; source: assessment_structured+note_text (98%)
+FA-090,101,Una,Nielsen,MCD,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCD
+FA-091,101,Ruth,Patterson,MCB,True,True,,,Right lower leg,3.6,4.5,,heavy,assessment_narrative+note_text,0.51,wound_type,flag_for_review,Missing required field(s): Wound type. Review chart and obtain missing data before billing.
+FA-092,101,Ima,Mack,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FA-093,101,Vera,Oates,MCD,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCD
+FA-094,101,Jennie,Nakamura,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FA-095,101,Mabel,Ewing,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FA-096,101,Winnie,Dominguez,MCB,True,True,venous,,Right lower leg,5.2,2.3,0.4,moderate,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; venous; L 5.2 × W 2.3 × D 0.4 cm; moderate drainage; source: assessment_structured+note_multi (98%)
+FA-097,101,Stella,Ivers,MCD,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCD
+FA-098,101,Clifford,Kim,MCB,True,True,diabetic,,Left foot,4.7,2.1,2.0,heavy,assessment_structured+note_text,0.98,,auto_accept,MCB coverage active; active wound diagnosis; diabetic; L 4.7 × W 2.1 × D 2.0 cm; heavy drainage; source: assessment_structured+note_text (98%)
+FA-099,101,Virginia,Rhodes,MCB,True,True,surgical,,Abdominal wall,3.8,1.0,1.7,heavy,assessment_structured+note_text,0.98,,auto_accept,MCB coverage active; active wound diagnosis; surgical; L 3.8 × W 1.0 × D 1.7 cm; heavy drainage; source: assessment_structured+note_text (98%)
+FA-100,101,Gilbert,Nielsen,MCB,True,True,,,Right lower extremity,1.3,1.1,,moderate,assessment_narrative+note_text,0.51,wound_type,flag_for_review,Missing required field(s): Wound type. Review chart and obtain missing data before billing.
+FA-101,101,Richard,Larsson,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FA-102,101,Frederick,Patterson,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FA-103,101,Earl,Goldstein,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FA-104,101,Gloria,Upton,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FA-105,101,Thelma,Benson,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FA-106,101,Perry,Bergstrom,MCD,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCD
+FA-107,101,Dora,Haynes,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FA-108,101,Greta,Perry,MCB,True,True,burn,,Left upper arm,1.6,4.0,0.1,light,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; burn; L 1.6 × W 4.0 × D 0.1 cm; light drainage; source: assessment_structured+note_multi (98%)
+FA-109,101,Edna,Quinn,MCB,True,False,,,Abdominal wall,1.1,1.8,,heavy,assessment_narrative+note_text,0.51,wound_type,reject,MCB patient with no wound diagnosis and no wound documentation.
+FA-110,101,Roberta,Newton,MCB,True,True,venous,,Right lower leg,2.4,4.5,0.1,moderate,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; venous; L 2.4 × W 4.5 × D 0.1 cm; moderate drainage; source: assessment_structured+note_multi (98%)
+FA-111,101,Martha,Abbott,MCB,True,True,diabetic,,Left plantar,1.9,1.9,0.7,none,assessment_structured+note_text,0.98,,auto_accept,MCB coverage active; active wound diagnosis; diabetic; L 1.9 × W 1.9 × D 0.7 cm; none drainage; source: assessment_structured+note_text (98%)
+FA-112,101,Leona,Haynes,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FA-113,101,Nathan,Tanner,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FA-114,101,Lois,Irwin,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FA-115,101,Lester,Mack,MCD,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCD
+FA-116,101,Lewis,Patel,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FA-117,101,Rosa,Ortega,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FA-118,101,Howard,Vanhook,MCB,True,True,venous,,Right lower leg,6.1,2.4,0.2,moderate,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; venous; L 6.1 × W 2.4 × D 0.2 cm; moderate drainage; source: assessment_structured+note_multi (98%)
+FA-119,101,James,Johansson,MCB,True,True,,,Right lower extremity,2.4,0.5,0.8,light,assessment_narrative+note_multi,0.51,wound_type,flag_for_review,Missing required field(s): Wound type. Review chart and obtain missing data before billing.
+FA-120,101,Nathan,Beckett,MCB,True,False,surgical,,Abdominal wall,3.7,3.1,1.1,moderate,assessment_structured+note_multi,0.98,,flag_for_review,Wound documented in notes but no supporting ICD-10 diagnosis on record — claim will be denied without diagnosis code. Clinician must add wound diagnosis before billing.
+FB-001,102,Jerome,Pruitt,MCD,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCD
+FB-002,102,Shirley,Stanton,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FB-003,102,Phyllis,Dominguez,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FB-004,102,Ralph,Holt,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FB-005,102,Della,Okonkwo,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FB-006,102,Katherine,Figueroa,MCB,True,True,venous,,Left lower leg,3.2,3.7,0.4,heavy,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; venous; L 3.2 × W 3.7 × D 0.4 cm; heavy drainage; source: assessment_structured+note_multi (98%)
+FB-007,102,Nettie,Abbott,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FB-008,102,Donald,Perry,MCB,True,True,diabetic,,Left foot,4.3,2.4,1.2,heavy,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; diabetic; L 4.3 × W 2.4 × D 1.2 cm; heavy drainage; source: assessment_structured+note_multi (98%)
+FB-009,102,Leon,Oates,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FB-010,102,Beatrice,Dunbar,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FB-011,102,Phyllis,Lefebvre,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FB-012,102,Pearl,Haynes,MCB,True,True,burn,,Left upper arm,1.3,2.3,,moderate,assessment_narrative+note_text,0.85,,auto_accept,MCB coverage active; active wound diagnosis; burn; L 1.3 × W 2.3 cm; moderate drainage; source: assessment_narrative+note_text (85%)
+FB-013,102,Wilbur,Jensen,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FB-014,102,Nettie,Upton,MCB,True,True,abscess,,,2.0,0.2,0.6,light,assessment_narrative+note_multi,0.85,,auto_accept,MCB coverage active; active wound diagnosis; abscess; L 2.0 × W 0.2 × D 0.6 cm; light drainage; source: assessment_narrative+note_multi (85%)
+FB-015,102,Ursula,Morales,MCB,True,True,,,Right lower extremity,0.6,1.2,0.6,light,assessment_narrative+note_multi,0.51,wound_type,flag_for_review,Missing required field(s): Wound type. Review chart and obtain missing data before billing.
+FB-016,102,Olive,Goldstein,MCB,True,True,diabetic,,Right plantar,3.8,3.5,0.8,light,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; diabetic; L 3.8 × W 3.5 × D 0.8 cm; light drainage; source: assessment_structured+note_multi (98%)
+FB-017,102,Charlotte,Estrada,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FB-018,102,Martha,Kowalski,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FB-019,102,Beverly,Ferreira,MCB,True,True,diabetic,,Left plantar,4.8,3.5,0.8,moderate,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; diabetic; L 4.8 × W 3.5 × D 0.8 cm; moderate drainage; source: assessment_structured+note_multi (98%)
+FB-020,102,Bernard,Okonkwo,MCB,True,True,diabetic,,Right plantar,3.5,3.2,1.0,,assessment_structured+note_multi,0.98,drainage_amount,flag_for_review,Missing required field(s): Drainage. Review chart and obtain missing data before billing.
+FB-021,102,Monroe,Yuen,MCB,True,True,pressure ulcer,Stage 3,Right buttock,2.9,4.4,,light,assessment_narrative+note_text,0.68,depth_cm,flag_for_review,Missing required field(s): Depth. Review chart and obtain missing data before billing.
+FB-022,102,Shirley,Ewing,MCD,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCD
+FB-023,102,Merton,Oates,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FB-024,102,Philip,Haines,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FB-025,102,Ethel,Newton,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FB-026,102,Maurice,Kowalski,MCB,True,True,pressure ulcer,Stage 2,Left heel,2.7,3.2,0.2,moderate,assessment_narrative+note_multi,0.85,,auto_accept,MCB coverage active; active wound diagnosis; pressure ulcer Stage 2; L 2.7 × W 3.2 × D 0.2 cm; moderate drainage; source: assessment_narrative+note_multi (85%)
+FB-027,102,Elmer,Ingram,MCB,True,True,,,Left plantar,3.7,2.6,,moderate,assessment_narrative+note_text,0.51,wound_type,flag_for_review,Missing required field(s): Wound type. Review chart and obtain missing data before billing.
+FB-028,102,Charlotte,Ivers,MCB,True,True,arterial,,Right lower extremity,1.1,2.2,0.6,moderate,assessment_structured+note_text,0.98,,auto_accept,MCB coverage active; active wound diagnosis; arterial; L 1.1 × W 2.2 × D 0.6 cm; moderate drainage; source: assessment_structured+note_text (98%)
+FB-029,102,Greta,Babatunde,MCB,True,True,burn,,Left upper arm,5.8,2.6,0.1,light,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; burn; L 5.8 × W 2.6 × D 0.1 cm; light drainage; source: assessment_structured+note_multi (98%)
+FB-030,102,Patricia,Ingram,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FB-031,102,Greta,Webb,MCB,True,True,abscess,,Right cervical,1.6,0.5,0.4,light,assessment_structured+note_text,0.98,,auto_accept,MCB coverage active; active wound diagnosis; abscess; L 1.6 × W 0.5 × D 0.4 cm; light drainage; source: assessment_structured+note_text (98%)
+FB-032,102,Calvin,Christodoulou,MCB,True,False,surgical,,Abdominal wall,4.9,1.6,1.1,moderate,assessment_structured+note_text,0.98,,flag_for_review,Wound documented in notes but no supporting ICD-10 diagnosis on record — claim will be denied without diagnosis code. Clinician must add wound diagnosis before billing.
+FB-033,102,Gilbert,Christodoulou,MCB,True,True,,,Left plantar,4.3,3.2,1.4,light,assessment_narrative+note_multi,0.51,wound_type,flag_for_review,Missing required field(s): Wound type. Review chart and obtain missing data before billing.
+FB-034,102,Mabel,Abbott,MCB,True,True,pressure ulcer,Stage 4,Left heel,7.4,5.1,1.7,heavy,assessment_narrative+note_multi,0.85,,auto_accept,MCB coverage active; active wound diagnosis; pressure ulcer Stage 4; L 7.4 × W 5.1 × D 1.7 cm; heavy drainage; source: assessment_narrative+note_multi (85%)
+FB-035,102,Russel,Carpenter,MCB,True,False,surgical,,Abdominal wall,3.4,1.1,0.7,moderate,assessment_structured+note_text,0.98,,flag_for_review,Wound documented in notes but no supporting ICD-10 diagnosis on record — claim will be denied without diagnosis code. Clinician must add wound diagnosis before billing.
+FB-036,102,Velma,Zimmerman,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FB-037,102,Oliver,Mack,MCB,True,True,pressure ulcer,Stage 3,Right hip,2.5,2.4,0.8,moderate,assessment_narrative+note_multi,0.85,,auto_accept,MCB coverage active; active wound diagnosis; pressure ulcer Stage 3; L 2.5 × W 2.4 × D 0.8 cm; moderate drainage; source: assessment_narrative+note_multi (85%)
+FB-038,102,Elmer,Medina,MCB,True,True,venous,,Left lower leg,2.8,3.8,0.7,moderate,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; venous; L 2.8 × W 3.8 × D 0.7 cm; moderate drainage; source: assessment_structured+note_multi (98%)
+FB-039,102,Gloria,Sanchez,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FB-040,102,Velma,Kane,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FB-041,102,Jennie,Ivers,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FB-042,102,Velma,Dawson,MCD,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCD
+FB-043,102,Queenie,Jensen,MCB,True,True,diabetic,,Left foot,3.7,2.1,1.3,heavy,assessment_structured+note_text,0.98,,auto_accept,MCB coverage active; active wound diagnosis; diabetic; L 3.7 × W 2.1 × D 1.3 cm; heavy drainage; source: assessment_structured+note_text (98%)
+FB-044,102,Walter,Babatunde,MCB,True,True,venous,,Left lower leg,6.9,1.7,0.2,heavy,assessment_structured+note_text,0.98,,auto_accept,MCB coverage active; active wound diagnosis; venous; L 6.9 × W 1.7 × D 0.2 cm; heavy drainage; source: assessment_structured+note_text (98%)
+FB-045,102,Hubert,Medina,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FB-046,102,Tillie,Warren,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FB-047,102,Wilfred,Nielsen,MCD,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCD
+FB-048,102,Samuel,Babatunde,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FB-049,102,Edgar,Vance,HMO,False,False,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FB-050,102,Jesse,Nguyen,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FB-051,102,Vera,Reyes,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FB-052,102,Monroe,Xiong,MCD,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCD
+FB-053,102,Donald,Kim,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FB-054,102,Dorothy,Garrison,MCD,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCD
+FB-055,102,Fannie,Jensen,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FB-056,102,Edgar,Zuniga,MCB,True,True,burn,,,1.1,3.5,0.2,light,assessment_narrative+note_multi,0.85,,auto_accept,MCB coverage active; active wound diagnosis; burn; L 1.1 × W 3.5 × D 0.2 cm; light drainage; source: assessment_narrative+note_multi (85%)
+FB-057,102,Russel,Ibarra,MCD,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCD
+FB-058,102,Melvin,Hoffman,MCB,True,True,diabetic,,Left foot,2.2,1.8,1.5,heavy,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; diabetic; L 2.2 × W 1.8 × D 1.5 cm; heavy drainage; source: assessment_structured+note_multi (98%)
+FB-059,102,Una,Haynes,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FB-060,102,Ethel,Xiong,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FB-061,102,Preston,Marsh,MCB,True,True,diabetic,,Left plantar,4.9,3.0,1.1,moderate,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; diabetic; L 4.9 × W 3.0 × D 1.1 cm; moderate drainage; source: assessment_structured+note_multi (98%)
+FB-062,102,Oscar,Hoffman,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FB-063,102,Ida,Kelley,MCD,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCD
+FB-064,102,Chester,Tanner,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FB-065,102,Lloyd,Espinoza,MCB,True,True,pressure ulcer,,Left buttock,4.8,3.3,1.4,heavy,assessment_structured+note_multi,0.98,stage,flag_for_review,Missing required field(s): Stage. Review chart and obtain missing data before billing.
+FB-066,102,Rosie,Tanner,MCB,True,True,pressure ulcer,Stage 2,Left heel,2.1,2.2,0.4,light,assessment_structured+note_text,0.98,,auto_accept,MCB coverage active; active wound diagnosis; pressure ulcer Stage 2; L 2.1 × W 2.2 × D 0.4 cm; light drainage; source: assessment_structured+note_text (98%)
+FB-067,102,Thelma,Vance,MCB,True,True,,,Right lower extremity,2.3,1.1,,light,assessment_narrative+note_multi,0.51,wound_type,flag_for_review,Missing required field(s): Wound type. Review chart and obtain missing data before billing.
+FB-068,102,Melvin,Kim,HMO,False,False,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FB-069,102,Tillie,Webb,MCB,True,True,surgical,,Abdominal wall,4.4,2.6,1.4,moderate,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; surgical; L 4.4 × W 2.6 × D 1.4 cm; moderate drainage; source: assessment_structured+note_multi (98%)
+FB-070,102,Garland,Reyes,MCD,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCD
+FB-071,102,Martha,Ibarra,MCD,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCD
+FB-072,102,Mildred,Babatunde,MCB,True,True,diabetic,,Left foot,2.6,3.2,1.0,heavy,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; diabetic; L 2.6 × W 3.2 × D 1.0 cm; heavy drainage; source: assessment_structured+note_multi (98%)
+FB-073,102,Perry,Yuen,HMO,False,False,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FB-074,102,Velma,Aldridge,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FB-075,102,Eleanor,Aldridge,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FB-076,102,Harvey,Hoffman,MCD,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCD
+FB-077,102,Hazel,Okonkwo,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FB-078,102,Irving,Watts,MCB,True,True,,,,2.0,2.4,0.9,moderate,assessment_narrative+note_multi,0.51,wound_type,flag_for_review,Missing required field(s): Wound type. Review chart and obtain missing data before billing.
+FB-079,102,Edna,Coleman,MCB,True,True,burn,,Left upper arm,5.5,4.0,0.2,moderate,assessment_structured+note_text,0.98,,auto_accept,MCB coverage active; active wound diagnosis; burn; L 5.5 × W 4.0 × D 0.2 cm; moderate drainage; source: assessment_structured+note_text (98%)
+FB-080,102,Hubert,Zuniga,MCB,True,True,abscess,,Right cervical,0.6,0.3,0.2,moderate,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; abscess; L 0.6 × W 0.3 × D 0.2 cm; moderate drainage; source: assessment_structured+note_multi (98%)
+FB-081,102,Donald,Obrien,MCD,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCD
+FB-082,102,Edna,Kelley,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FB-083,102,Sadie,Castillo,MCB,True,True,pressure ulcer,Stage 3,Left heel,5.2,2.6,1.6,heavy,assessment_structured+note_text,0.98,,auto_accept,MCB coverage active; active wound diagnosis; pressure ulcer Stage 3; L 5.2 × W 2.6 × D 1.6 cm; heavy drainage; source: assessment_structured+note_text (98%)
+FB-084,102,Melvin,Oduya,MCB,True,True,diabetic,,Left foot,4.5,2.0,1.9,moderate,assessment_structured+note_text,0.98,,auto_accept,MCB coverage active; active wound diagnosis; diabetic; L 4.5 × W 2.0 × D 1.9 cm; moderate drainage; source: assessment_structured+note_text (98%)
+FB-085,102,Ada,Jennings,MCB,True,True,pressure ulcer,Stage 4,Sacral region,8.2,6.3,1.7,moderate,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; pressure ulcer Stage 4; L 8.2 × W 6.3 × D 1.7 cm; moderate drainage; source: assessment_structured+note_multi (98%)
+FB-086,102,Lewis,Aldridge,MCD,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCD
+FB-087,102,Celia,Kerr,MCB,True,True,,,Left plantar,3.9,3.9,,none,assessment_narrative+note_text,0.51,wound_type,flag_for_review,Missing required field(s): Wound type. Review chart and obtain missing data before billing.
+FB-088,102,Francis,Jacobs,MCB,True,True,,,Left foot,4.3,5.0,0.6,moderate,assessment_narrative+note_multi,0.51,wound_type,flag_for_review,Missing required field(s): Wound type. Review chart and obtain missing data before billing.
+FB-089,102,Celia,Tanner,MCB,True,True,arterial,,Right lower extremity,2.2,1.5,0.4,light,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; arterial; L 2.2 × W 1.5 × D 0.4 cm; light drainage; source: assessment_structured+note_multi (98%)
+FB-090,102,Morris,Tanner,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FC-001,103,Alice,Kelley,MCB,True,True,diabetic,,Left foot,4.3,4.4,1.3,moderate,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; diabetic; L 4.3 × W 4.4 × D 1.3 cm; moderate drainage; source: assessment_structured+note_multi (98%)
+FC-002,103,Floyd,Abbott,MCB,True,True,,,Right plantar,3.6,2.3,0.7,light,assessment_narrative+note_multi,0.51,wound_type,flag_for_review,Missing required field(s): Wound type. Review chart and obtain missing data before billing.
+FC-003,103,Olive,Jennings,MCB,True,True,pressure ulcer,Stage 3,Right buttock,6.2,4.5,2.0,light,assessment_structured+note_text,0.98,,auto_accept,MCB coverage active; active wound diagnosis; pressure ulcer Stage 3; L 6.2 × W 4.5 × D 2.0 cm; light drainage; source: assessment_structured+note_text (98%)
+FC-004,103,Robert,Yuen,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FC-005,103,Fannie,Lefebvre,MCB,True,False,surgical,,Abdominal wall,1.0,1.4,1.3,moderate,assessment_structured+note_multi,0.98,,flag_for_review,Wound documented in notes but no supporting ICD-10 diagnosis on record — claim will be denied without diagnosis code. Clinician must add wound diagnosis before billing.
+FC-006,103,Melvin,Simmons,MCB,True,False,,,,1.8,3.5,1.5,heavy,assessment_narrative+note_multi,0.51,wound_type,reject,MCB patient with no wound diagnosis and no wound documentation.
+FC-007,103,Maurice,Ivers,MCD,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCD
+FC-008,103,Della,Medina,MCB,True,True,venous,,Left lower leg,1.6,3.3,0.7,heavy,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; venous; L 1.6 × W 3.3 × D 0.7 cm; heavy drainage; source: assessment_structured+note_multi (98%)
+FC-009,103,Katherine,Jacobs,MCB,True,True,,,Left plantar,3.3,1.2,0.6,none,assessment_narrative+note_multi,0.51,wound_type,flag_for_review,Missing required field(s): Wound type. Review chart and obtain missing data before billing.
+FC-010,103,Vera,Ingram,MCD,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCD
+FC-011,103,Emil,Jensen,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FC-012,103,Richard,Xiong,MCB,True,True,pressure ulcer,Stage 4,Right buttock,4.1,7.9,3.7,moderate,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; pressure ulcer Stage 4; L 4.1 × W 7.9 × D 3.7 cm; moderate drainage; source: assessment_structured+note_multi (98%)
+FC-013,103,Sidney,Yuen,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FC-014,103,Harvey,Sanchez,MCB,True,True,pressure ulcer,,Right buttock,3.7,3.8,0.3,heavy,assessment_structured+note_multi,0.98,stage,flag_for_review,Missing required field(s): Stage. Review chart and obtain missing data before billing.
+FC-015,103,Paul,Jefferson,MCB,True,True,diabetic,,Right plantar,1.8,1.8,0.6,moderate,assessment_structured+note_text,0.98,,auto_accept,MCB coverage active; active wound diagnosis; diabetic; L 1.8 × W 1.8 × D 0.6 cm; moderate drainage; source: assessment_structured+note_text (98%)
+FC-016,103,George,Kowalski,MCB,True,True,pressure ulcer,Stage 3,Left hip,5.8,2.2,0.9,light,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; pressure ulcer Stage 3; L 5.8 × W 2.2 × D 0.9 cm; light drainage; source: assessment_structured+note_multi (98%)
+FC-017,103,Queenie,Simmons,MCB,True,True,diabetic,,Right plantar,2.7,0.9,0.8,moderate,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; diabetic; L 2.7 × W 0.9 × D 0.8 cm; moderate drainage; source: assessment_structured+note_multi (98%)
+FC-018,103,Stanley,Yuen,MCD,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCD
+FC-019,103,Frederick,Hoffman,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FC-020,103,Naomi,Yamamoto,MCD,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCD
+FC-021,103,George,Frazier,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FC-022,103,Grover,Stanton,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FC-023,103,Homer,Medina,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FC-024,103,Woodrow,Quinn,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FC-025,103,Thelma,Gibson,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FC-026,103,Irving,Yates,MCB,True,True,abscess,,Right cervical,0.8,0.9,0.7,moderate,assessment_structured+note_text,0.98,,auto_accept,MCB coverage active; active wound diagnosis; abscess; L 0.8 × W 0.9 × D 0.7 cm; moderate drainage; source: assessment_structured+note_text (98%)
+FC-027,103,Opal,Dominguez,MCB,True,True,venous,,Right lower leg,1.7,1.8,0.2,heavy,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; venous; L 1.7 × W 1.8 × D 0.2 cm; heavy drainage; source: assessment_structured+note_multi (98%)
+FC-028,103,Donald,Warren,MCB,True,True,,,Left lower leg,3.6,1.9,0.2,moderate,assessment_narrative+note_multi,0.51,wound_type,flag_for_review,Missing required field(s): Wound type. Review chart and obtain missing data before billing.
+FC-029,103,Eleanor,Tanner,MCB,True,True,diabetic,,Left foot,2.4,4.0,1.8,heavy,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; diabetic; L 2.4 × W 4.0 × D 1.8 cm; heavy drainage; source: assessment_structured+note_multi (98%)
+FC-030,103,Katherine,Rhodes,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FC-031,103,Harvey,Jefferson,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FC-032,103,Beatrice,Medina,MCB,True,True,venous,,Left lower leg,3.1,2.4,0.2,heavy,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; venous; L 3.1 × W 2.4 × D 0.2 cm; heavy drainage; source: assessment_structured+note_multi (98%)
+FC-033,103,Dora,Medina,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FC-034,103,Preston,Morales,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FC-035,103,Theodore,Castillo,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FC-036,103,Nathan,Tillman,MCB,True,True,pressure ulcer,,Sacral region,5.9,2.0,1.7,heavy,assessment_structured+note_multi,0.98,stage,flag_for_review,Missing required field(s): Stage. Review chart and obtain missing data before billing.
+FC-037,103,Gilbert,Haynes,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FC-038,103,Mamie,Ortega,MCB,True,True,pressure ulcer,,Left buttock,4.3,4.8,1.2,heavy,assessment_narrative+note_multi,0.68,stage,flag_for_review,Missing required field(s): Stage. Review chart and obtain missing data before billing.
+FC-039,103,Ida,Vega,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FC-040,103,Queenie,Nakamura,MCD,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCD
+FC-041,103,George,Nkrumah,MCB,True,True,pressure ulcer,Stage 4,Right heel,9.1,5.2,3.3,moderate,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; pressure ulcer Stage 4; L 9.1 × W 5.2 × D 3.3 cm; moderate drainage; source: assessment_structured+note_multi (98%)
+FC-042,103,Inez,Jefferson,MCB,True,True,pressure ulcer,,Sacral region,3.7,2.5,1.0,heavy,assessment_structured+note_multi,0.98,stage,flag_for_review,Missing required field(s): Stage. Review chart and obtain missing data before billing.
+FC-043,103,Perry,Johansson,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FC-044,103,Yolanda,Lefebvre,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FC-045,103,Roland,Christodoulou,MCB,True,False,,,,1.9,2.8,1.5,heavy,assessment_narrative+note_multi,0.51,wound_type,reject,MCB patient with no wound diagnosis and no wound documentation.
+FC-046,103,Paul,Torres,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FC-047,103,Hubert,Barker,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FC-048,103,Lewis,Warren,MCB,True,True,pressure ulcer,,Sacral region,2.8,3.1,,heavy,assessment_narrative+note_multi,0.68,stage|depth_cm,flag_for_review,"Missing required field(s): Stage, Depth. Review chart and obtain missing data before billing."
+FC-049,103,Olive,Mack,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FC-050,103,Celia,Ortega,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FC-051,103,Xenia,Larsson,MCB,True,True,pressure ulcer,Stage 3,Left buttock,6.3,3.9,0.7,light,assessment_narrative+note_multi,0.85,,auto_accept,MCB coverage active; active wound diagnosis; pressure ulcer Stage 3; L 6.3 × W 3.9 × D 0.7 cm; light drainage; source: assessment_narrative+note_multi (85%)
+FC-052,103,Queenie,Hoffman,MCD,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCD
+FC-053,103,Robert,Haynes,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FC-054,103,Calvin,Xavier,MCD,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCD
+FC-055,103,Raymond,Nakamura,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FC-056,103,Edna,Haynes,MCB,True,True,abscess,,Right cervical,1.1,1.1,0.7,moderate,assessment_structured+note_text,0.98,,auto_accept,MCB coverage active; active wound diagnosis; abscess; L 1.1 × W 1.1 × D 0.7 cm; moderate drainage; source: assessment_structured+note_text (98%)
+FC-057,103,Charlotte,Vega,MCB,True,True,pressure ulcer,Stage 2,Right buttock,1.6,1.2,0.4,,assessment_structured+note_multi,0.98,drainage_amount,flag_for_review,Missing required field(s): Drainage. Review chart and obtain missing data before billing.
+FC-058,103,Mabel,Tanner,MCB,True,True,pressure ulcer,,Sacral region,2.1,2.8,1.0,moderate,assessment_narrative+note_multi,0.68,stage,flag_for_review,Missing required field(s): Stage. Review chart and obtain missing data before billing.
+FC-059,103,Oliver,Jennings,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FC-060,103,Rosie,Upton,MCB,True,True,pressure ulcer,Stage 4,Right buttock,4.6,4.1,,heavy,assessment_narrative+note_text,0.68,depth_cm,flag_for_review,Missing required field(s): Depth. Review chart and obtain missing data before billing.
+FC-061,103,Francis,Jensen,MCD,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCD
+FC-062,103,Yolanda,Chandler,MCB,True,True,pressure ulcer,Stage 4,Sacral region,5.4,7.7,3.3,heavy,assessment_narrative+note_multi,0.85,,auto_accept,MCB coverage active; active wound diagnosis; pressure ulcer Stage 4; L 5.4 × W 7.7 × D 3.3 cm; heavy drainage; source: assessment_narrative+note_multi (85%)
+FC-063,103,Bernard,Garrison,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FC-064,103,Dora,Obrien,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FC-065,103,Della,Lefebvre,MCB,True,True,abscess,,Right cervical,1.1,1.4,0.7,moderate,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; abscess; L 1.1 × W 1.4 × D 0.7 cm; moderate drainage; source: assessment_structured+note_multi (98%)
+FC-066,103,Donald,Upton,MCB,True,True,abscess,,Right cervical,1.3,1.0,,light,assessment_narrative+note_text,0.85,,auto_accept,MCB coverage active; active wound diagnosis; abscess; L 1.3 × W 1.0 cm; light drainage; source: assessment_narrative+note_text (85%)
+FC-067,103,Clifford,Nakamura,MCB,True,True,pressure ulcer,Stage 3,Left buttock,7.0,2.1,0.9,heavy,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; pressure ulcer Stage 3; L 7.0 × W 2.1 × D 0.9 cm; heavy drainage; source: assessment_structured+note_multi (98%)
+FC-068,103,Thelma,Oneal,MCD,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCD
+FC-069,103,Wilbur,Haynes,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FC-070,103,Philip,Ortega,MCB,True,True,,,Left plantar,1.4,0.8,1.5,none,assessment_narrative+note_multi,0.51,wound_type,flag_for_review,Missing required field(s): Wound type. Review chart and obtain missing data before billing.
+FC-071,103,Una,Vanhook,MCB,True,True,burn,,Left upper arm,1.8,1.2,0.0,light,assessment_structured+note_text,0.98,,auto_accept,MCB coverage active; active wound diagnosis; burn; L 1.8 × W 1.2 × D 0.0 cm; light drainage; source: assessment_structured+note_text (98%)
+FC-072,103,Arthur,Tanner,MCB,True,True,diabetic,,Left foot,2.2,4.8,1.0,moderate,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; diabetic; L 2.2 × W 4.8 × D 1.0 cm; moderate drainage; source: assessment_structured+note_multi (98%)
+FC-073,103,Donald,Frazier,MCB,True,True,pressure ulcer,Stage 4,Left heel,7.8,4.0,3.7,heavy,assessment_structured+note_text,0.98,,auto_accept,MCB coverage active; active wound diagnosis; pressure ulcer Stage 4; L 7.8 × W 4.0 × D 3.7 cm; heavy drainage; source: assessment_structured+note_text (98%)
+FC-074,103,Berta,Upton,MCB,True,True,venous,,Left lower leg,6.5,5.0,0.3,heavy,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; venous; L 6.5 × W 5.0 × D 0.3 cm; heavy drainage; source: assessment_structured+note_multi (98%)
+FC-075,103,Lillian,Webb,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FC-076,103,Frederick,Oduya,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FC-077,103,Albert,Perry,MCB,True,True,pressure ulcer,Stage 3,Left heel,3.5,3.9,0.8,moderate,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; pressure ulcer Stage 3; L 3.5 × W 3.9 × D 0.8 cm; moderate drainage; source: assessment_structured+note_multi (98%)
+FC-078,103,Gordon,Zimmerman,MCB,True,True,venous,,Right lower leg,5.5,1.8,0.5,heavy,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; venous; L 5.5 × W 1.8 × D 0.5 cm; heavy drainage; source: assessment_structured+note_multi (98%)
+FC-079,103,Raymond,Marsh,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FC-080,103,Stella,Warren,MCB,True,True,pressure ulcer,Stage 3,Right buttock,6.0,5.0,0.5,light,assessment_structured+note_multi,0.98,,auto_accept,MCB coverage active; active wound diagnosis; pressure ulcer Stage 3; L 6.0 × W 5.0 × D 0.5 cm; light drainage; source: assessment_structured+note_multi (98%)
+FC-081,103,Edna,Goldstein,MCB,True,False,surgical,,Abdominal wall,4.3,3.2,1.2,heavy,assessment_structured+note_multi,0.98,,flag_for_review,Wound documented in notes but no supporting ICD-10 diagnosis on record — claim will be denied without diagnosis code. Clinician must add wound diagnosis before billing.
+FC-082,103,Gilbert,Pruitt,MCB,True,True,,,Left foot,5.5,2.0,,heavy,assessment_narrative+note_multi,0.51,wound_type,flag_for_review,Missing required field(s): Wound type. Review chart and obtain missing data before billing.
+FC-083,103,Norman,Patel,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FC-084,103,Edgar,Christodoulou,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO
+FC-085,103,Carol,Acosta,MCB,True,True,abscess,,Right cervical,1.4,0.7,,light,assessment_narrative+note_text,0.85,,auto_accept,MCB coverage active; active wound diagnosis; abscess; L 1.4 × W 0.7 cm; light drainage; source: assessment_narrative+note_text (85%)
+FC-086,103,Clifford,Diaz,MCD,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCD
+FC-087,103,Frank,Kaczmarek,MCB,True,True,diabetic,,Right plantar,3.9,2.1,0.3,,assessment_structured+note_multi,0.98,drainage_amount,flag_for_review,Missing required field(s): Drainage. Review chart and obtain missing data before billing.
+FC-088,103,Morris,Reyes,MCA,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: MCA
+FC-089,103,Jennie,Dunbar,MCB,True,True,pressure ulcer,Stage 2,Left buttock,3.8,3.2,0.3,,assessment_structured+note_multi,0.98,drainage_amount,flag_for_review,Missing required field(s): Drainage. Review chart and obtain missing data before billing.
+FC-090,103,Marguerite,Zuniga,HMO,False,True,,,,,,,,,,,reject,Not eligible for Medicare Part B wound care billing — payer: HMO

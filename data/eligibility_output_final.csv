@@ -1,0 +1,301 @@
+patient_id,facility_id,first_name,last_name,payer_code,active_wound_dx,wound_type,stage,location,length_cm,width_cm,depth_cm,drainage,data_source,routing,reason
+FA-001,101,Agnes,Dunbar,MCB,True,Pressure Ulcer,Stage 3,Right hip,2.9,2.8,,heavy,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FA-002,101,Leon,Dawson,HMO,True,Pressure Ulcer,,Left buttock,5.9,4.5,1.8,heavy,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FA-003,101,Philip,Oates,MCB,True,Venous,,Right lower leg,8.0,3.5,0.2,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FA-004,101,Virginia,Donnelly,MCD,True,Diabetic,,Right plantar,4.3,1.8,0.3,moderate,assessment+note,reject,Not Medicare Part B (payer: MCD)
+FA-005,101,Kristina,Bergstrom,MCB,True,Venous Ulcer,N,Right lower leg,3.1,3.4,,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FA-006,101,Helen,Reyes,MCB,True,Diabetic,,Left foot,2.7,1.5,1.1,heavy,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FA-007,101,Ima,Stanton,MCD,True,Diabetic,,Left plantar,2.8,3.8,1.4,none,assessment+note,reject,Not Medicare Part B (payer: MCD)
+FA-008,101,Eleanor,Yates,HMO,True,Venous,N,Left lower leg,6.0,1.7,0.1,heavy,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FA-009,101,Roscoe,Dunbar,MCB,True,Diabetic Foot Ulcer,,diabetic Left foot,,,,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FA-010,101,Oliver,Watts,HMO,True,Surgical,N,Abdominal wall,3.7,2.0,1.6,moderate,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FA-011,101,Ethel,Upton,MCB,True,Pressure Ulcer,Stage 2,Sacral region,1.2,1.5,0.4,light,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FA-012,101,Robert,Coleman,MCB,True,Abscess,,Right cervical,1.2,0.7,0.2,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FA-013,101,Melvin,Figueroa,MCB,True,Abscess,,Right cervical,1.4,1.2,0.8,light,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FA-014,101,Harriet,Yuen,HMO,True,Pressure Ulcer,Stage 2,Left buttock,1.0,1.9,,light,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FA-015,101,Vernon,Ramirez,HMO,True,Venous,,Right lower leg,6.4,4.5,0.6,heavy,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FA-016,101,Olive,Larsson,MCB,True,Venous Ulcer,,Right lower leg,7.6,4.2,0.6,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FA-017,101,Morris,Jefferson,MCB,True,Venous,,Left lower leg,6.3,5.7,0.2,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FA-018,101,Leonard,Valentine,MCA,True,Pressure Ulcer,Stage 2,Right heel,1.1,2.9,0.3,moderate,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FA-019,101,Ivan,Oneal,HMO,True,Pressure Ulcer,Stage 2,Right buttock,,,,light,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FA-020,101,Vernon,Jacobs,MCB,True,Diabetic,N,Left plantar,3.2,2.3,0.6,none,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FA-021,101,Hannah,Reyes,MCB,True,Arterial,,Right lower extremity,2.6,1.3,0.5,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FA-022,101,Oliver,Webb,MCA,True,Venous,,Left lower leg,2.5,3.2,0.3,heavy,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FA-023,101,Kristina,Lefebvre,MCB,True,Diabetic,,Right plantar,4.1,3.6,0.7,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FA-024,101,Ralph,Nakamura,MCB,True,Pressure Ulcer,Stage 3,Right buttock,6.8,4.4,1.6,heavy,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FA-025,101,Evelyn,Perry,MCB,True,Pressure Ulcer,Stage 4,Left heel,5.3,7.3,2.3,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FA-026,101,Hubert,Kim,MCB,False,Surgical,,Abdominal wall,3.8,2.2,1.8,heavy,assessment+note,flag_for_review,"No wound ICD-10 diagnosis on record, but wound documented in notes — clinician review needed"
+FA-027,101,Howard,Nkrumah,MCB,True,Abscess,,Right cervical,0.8,1.1,0.6,light,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FA-028,101,Xenia,Jensen,MCA,True,Diabetic,,Right plantar,1.6,3.2,0.3,none,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FA-029,101,Fannie,Dunbar,MCA,True,Pressure Ulcer,Stage 3,Left hip,4.3,5.4,0.8,heavy,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FA-030,101,Simon,Fleming,HMO,True,Pressure Ulcer,Stage 3,Right heel,3.9,3.6,0.6,moderate,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FA-031,101,Howard,Yates,MCD,True,Abscess,,abscess Right cervical,,,,moderate,assessment+note,reject,Not Medicare Part B (payer: MCD)
+FA-032,101,Una,Haynes,HMO,True,Diabetic,N,Right plantar,4.2,1.3,0.8,light,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FA-033,101,Nettie,Abbott,MCA,True,Diabetic,,Right plantar,4.7,3.5,1.0,none,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FA-034,101,Kristina,Warren,MCB,True,Pressure Ulcer,Stage 2,Left heel,3.0,2.2,,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FA-035,101,Pearl,Yuen,HMO,True,Abscess,N,Right cervical,0.8,0.7,0.7,moderate,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FA-036,101,Wilfred,Newton,HMO,True,Diabetic,,Left plantar,1.6,2.7,1.2,none,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FA-037,101,Floyd,Lawson,HMO,True,Pressure Ulcer,Stage 4,Sacral region,4.5,6.4,3.6,heavy,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FA-038,101,Norma,Lynch,MCB,True,Diabetic,,Left plantar,3.1,1.7,0.3,none,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FA-039,101,Wilfred,Haines,MCB,True,Diabetic,,Right plantar,1.4,1.7,0.7,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FA-040,101,Oliver,Webb,MCB,True,Diabetic Foot Ulcer,N,Right plantar,3.0,0.9,0.4,light,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FA-041,101,Helen,Holt,MCB,True,Arterial,,Right lower extremity,1.3,0.8,0.8,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FA-042,101,Olive,Kaczmarek,HMO,True,Venous,,Left lower leg,5.2,2.4,0.2,moderate,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FA-043,101,Jean,Jennings,MCB,True,Abscess,N,Right cervical,1.9,0.6,0.4,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FA-044,101,Russel,Nguyen,MCB,True,Burn,,Left upper arm,2.8,1.8,0.1,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FA-045,101,Doris,Xavier,MCA,True,Abscess,N,Right cervical,1.2,0.9,0.6,moderate,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FA-046,101,Calvin,Elliot,HMO,True,,,,2.9,3.1,,,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FA-047,101,Irene,Nakamura,MCB,True,Diabetic,N,Right plantar,2.2,1.0,1.4,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FA-048,101,Ethel,Nguyen,MCB,True,Venous,,Left lower leg,5.4,5.4,0.2,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FA-049,101,Oscar,Vanhook,MCB,True,Pressure Ulcer,,Right buttock,3.8,4.1,0.9,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FA-050,101,Willis,Quinn,MCB,True,Arterial,N,Right lower extremity,0.7,2.5,0.7,light,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FA-051,101,Jean,Watts,MCB,True,Abscess,,Right cervical,0.9,1.4,0.3,light,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FA-052,101,Edna,Kowalski,MCB,False,,N,Abdominal wall,2.8,3.2,,moderate,assessment+note,reject,MCB patient with no wound diagnosis and no wound documentation
+FA-053,101,Carl,Nakamura,MCB,True,Pressure Ulcer,Stage 3,Right buttock,6.7,4.5,1.5,heavy,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FA-054,101,Thelma,Elliot,MCA,True,Arterial,N,Right lower extremity,1.0,2.1,0.9,light,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FA-055,101,Emil,Espinoza,MCB,True,Abscess,,Right cervical,0.5,1.5,0.4,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FA-056,101,Clifford,Thornton,MCB,True,Diabetic Foot Ulcer,,Left foot,5.2,1.7,0.7,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FA-057,101,Della,Frazier,MCB,True,Abscess,N,Right cervical,0.8,0.8,,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FA-058,101,Luther,Ewing,MCD,True,Pressure Ulcer,Stage 3,Left buttock,3.5,3.5,2.0,heavy,assessment+note,reject,Not Medicare Part B (payer: MCD)
+FA-059,101,Phyllis,Figueroa,MCB,True,Abscess,N,Right cervical,1.6,1.1,0.4,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FA-060,101,Dorothy,Lefebvre,MCB,True,Venous,,Left lower leg,3.5,5.4,0.7,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FA-061,101,Theodore,Elliot,HMO,True,Arterial,,Right lower extremity,2.8,1.7,0.6,light,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FA-062,101,Perry,Jefferson,MCD,True,Diabetic,,Right plantar,4.1,0.9,0.3,light,assessment+note,reject,Not Medicare Part B (payer: MCD)
+FA-063,101,Irene,Nguyen,MCA,True,,,Right lower extremity,2.3,0.8,1.0,,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FA-064,101,Bernard,Obrien,MCD,True,Venous,,Right lower leg,4.0,1.8,0.8,moderate,assessment+note,reject,Not Medicare Part B (payer: MCD)
+FA-065,101,Gertrude,Coleman,HMO,True,Burn,,Left upper arm,3.1,4.8,0.2,light,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FA-066,101,Gilbert,Watts,MCB,True,Pressure Ulcer,,Right buttock,4.7,4.4,1.5,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FA-067,101,Emma,Ibarra,MCB,False,Surgical,,Abdominal wall,4.8,1.0,1.9,heavy,assessment+note,flag_for_review,"No wound ICD-10 diagnosis on record, but wound documented in notes — clinician review needed"
+FA-068,101,Wilfred,Fleming,MCB,True,Pressure Ulcer,Stage 2,Left buttock,4.0,2.2,0.3,none,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FA-069,101,Donald,Tanner,MCB,True,Pressure Ulcer,,Sacral region,3.4,2.1,1.7,heavy,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FA-070,101,Della,Greer,MCB,True,Burn,,Left upper arm,2.6,3.5,0.2,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FA-071,101,Edna,Dawson,MCB,True,Diabetic,,Left foot,2.8,3.9,1.6,heavy,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FA-072,101,Clara,Elliot,MCB,True,Venous,,Left lower leg,2.5,4.5,0.2,heavy,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FA-073,101,Julia,Ibarra,MCA,True,Pressure Ulcer,Stage 4,Left heel,9.3,7.4,2.2,heavy,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FA-074,101,Ruth,Vega,MCA,True,,N,Right lower extremity,1.1,1.4,,light,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FA-075,101,Ivan,Medina,MCA,True,Arterial,,Right lower extremity,2.1,1.3,0.5,moderate,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FA-076,101,Curtis,Frazier,MCD,True,Abscess,N,Right cervical,0.5,1.1,0.5,moderate,assessment+note,reject,Not Medicare Part B (payer: MCD)
+FA-077,101,Queenie,Goldstein,MCB,True,Diabetic,,Left foot,4.3,4.7,1.2,heavy,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FA-078,101,Martha,Vance,HMO,True,Diabetic,,Right plantar,1.7,3.4,0.6,light,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FA-079,101,Charlotte,Xiong,MCB,False,Surgical,,Abdominal wall,2.1,3.3,1.1,moderate,assessment+note,flag_for_review,"No wound ICD-10 diagnosis on record, but wound documented in notes — clinician review needed"
+FA-080,101,Rosa,Nakamura,MCB,True,Diabetic,,Left plantar,2.1,2.0,1.3,light,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FA-081,101,Vera,Yuen,HMO,True,Abscess,N,Right cervical,1.7,1.4,,light,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FA-082,101,Francis,Watts,MCA,True,Diabetic,,Left foot,4.0,2.2,1.5,heavy,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FA-083,101,Frank,Ortega,MCB,True,Arterial Ulcer,,Right lower extremity,1.6,1.7,0.9,light,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FA-084,101,Beverly,Ingram,HMO,False,Surgical,N,Abdominal wall,4.0,2.6,1.3,heavy,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FA-085,101,Lewis,Okonkwo,HMO,True,Burn,,Left upper arm,2.0,3.8,0.0,moderate,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FA-086,101,Ima,Coleman,MCA,True,Pressure Ulcer,,Left buttock,6.0,4.4,2.0,moderate,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FA-087,101,Doris,Haynes,MCD,True,Pressure Ulcer,,Left buttock,2.4,3.4,1.5,heavy,assessment+note,reject,Not Medicare Part B (payer: MCD)
+FA-088,101,Yvonne,Valentine,MCB,True,Diabetic,,Left plantar,1.9,3.2,1.2,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FA-089,101,Frances,Sanchez,MCB,True,Venous,N,Left lower leg,3.6,3.1,0.1,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FA-090,101,Una,Nielsen,MCD,True,,N,Right lower extremity,1.1,2.0,,moderate,assessment+note,reject,Not Medicare Part B (payer: MCD)
+FA-091,101,Ruth,Patterson,MCB,True,Venous Ulcer,,Right lower leg,3.6,4.5,0.5,heavy,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FA-092,101,Ima,Mack,HMO,True,,,,5.4,1.7,,,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FA-093,101,Vera,Oates,MCD,True,Diabetic,N,Left foot,4.0,3.0,0.7,moderate,assessment+note,reject,Not Medicare Part B (payer: MCD)
+FA-094,101,Jennie,Nakamura,MCA,True,Arterial,,Right lower extremity,0.5,1.5,0.6,moderate,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FA-095,101,Mabel,Ewing,MCA,True,,,venous Right lower leg,,,,heavy,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FA-096,101,Winnie,Dominguez,MCB,True,Venous,,Right lower leg,5.2,2.3,0.4,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FA-097,101,Stella,Ivers,MCD,True,Diabetic,,Left plantar,2.4,2.6,0.4,light,assessment+note,reject,Not Medicare Part B (payer: MCD)
+FA-098,101,Clifford,Kim,MCB,True,Diabetic,N,Left foot,4.7,2.1,2.0,heavy,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FA-099,101,Virginia,Rhodes,MCB,True,Surgical,N,Abdominal wall,3.8,1.0,1.7,heavy,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FA-100,101,Gilbert,Nielsen,MCB,True,Arterial Ulcer,N,Right lower extremity,1.3,1.1,0.4,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FA-101,101,Richard,Larsson,HMO,True,Pressure Ulcer,Stage 4,Right buttock,9.2,4.6,2.7,heavy,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FA-102,101,Frederick,Patterson,MCA,True,Burn,N,Left upper arm,1.9,2.0,0.1,moderate,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FA-103,101,Earl,Goldstein,MCA,True,Abscess,,Right cervical,1.6,0.9,0.8,moderate,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FA-104,101,Gloria,Upton,HMO,True,Pressure Ulcer,Stage 2,Left buttock,1.4,1.4,0.4,moderate,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FA-105,101,Thelma,Benson,HMO,True,,,,5.7,1.6,,,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FA-106,101,Perry,Bergstrom,MCD,True,Abscess,N,Right cervical,0.6,0.9,0.2,light,assessment+note,reject,Not Medicare Part B (payer: MCD)
+FA-107,101,Dora,Haynes,HMO,True,Venous,,Left lower leg,3.5,2.5,0.3,heavy,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FA-108,101,Greta,Perry,MCB,True,Burn,,Left upper arm,1.6,4.0,0.1,light,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FA-109,101,Edna,Quinn,MCB,False,,N,Abdominal wall,1.1,1.8,,heavy,assessment+note,reject,MCB patient with no wound diagnosis and no wound documentation
+FA-110,101,Roberta,Newton,MCB,True,Venous,,Right lower leg,2.4,4.5,0.1,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FA-111,101,Martha,Abbott,MCB,True,Diabetic,N,Left plantar,1.9,1.9,0.7,none,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FA-112,101,Leona,Haynes,HMO,True,,,,4.4,3.4,,,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FA-113,101,Nathan,Tanner,MCA,True,Burn,N,Left upper arm,3.9,3.1,0.1,light,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FA-114,101,Lois,Irwin,HMO,True,Diabetic,,Left foot,4.9,2.2,1.2,heavy,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FA-115,101,Lester,Mack,MCD,True,Arterial,,Right lower extremity,2.7,1.1,0.7,light,assessment+note,reject,Not Medicare Part B (payer: MCD)
+FA-116,101,Lewis,Patel,MCA,True,,,Left plantar,1.4,3.1,1.0,,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FA-117,101,Rosa,Ortega,HMO,True,Pressure Ulcer,Stage 3,Left buttock,4.3,4.0,2.4,light,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FA-118,101,Howard,Vanhook,MCB,True,Venous,,Right lower leg,6.1,2.4,0.2,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FA-119,101,James,Johansson,MCB,True,Arterial Ulcer,,Right lower extremity,2.4,0.5,0.8,light,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FA-120,101,Nathan,Beckett,MCB,False,Surgical,,Abdominal wall,3.7,3.1,1.1,moderate,assessment+note,flag_for_review,"No wound ICD-10 diagnosis on record, but wound documented in notes — clinician review needed"
+FB-001,102,Jerome,Pruitt,MCD,True,Pressure Ulcer,,Left buttock,4.4,4.2,1.0,heavy,assessment+note,reject,Not Medicare Part B (payer: MCD)
+FB-002,102,Shirley,Stanton,MCA,True,,,arterial Right lower extremity,,,,moderate,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FB-003,102,Phyllis,Dominguez,HMO,True,,N,Left lower leg,7.1,5.5,,heavy,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FB-004,102,Ralph,Holt,HMO,True,Abscess,,Right cervical,1.4,1.1,0.6,,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FB-005,102,Della,Okonkwo,HMO,True,Venous,N,Left lower leg,3.3,2.3,0.6,moderate,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FB-006,102,Katherine,Figueroa,MCB,True,Venous,N,Left lower leg,3.2,3.7,0.4,heavy,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FB-007,102,Nettie,Abbott,HMO,True,Pressure Ulcer,Stage 2,Sacral region,3.5,3.4,0.3,moderate,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FB-008,102,Donald,Perry,MCB,True,Diabetic,,Left foot,4.3,2.4,1.2,heavy,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FB-009,102,Leon,Oates,HMO,True,Pressure Ulcer,Stage 2,Right heel,1.3,2.7,,moderate,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FB-010,102,Beatrice,Dunbar,MCA,True,Arterial,,Right lower extremity,2.6,0.7,0.7,light,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FB-011,102,Phyllis,Lefebvre,MCA,True,Venous,,Left lower leg,5.4,2.4,0.6,heavy,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FB-012,102,Pearl,Haynes,MCB,True,Burn,,burn Left upper arm,,,,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FB-013,102,Wilbur,Jensen,MCA,True,Pressure Ulcer,Stage 4,Right heel,5.2,3.6,3.2,moderate,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FB-014,102,Nettie,Upton,MCB,True,Abscess,,abscess Right cervical,,,,light,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FB-015,102,Ursula,Morales,MCB,True,Arterial Ulcer,N,Right lower extremity,0.6,1.2,0.6,light,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FB-016,102,Olive,Goldstein,MCB,True,Diabetic,,Right plantar,3.8,3.5,0.8,light,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FB-017,102,Charlotte,Estrada,HMO,True,Diabetic,N,Right plantar,1.1,3.8,1.2,light,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FB-018,102,Martha,Kowalski,MCA,True,Pressure Ulcer,N,Right buttock,5.4,2.8,0.9,heavy,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FB-019,102,Beverly,Ferreira,MCB,True,Diabetic,,Left plantar,4.8,3.5,0.8,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FB-020,102,Bernard,Okonkwo,MCB,True,Diabetic,,Right plantar,3.5,3.2,1.0,light,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FB-021,102,Monroe,Yuen,MCB,True,Pressure Ulcer,Stage 3,Right buttock,2.9,4.4,,light,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FB-022,102,Shirley,Ewing,MCD,True,Venous,,Right lower leg,7.8,1.9,0.6,moderate,assessment+note,reject,Not Medicare Part B (payer: MCD)
+FB-023,102,Merton,Oates,HMO,True,Venous,,Left lower leg,7.3,5.0,0.8,heavy,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FB-024,102,Philip,Haines,MCA,True,Diabetic,,Left plantar,1.9,3.8,0.2,moderate,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FB-025,102,Ethel,Newton,MCA,True,Pressure Ulcer,Stage 2,Right buttock,1.9,1.9,0.3,moderate,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FB-026,102,Maurice,Kowalski,MCB,True,Pressure Ulcer,Stage 2,Left heel,2.7,3.2,0.2,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FB-027,102,Elmer,Ingram,MCB,True,Diabetic Foot Ulcer,N,Left plantar,3.7,2.6,,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FB-028,102,Charlotte,Ivers,MCB,True,Arterial,N,Right lower extremity,1.1,2.2,0.6,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FB-029,102,Greta,Babatunde,MCB,True,Burn,,Left upper arm,5.8,2.6,0.1,light,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FB-030,102,Patricia,Ingram,MCA,True,Burn,,Left upper arm,3.1,4.3,0.1,light,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FB-031,102,Greta,Webb,MCB,True,Abscess,,Right cervical,1.6,0.5,0.4,light,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FB-032,102,Calvin,Christodoulou,MCB,False,Surgical,N,Abdominal wall,4.9,1.6,1.1,moderate,assessment+note,flag_for_review,"No wound ICD-10 diagnosis on record, but wound documented in notes — clinician review needed"
+FB-033,102,Gilbert,Christodoulou,MCB,True,Diabetic Foot Ulcer,N,Left plantar,4.3,3.2,1.4,light,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FB-034,102,Mabel,Abbott,MCB,True,Pressure Ulcer,Stage 4,Left heel,7.4,5.1,1.7,heavy,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FB-035,102,Russel,Carpenter,MCB,False,Surgical,N,Abdominal wall,3.4,1.1,0.7,moderate,assessment+note,flag_for_review,"No wound ICD-10 diagnosis on record, but wound documented in notes — clinician review needed"
+FB-036,102,Velma,Zimmerman,HMO,True,Abscess,,Right cervical,1.8,0.8,0.2,light,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FB-037,102,Oliver,Mack,MCB,True,Pressure Ulcer,Stage 3,Right hip,2.5,2.4,0.8,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FB-038,102,Elmer,Medina,MCB,True,Venous,,Left lower leg,2.8,3.8,0.7,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FB-039,102,Gloria,Sanchez,MCA,True,Venous,,Right lower leg,6.2,3.0,0.4,heavy,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FB-040,102,Velma,Kane,HMO,True,Venous,,Left lower leg,5.6,5.4,0.7,moderate,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FB-041,102,Jennie,Ivers,MCA,True,Pressure Ulcer,Stage 2,Right heel,1.3,1.6,0.4,,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FB-042,102,Velma,Dawson,MCD,True,Pressure Ulcer,Stage 2,Sacral region,1.2,1.8,0.3,light,assessment+note,reject,Not Medicare Part B (payer: MCD)
+FB-043,102,Queenie,Jensen,MCB,True,Diabetic,N,Left foot,3.7,2.1,1.3,heavy,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FB-044,102,Walter,Babatunde,MCB,True,Venous,N,Left lower leg,6.9,1.7,0.2,heavy,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FB-045,102,Hubert,Medina,HMO,True,,,,3.4,2.4,,,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FB-046,102,Tillie,Warren,MCA,True,Diabetic,,Right plantar,4.7,0.9,0.9,moderate,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FB-047,102,Wilfred,Nielsen,MCD,True,,,,4.7,3.7,,,assessment+note,reject,Not Medicare Part B (payer: MCD)
+FB-048,102,Samuel,Babatunde,MCA,True,Burn,,Left upper arm,1.1,2.0,0.2,moderate,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FB-049,102,Edgar,Vance,HMO,False,Surgical,N,Abdominal wall,2.3,3.5,1.0,moderate,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FB-050,102,Jesse,Nguyen,MCA,True,Pressure Ulcer,Stage 2,Left buttock,3.3,2.5,0.3,none,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FB-051,102,Vera,Reyes,MCA,True,Pressure Ulcer,N,Sacral region,5.2,2.2,1.3,heavy,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FB-052,102,Monroe,Xiong,MCD,True,,,,4.6,2.4,,,assessment+note,reject,Not Medicare Part B (payer: MCD)
+FB-053,102,Donald,Kim,HMO,True,,,Right lower leg,7.4,1.1,0.6,,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FB-054,102,Dorothy,Garrison,MCD,True,Burn,,Left upper arm,5.4,4.4,0.2,moderate,assessment+note,reject,Not Medicare Part B (payer: MCD)
+FB-055,102,Fannie,Jensen,MCA,True,Diabetic,N,Right plantar,3.1,1.5,0.3,moderate,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FB-056,102,Edgar,Zuniga,MCB,True,Burn,,Left upper arm,1.1,3.5,0.2,light,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FB-057,102,Russel,Ibarra,MCD,True,Diabetic,,Right plantar,1.8,1.1,0.9,light,assessment+note,reject,Not Medicare Part B (payer: MCD)
+FB-058,102,Melvin,Hoffman,MCB,True,Diabetic,N,Left foot,2.2,1.8,1.5,heavy,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FB-059,102,Una,Haynes,MCA,True,Pressure Ulcer,,Left buttock,3.8,2.7,1.0,moderate,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FB-060,102,Ethel,Xiong,MCA,True,,,,1.0,0.9,,,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FB-061,102,Preston,Marsh,MCB,True,Diabetic,,Left plantar,4.9,3.0,1.1,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FB-062,102,Oscar,Hoffman,MCA,True,Pressure Ulcer,N,Left buttock,5.1,1.6,1.6,heavy,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FB-063,102,Ida,Kelley,MCD,True,Arterial,,Right lower extremity,2.9,1.3,0.3,moderate,assessment+note,reject,Not Medicare Part B (payer: MCD)
+FB-064,102,Chester,Tanner,HMO,True,Pressure Ulcer,Stage 2,Sacral region,3.1,2.5,0.2,none,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FB-065,102,Lloyd,Espinoza,MCB,True,Pressure Ulcer,,Left buttock,4.8,3.3,1.4,heavy,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FB-066,102,Rosie,Tanner,MCB,True,Pressure Ulcer,Stage 2,Left heel,2.1,2.2,0.4,light,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FB-067,102,Thelma,Vance,MCB,True,Arterial Ulcer,,Right lower extremity,2.3,1.1,0.4,light,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FB-068,102,Melvin,Kim,HMO,False,Surgical,N,Abdominal wall,4.1,2.7,1.4,heavy,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FB-069,102,Tillie,Webb,MCB,True,Surgical,,Abdominal wall,4.4,2.6,1.4,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FB-070,102,Garland,Reyes,MCD,True,Venous,N,Left lower leg,1.6,4.6,0.5,moderate,assessment+note,reject,Not Medicare Part B (payer: MCD)
+FB-071,102,Martha,Ibarra,MCD,True,Abscess,,Right cervical,1.5,0.6,0.2,moderate,assessment+note,reject,Not Medicare Part B (payer: MCD)
+FB-072,102,Mildred,Babatunde,MCB,True,Diabetic,,Left foot,2.6,3.2,1.0,heavy,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FB-073,102,Perry,Yuen,HMO,False,,,,4.9,1.6,,,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FB-074,102,Velma,Aldridge,HMO,True,Arterial,,Right lower extremity,1.6,1.4,0.5,moderate,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FB-075,102,Eleanor,Aldridge,HMO,True,Pressure Ulcer,,Left buttock,5.5,3.3,0.7,moderate,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FB-076,102,Harvey,Hoffman,MCD,True,Pressure Ulcer,Stage 3,Right heel,4.6,3.3,1.2,light,assessment+note,reject,Not Medicare Part B (payer: MCD)
+FB-077,102,Hazel,Okonkwo,MCA,True,Diabetic,,Left plantar,1.6,2.4,0.5,,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FB-078,102,Irving,Watts,MCB,True,Surgical Site Infection,,Abdominal wall,2.0,2.4,0.9,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FB-079,102,Edna,Coleman,MCB,True,Burn,N,Left upper arm,5.5,4.0,0.2,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FB-080,102,Hubert,Zuniga,MCB,True,Abscess,,Right cervical,0.6,0.3,0.2,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FB-081,102,Donald,Obrien,MCD,True,Abscess,N,Right cervical,1.7,0.5,0.3,moderate,assessment+note,reject,Not Medicare Part B (payer: MCD)
+FB-082,102,Edna,Kelley,MCA,True,Venous,,Right lower leg,5.7,1.2,0.3,moderate,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FB-083,102,Sadie,Castillo,MCB,True,Pressure Ulcer,Stage 3,Left heel,5.2,2.6,1.6,heavy,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FB-084,102,Melvin,Oduya,MCB,True,Diabetic,N,Left foot,4.5,2.0,1.9,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FB-085,102,Ada,Jennings,MCB,True,Pressure Ulcer,Stage 4,Sacral region,8.2,6.3,1.7,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FB-086,102,Lewis,Aldridge,MCD,True,Pressure Ulcer,,Right buttock,3.6,1.7,1.0,moderate,assessment+note,reject,Not Medicare Part B (payer: MCD)
+FB-087,102,Celia,Kerr,MCB,True,Diabetic Foot Ulcer,N,Left plantar,3.9,3.9,,none,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FB-088,102,Francis,Jacobs,MCB,True,Diabetic Foot Ulcer,,Left foot,4.3,5.0,0.6,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FB-089,102,Celia,Tanner,MCB,True,Arterial,,Right lower extremity,2.2,1.5,0.4,light,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FB-090,102,Morris,Tanner,HMO,True,,,Left lower leg,3.6,1.2,0.5,,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FC-001,103,Alice,Kelley,MCB,True,Diabetic,,Left foot,4.3,4.4,1.3,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FC-002,103,Floyd,Abbott,MCB,True,Diabetic Foot Ulcer,,Right plantar,3.6,2.3,0.7,light,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FC-003,103,Olive,Jennings,MCB,True,Pressure Ulcer,Stage 3,Right buttock,6.2,4.5,2.0,light,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FC-004,103,Robert,Yuen,MCA,True,Burn,,Left upper arm,5.2,3.4,0.1,light,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FC-005,103,Fannie,Lefebvre,MCB,False,Surgical,,Abdominal wall,1.0,1.4,1.3,moderate,assessment+note,flag_for_review,"No wound ICD-10 diagnosis on record, but wound documented in notes — clinician review needed"
+FC-006,103,Melvin,Simmons,MCB,False,,,,1.8,3.5,1.5,,assessment+note,reject,MCB patient with no wound diagnosis and no wound documentation
+FC-007,103,Maurice,Ivers,MCD,True,Diabetic,,Left foot,2.7,2.4,0.8,heavy,assessment+note,reject,Not Medicare Part B (payer: MCD)
+FC-008,103,Della,Medina,MCB,True,Venous,,Left lower leg,1.6,3.3,0.7,heavy,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FC-009,103,Katherine,Jacobs,MCB,True,Diabetic Foot Ulcer,,Left plantar,3.3,1.2,0.6,light,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FC-010,103,Vera,Ingram,MCD,True,Diabetic,N,Left plantar,1.5,3.7,0.7,light,assessment+note,reject,Not Medicare Part B (payer: MCD)
+FC-011,103,Emil,Jensen,MCA,True,,,diabetic Right plantar,,,,none,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FC-012,103,Richard,Xiong,MCB,True,Pressure Ulcer,Stage 4,Right buttock,4.1,7.9,3.7,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FC-013,103,Sidney,Yuen,MCA,True,Venous,,Right lower leg,1.7,3.9,0.6,heavy,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FC-014,103,Harvey,Sanchez,MCB,True,Pressure Ulcer,,Right buttock,3.7,3.8,0.3,heavy,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FC-015,103,Paul,Jefferson,MCB,True,Diabetic,N,Right plantar,1.8,1.8,0.6,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FC-016,103,George,Kowalski,MCB,True,Pressure Ulcer,Stage 3,Left hip,5.8,2.2,0.9,light,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FC-017,103,Queenie,Simmons,MCB,True,Diabetic,,Right plantar,2.7,0.9,0.8,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FC-018,103,Stanley,Yuen,MCD,True,Arterial,,Right lower extremity,2.2,1.5,0.7,moderate,assessment+note,reject,Not Medicare Part B (payer: MCD)
+FC-019,103,Frederick,Hoffman,MCA,True,Arterial,,Right lower extremity,1.9,2.2,0.5,moderate,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FC-020,103,Naomi,Yamamoto,MCD,True,Arterial,,Right lower extremity,3.0,1.8,0.2,moderate,assessment+note,reject,Not Medicare Part B (payer: MCD)
+FC-021,103,George,Frazier,HMO,True,Diabetic Foot Ulcer,N,Left foot,3.7,1.7,,moderate,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FC-022,103,Grover,Stanton,HMO,True,,,,3.9,3.8,,,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FC-023,103,Homer,Medina,MCA,True,Pressure Ulcer,,Right buttock,3.4,1.6,1.3,heavy,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FC-024,103,Woodrow,Quinn,HMO,True,Arterial,,Right lower extremity,0.5,0.6,0.5,light,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FC-025,103,Thelma,Gibson,HMO,True,Diabetic,,Left foot,3.3,2.9,1.5,heavy,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FC-026,103,Irving,Yates,MCB,True,Abscess,N,Right cervical,0.8,0.9,0.7,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FC-027,103,Opal,Dominguez,MCB,True,Venous,,Right lower leg,1.7,1.8,0.2,heavy,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FC-028,103,Donald,Warren,MCB,True,Venous Ulcer,N,Left lower leg,3.6,1.9,0.2,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FC-029,103,Eleanor,Tanner,MCB,True,Diabetic,,Left foot,2.4,4.0,1.8,heavy,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FC-030,103,Katherine,Rhodes,MCA,True,Diabetic,,Left plantar,3.0,2.8,1.1,,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FC-031,103,Harvey,Jefferson,HMO,True,Diabetic,,Left plantar,2.3,2.1,0.8,light,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FC-032,103,Beatrice,Medina,MCB,True,Venous,,Left lower leg,3.1,2.4,0.2,heavy,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FC-033,103,Dora,Medina,HMO,True,Venous,,Right lower leg,3.0,2.8,0.5,heavy,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FC-034,103,Preston,Morales,MCA,True,Abscess,,Right cervical,0.5,1.2,0.2,moderate,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FC-035,103,Theodore,Castillo,HMO,True,,,,4.8,3.4,,,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FC-036,103,Nathan,Tillman,MCB,True,Pressure Ulcer,,Sacral region,5.9,2.0,1.7,heavy,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FC-037,103,Gilbert,Haynes,HMO,True,Venous,,Right lower leg,4.9,1.0,0.3,moderate,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FC-038,103,Mamie,Ortega,MCB,True,Pressure Ulcer,,pressure ulcer Left buttock,,,,heavy,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FC-039,103,Ida,Vega,HMO,True,Diabetic,N,Left foot,2.8,4.6,0.8,heavy,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FC-040,103,Queenie,Nakamura,MCD,True,Diabetic,,Left foot,3.3,4.7,0.8,heavy,assessment+note,reject,Not Medicare Part B (payer: MCD)
+FC-041,103,George,Nkrumah,MCB,True,Pressure Ulcer,Stage 4,Right heel,9.1,5.2,3.3,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FC-042,103,Inez,Jefferson,MCB,True,Pressure Ulcer,,Sacral region,3.7,2.5,1.0,heavy,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FC-043,103,Perry,Johansson,MCA,True,,,,4.0,4.4,,,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FC-044,103,Yolanda,Lefebvre,HMO,True,Diabetic,,Left foot,2.2,2.6,0.6,moderate,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FC-045,103,Roland,Christodoulou,MCB,False,,,,1.9,2.8,1.5,,assessment+note,reject,MCB patient with no wound diagnosis and no wound documentation
+FC-046,103,Paul,Torres,MCA,True,Arterial,N,Right lower extremity,1.2,2.0,1.0,moderate,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FC-047,103,Hubert,Barker,MCA,True,Burn,N,Left upper arm,3.7,2.2,0.1,light,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FC-048,103,Lewis,Warren,MCB,True,Pressure Ulcer,,Sacral region,2.8,3.1,0.7,heavy,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FC-049,103,Olive,Mack,HMO,True,Abscess,N,Right cervical,1.6,1.0,,light,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FC-050,103,Celia,Ortega,MCA,True,Pressure Ulcer,Stage 4,Right buttock,5.3,4.5,,heavy,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FC-051,103,Xenia,Larsson,MCB,True,Pressure Ulcer,Stage 3,Left buttock,6.3,3.9,0.7,light,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FC-052,103,Queenie,Hoffman,MCD,True,Venous,,Left lower leg,2.2,5.4,0.6,moderate,assessment+note,reject,Not Medicare Part B (payer: MCD)
+FC-053,103,Robert,Haynes,MCA,True,Arterial,,Right lower extremity,2.0,0.8,1.0,moderate,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FC-054,103,Calvin,Xavier,MCD,True,Venous,,Right lower leg,6.2,5.7,0.5,moderate,assessment+note,reject,Not Medicare Part B (payer: MCD)
+FC-055,103,Raymond,Nakamura,HMO,True,Burn,,burn Left upper arm,,,,moderate,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FC-056,103,Edna,Haynes,MCB,True,Abscess,N,Right cervical,1.1,1.1,0.7,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FC-057,103,Charlotte,Vega,MCB,True,Pressure Ulcer,Stage 2,Right buttock,1.6,1.2,0.4,light,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FC-058,103,Mabel,Tanner,MCB,True,Pressure Ulcer,N,Sacral region,2.1,2.8,,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FC-059,103,Oliver,Jennings,MCA,True,Venous,,Right lower leg,1.7,2.0,0.4,heavy,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FC-060,103,Rosie,Upton,MCB,True,Pressure Ulcer,Stage 4,Right buttock,4.6,4.1,,heavy,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FC-061,103,Francis,Jensen,MCD,True,Pressure Ulcer,Stage 3,Right hip,6.4,4.7,1.4,light,assessment+note,reject,Not Medicare Part B (payer: MCD)
+FC-062,103,Yolanda,Chandler,MCB,True,Pressure Ulcer,Stage 4,Sacral region,5.4,7.7,3.3,heavy,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FC-063,103,Bernard,Garrison,MCA,True,Diabetic,N,Left foot,2.5,4.1,1.9,moderate,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FC-064,103,Dora,Obrien,HMO,True,Pressure Ulcer,Stage 4,Right heel,8.4,7.8,3.7,moderate,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FC-065,103,Della,Lefebvre,MCB,True,Abscess,,Right cervical,1.1,1.4,0.7,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FC-066,103,Donald,Upton,MCB,True,Abscess,,Right cervical,1.3,1.0,0.6,light,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FC-067,103,Clifford,Nakamura,MCB,True,Pressure Ulcer,Stage 3,Left buttock,7.0,2.1,0.9,heavy,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FC-068,103,Thelma,Oneal,MCD,True,Burn,,Left upper arm,4.6,3.5,0.1,light,assessment+note,reject,Not Medicare Part B (payer: MCD)
+FC-069,103,Wilbur,Haynes,HMO,True,,,,2.2,1.2,,,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FC-070,103,Philip,Ortega,MCB,True,Diabetic Foot Ulcer,,Left plantar,1.4,0.8,1.5,light,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FC-071,103,Una,Vanhook,MCB,True,Burn,N,Left upper arm,1.8,1.2,0.0,light,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented (depth not documented — Envive note format)
+FC-072,103,Arthur,Tanner,MCB,True,Diabetic,,Left foot,2.2,4.8,1.0,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FC-073,103,Donald,Frazier,MCB,True,Pressure Ulcer,Stage 4,Left heel,7.8,4.0,3.7,heavy,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FC-074,103,Berta,Upton,MCB,True,Venous,,Left lower leg,6.5,5.0,0.3,heavy,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FC-075,103,Lillian,Webb,MCA,True,,,,0.5,0.5,,,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FC-076,103,Frederick,Oduya,HMO,True,Pressure Ulcer,Stage 4,Left buttock,8.3,5.7,2.1,heavy,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FC-077,103,Albert,Perry,MCB,True,Pressure Ulcer,Stage 3,Left heel,3.5,3.9,0.8,moderate,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FC-078,103,Gordon,Zimmerman,MCB,True,Venous,,Right lower leg,5.5,1.8,0.5,heavy,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented; stage not documented (non-pressure wound)
+FC-079,103,Raymond,Marsh,MCA,True,Diabetic,,Left plantar,1.2,1.6,0.6,light,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FC-080,103,Stella,Warren,MCB,True,Pressure Ulcer,Stage 3,Right buttock,6.0,5.0,0.5,light,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FC-081,103,Edna,Goldstein,MCB,False,Surgical,,Abdominal wall,4.3,3.2,1.2,heavy,assessment+note,flag_for_review,"No wound ICD-10 diagnosis on record, but wound documented in notes — clinician review needed"
+FC-082,103,Gilbert,Pruitt,MCB,True,Diabetic Foot Ulcer,,Left foot,5.5,2.0,1.0,heavy,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FC-083,103,Norman,Patel,HMO,True,,,,5.8,3.8,,,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FC-084,103,Edgar,Christodoulou,HMO,True,Arterial,,Right lower extremity,0.7,2.0,0.7,light,assessment+note,reject,Not Medicare Part B (payer: HMO)
+FC-085,103,Carol,Acosta,MCB,True,Abscess,N,Right cervical,1.4,0.7,,light,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FC-086,103,Clifford,Diaz,MCD,True,Diabetic,,Right plantar,3.0,3.8,0.4,,assessment+note,reject,Not Medicare Part B (payer: MCD)
+FC-087,103,Frank,Kaczmarek,MCB,True,Diabetic,,Right plantar,3.9,2.1,0.3,none,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FC-088,103,Morris,Reyes,MCA,True,Pressure Ulcer,Stage 2,Right heel,3.0,3.2,0.3,light,assessment+note,reject,Not Medicare Part B (payer: MCA)
+FC-089,103,Jennie,Dunbar,MCB,True,Pressure Ulcer,Stage 2,Left buttock,3.8,3.2,0.3,none,assessment+note,auto_accept,MCB coverage active; active wound diagnosis; measurements and drainage documented
+FC-090,103,Marguerite,Zuniga,HMO,True,,,,1.0,2.9,,,assessment+note,reject,Not Medicare Part B (payer: HMO)

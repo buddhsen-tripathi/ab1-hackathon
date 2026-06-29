@@ -1,0 +1,301 @@
+patient_id,wound_type,stage,location,length_cm,width_cm,depth_cm,drainage,data_source
+FA-001,Pressure Ulcer,Stage 3,Right hip,2.9,2.8,,heavy,assessment+note
+FA-002,Pressure Ulcer,,Left buttock,5.9,4.5,1.8,heavy,assessment+note
+FA-003,Venous,,Right lower leg,8.0,3.5,0.2,moderate,assessment+note
+FA-004,Diabetic,,Right plantar,4.3,1.8,0.3,moderate,assessment+note
+FA-005,,N,Right lower leg,3.1,3.4,,moderate,assessment+note
+FA-006,Diabetic,,Left foot,2.7,1.5,1.1,heavy,assessment+note
+FA-007,Diabetic,,Left plantar,2.8,3.8,1.4,none,assessment+note
+FA-008,Venous,N,Left lower leg,6.0,1.7,0.1,heavy,assessment+note
+FA-009,Diabetic Foot Ulcer,,diabetic Left foot,,,,moderate,assessment+note
+FA-010,Surgical,N,Abdominal wall,3.7,2.0,1.6,moderate,assessment+note
+FA-011,Pressure Ulcer,Stage 2,Sacral region,1.2,1.5,0.4,light,assessment+note
+FA-012,Abscess,,Right cervical,1.2,0.7,0.2,moderate,assessment+note
+FA-013,,,,1.4,1.2,,,assessment+note
+FA-014,Pressure Ulcer,Stage 2,Left buttock,1.0,1.9,,light,assessment+note
+FA-015,Venous,,Right lower leg,6.4,4.5,0.6,heavy,assessment+note
+FA-016,,,Right lower leg,7.6,4.2,0.6,,assessment+note
+FA-017,Venous,,Left lower leg,6.3,5.7,0.2,moderate,assessment+note
+FA-018,Pressure Ulcer,Stage 2,Right heel,1.1,2.9,0.3,moderate,assessment+note
+FA-019,Pressure Ulcer,Stage 2,Right buttock,,,,light,assessment+note
+FA-020,Diabetic,N,Left plantar,3.2,2.3,0.6,none,assessment+note
+FA-021,Arterial,,Right lower extremity,2.6,1.3,0.5,moderate,assessment+note
+FA-022,Venous,,Left lower leg,2.5,3.2,0.3,heavy,assessment+note
+FA-023,Diabetic,,Right plantar,4.1,3.6,0.7,moderate,assessment+note
+FA-024,Pressure Ulcer,Stage 3,Right buttock,6.8,4.4,1.6,heavy,assessment+note
+FA-025,Pressure Ulcer,Stage 4,Left heel,5.3,7.3,2.3,moderate,assessment+note
+FA-026,Surgical,,Abdominal wall,3.8,2.2,1.8,heavy,assessment+note
+FA-027,Abscess,,Right cervical,0.8,1.1,0.6,light,assessment+note
+FA-028,Diabetic,,Right plantar,1.6,3.2,0.3,none,assessment+note
+FA-029,Pressure Ulcer,Stage 3,Left hip,4.3,5.4,0.8,heavy,assessment+note
+FA-030,Pressure Ulcer,Stage 3,Right heel,3.9,3.6,0.6,moderate,assessment+note
+FA-031,Abscess,,abscess Right cervical,,,,moderate,assessment+note
+FA-032,Diabetic,N,Right plantar,4.2,1.3,0.8,light,assessment+note
+FA-033,Diabetic,,Right plantar,4.7,3.5,1.0,none,assessment+note
+FA-034,Pressure Ulcer,Stage 2,Left heel,3.0,2.2,,moderate,assessment+note
+FA-035,Abscess,N,Right cervical,0.8,0.7,0.7,moderate,assessment+note
+FA-036,Diabetic,,Left plantar,1.6,2.7,1.2,none,assessment+note
+FA-037,Pressure Ulcer,Stage 4,Sacral region,4.5,6.4,3.6,heavy,assessment+note
+FA-038,Diabetic,,Left plantar,3.1,1.7,0.3,,assessment+note
+FA-039,Diabetic,,Right plantar,1.4,1.7,0.7,moderate,assessment+note
+FA-040,,N,Right plantar,3.0,0.9,,light,assessment+note
+FA-041,Arterial,,Right lower extremity,1.3,0.8,0.8,moderate,assessment+note
+FA-042,Venous,,Left lower leg,5.2,2.4,0.2,moderate,assessment+note
+FA-043,Abscess,N,Right cervical,1.9,0.6,0.4,moderate,assessment+note
+FA-044,Burn,,Left upper arm,2.8,1.8,0.1,moderate,assessment+note
+FA-045,Abscess,N,Right cervical,1.2,0.9,0.6,moderate,assessment+note
+FA-046,,,,2.9,3.1,,,assessment+note
+FA-047,Diabetic,N,Right plantar,2.2,1.0,1.4,moderate,assessment+note
+FA-048,Venous,,Left lower leg,5.4,5.4,0.2,moderate,assessment+note
+FA-049,Pressure Ulcer,,Right buttock,3.8,4.1,0.9,moderate,assessment+note
+FA-050,Arterial,N,Right lower extremity,0.7,2.5,0.7,light,assessment+note
+FA-051,Abscess,,Right cervical,0.9,1.4,0.3,,assessment+note
+FA-052,,N,Abdominal wall,2.8,3.2,,moderate,assessment+note
+FA-053,Pressure Ulcer,Stage 3,Right buttock,6.7,4.5,1.5,heavy,assessment+note
+FA-054,Arterial,N,Right lower extremity,1.0,2.1,0.9,light,assessment+note
+FA-055,Abscess,,Right cervical,0.5,1.5,0.4,moderate,assessment+note
+FA-056,Diabetic Foot Ulcer,,Left foot,5.2,1.7,0.7,,assessment+note
+FA-057,Abscess,N,Right cervical,0.8,0.8,,moderate,assessment+note
+FA-058,Pressure Ulcer,Stage 3,Left buttock,3.5,3.5,2.0,heavy,assessment+note
+FA-059,Abscess,N,Right cervical,1.6,1.1,0.4,moderate,assessment+note
+FA-060,Venous,,Left lower leg,3.5,5.4,0.7,moderate,assessment+note
+FA-061,Arterial,,Right lower extremity,2.8,1.7,0.6,light,assessment+note
+FA-062,Diabetic,,Right plantar,4.1,0.9,0.3,light,assessment+note
+FA-063,,,Right lower extremity,2.3,0.8,1.0,,assessment+note
+FA-064,Venous,,Right lower leg,4.0,1.8,0.8,moderate,assessment+note
+FA-065,Burn,,Left upper arm,3.1,4.8,0.2,light,assessment+note
+FA-066,Pressure Ulcer,,Right buttock,4.7,4.4,1.5,moderate,assessment+note
+FA-067,Surgical,,Abdominal wall,4.8,1.0,1.9,heavy,assessment+note
+FA-068,Pressure Ulcer,Stage 2,Left buttock,4.0,2.2,0.3,none,assessment+note
+FA-069,Pressure Ulcer,,Sacral region,3.4,2.1,1.7,heavy,assessment+note
+FA-070,Burn,,Left upper arm,2.6,3.5,0.2,moderate,assessment+note
+FA-071,Diabetic,,Left foot,2.8,3.9,1.6,heavy,assessment+note
+FA-072,Venous,,Left lower leg,2.5,4.5,0.2,heavy,assessment+note
+FA-073,Pressure Ulcer,Stage 4,Left heel,9.3,7.4,2.2,heavy,assessment+note
+FA-074,,N,Right lower extremity,1.1,1.4,,light,assessment+note
+FA-075,Arterial,,Right lower extremity,2.1,1.3,0.5,moderate,assessment+note
+FA-076,Abscess,N,Right cervical,0.5,1.1,0.5,moderate,assessment+note
+FA-077,Diabetic,,Left foot,4.3,4.7,1.2,heavy,assessment+note
+FA-078,Diabetic,,Right plantar,1.7,3.4,0.6,light,assessment+note
+FA-079,Surgical,,Abdominal wall,2.1,3.3,1.1,moderate,assessment+note
+FA-080,Diabetic,,Left plantar,2.1,2.0,1.3,light,assessment+note
+FA-081,Abscess,N,Right cervical,1.7,1.4,,light,assessment+note
+FA-082,Diabetic,,Left foot,4.0,2.2,1.5,heavy,assessment+note
+FA-083,,,,1.6,1.7,,,assessment+note
+FA-084,Surgical,N,Abdominal wall,4.0,2.6,1.3,heavy,assessment+note
+FA-085,Burn,,Left upper arm,2.0,3.8,0.0,moderate,assessment+note
+FA-086,Pressure Ulcer,,Left buttock,6.0,4.4,2.0,moderate,assessment+note
+FA-087,Pressure Ulcer,,Left buttock,2.4,3.4,1.5,heavy,assessment+note
+FA-088,Diabetic,,Left plantar,1.9,3.2,1.2,moderate,assessment+note
+FA-089,Venous,N,Left lower leg,3.6,3.1,0.1,moderate,assessment+note
+FA-090,,N,Right lower extremity,1.1,2.0,,moderate,assessment+note
+FA-091,,,,3.6,4.5,,,assessment+note
+FA-092,,,,5.4,1.7,,,assessment+note
+FA-093,Diabetic,N,Left foot,4.0,3.0,0.7,moderate,assessment+note
+FA-094,Arterial,,Right lower extremity,0.5,1.5,0.6,moderate,assessment+note
+FA-095,,,venous Right lower leg,,,,heavy,assessment+note
+FA-096,Venous,,Right lower leg,5.2,2.3,0.4,moderate,assessment+note
+FA-097,Diabetic,,Left plantar,2.4,2.6,0.4,light,assessment+note
+FA-098,Diabetic,N,Left foot,4.7,2.1,2.0,heavy,assessment+note
+FA-099,Surgical,N,Abdominal wall,3.8,1.0,1.7,heavy,assessment+note
+FA-100,,N,Right lower extremity,1.3,1.1,,moderate,assessment+note
+FA-101,Pressure Ulcer,Stage 4,Right buttock,9.2,4.6,2.7,heavy,assessment+note
+FA-102,Burn,N,Left upper arm,1.9,2.0,0.1,moderate,assessment+note
+FA-103,Abscess,,Right cervical,1.6,0.9,0.8,moderate,assessment+note
+FA-104,Pressure Ulcer,Stage 2,Left buttock,1.4,1.4,0.4,moderate,assessment+note
+FA-105,,,,5.7,1.6,,,assessment+note
+FA-106,Abscess,N,Right cervical,0.6,0.9,0.2,light,assessment+note
+FA-107,Venous,,Left lower leg,3.5,2.5,0.3,heavy,assessment+note
+FA-108,Burn,,Left upper arm,1.6,4.0,0.1,light,assessment+note
+FA-109,,N,Abdominal wall,1.1,1.8,,heavy,assessment+note
+FA-110,Venous,,Right lower leg,2.4,4.5,0.1,moderate,assessment+note
+FA-111,Diabetic,N,Left plantar,1.9,1.9,0.7,none,assessment+note
+FA-112,,,,4.4,3.4,,,assessment+note
+FA-113,Burn,N,Left upper arm,3.9,3.1,0.1,light,assessment+note
+FA-114,Diabetic,,Left foot,4.9,2.2,1.2,heavy,assessment+note
+FA-115,Arterial,,Right lower extremity,2.7,1.1,0.7,light,assessment+note
+FA-116,,,Left plantar,1.4,3.1,1.0,,assessment+note
+FA-117,Pressure Ulcer,Stage 3,Left buttock,4.3,4.0,2.4,light,assessment+note
+FA-118,Venous,,Right lower leg,6.1,2.4,0.2,moderate,assessment+note
+FA-119,,,,2.4,0.5,,,assessment+note
+FA-120,Surgical,,Abdominal wall,3.7,3.1,1.1,moderate,assessment+note
+FB-001,Pressure Ulcer,,Left buttock,4.4,4.2,1.0,heavy,assessment+note
+FB-002,,,arterial Right lower extremity,,,,moderate,assessment+note
+FB-003,,N,Left lower leg,7.1,5.5,,heavy,assessment+note
+FB-004,Abscess,,Right cervical,1.4,1.1,0.6,,assessment+note
+FB-005,Venous,N,Left lower leg,3.3,2.3,0.6,moderate,assessment+note
+FB-006,Venous,N,Left lower leg,3.2,3.7,0.4,heavy,assessment+note
+FB-007,Pressure Ulcer,Stage 2,Sacral region,3.5,3.4,0.3,moderate,assessment+note
+FB-008,Diabetic,,Left foot,4.3,2.4,1.2,heavy,assessment+note
+FB-009,Pressure Ulcer,Stage 2,Right heel,1.3,2.7,,moderate,assessment+note
+FB-010,Arterial,,Right lower extremity,2.6,0.7,0.7,light,assessment+note
+FB-011,Venous,,Left lower leg,5.4,2.4,0.6,heavy,assessment+note
+FB-012,Burn,,burn Left upper arm,,,,moderate,assessment+note
+FB-013,Pressure Ulcer,Stage 4,Right heel,5.2,3.6,3.2,moderate,assessment+note
+FB-014,Abscess,,abscess Right cervical,,,,light,assessment+note
+FB-015,,N,Right lower extremity,0.6,1.2,,light,assessment+note
+FB-016,Diabetic,,Right plantar,3.8,3.5,0.8,light,assessment+note
+FB-017,Diabetic,N,Right plantar,1.1,3.8,1.2,light,assessment+note
+FB-018,Pressure Ulcer,N,Right buttock,5.4,2.8,0.9,heavy,assessment+note
+FB-019,Diabetic,,Left plantar,4.8,3.5,0.8,moderate,assessment+note
+FB-020,Diabetic,,Right plantar,3.5,3.2,1.0,,assessment+note
+FB-021,Pressure Ulcer,Stage 3,Right buttock,2.9,4.4,,light,assessment+note
+FB-022,Venous,,Right lower leg,7.8,1.9,0.6,moderate,assessment+note
+FB-023,Venous,,Left lower leg,7.3,5.0,0.8,heavy,assessment+note
+FB-024,Diabetic,,Left plantar,1.9,3.8,0.2,moderate,assessment+note
+FB-025,Pressure Ulcer,Stage 2,Right buttock,1.9,1.9,0.3,moderate,assessment+note
+FB-026,Pressure Ulcer,,Left heel,2.7,3.2,0.2,,assessment+note
+FB-027,,N,Left plantar,3.7,2.6,,moderate,assessment+note
+FB-028,Arterial,N,Right lower extremity,1.1,2.2,0.6,moderate,assessment+note
+FB-029,Burn,,Left upper arm,5.8,2.6,0.1,light,assessment+note
+FB-030,Burn,,Left upper arm,3.1,4.3,0.1,light,assessment+note
+FB-031,Abscess,,Right cervical,1.6,0.5,0.4,light,assessment+note
+FB-032,Surgical,N,Abdominal wall,4.9,1.6,1.1,moderate,assessment+note
+FB-033,,N,Left plantar,4.3,3.2,,light,assessment+note
+FB-034,Pressure Ulcer,,Left heel,7.4,5.1,1.7,,assessment+note
+FB-035,Surgical,N,Abdominal wall,3.4,1.1,0.7,moderate,assessment+note
+FB-036,Abscess,,Right cervical,1.8,0.8,0.2,light,assessment+note
+FB-037,Pressure Ulcer,,Right hip,2.5,2.4,0.8,,assessment+note
+FB-038,Venous,,Left lower leg,2.8,3.8,0.7,moderate,assessment+note
+FB-039,Venous,,Right lower leg,6.2,3.0,0.4,heavy,assessment+note
+FB-040,Venous,,Left lower leg,5.6,5.4,0.7,moderate,assessment+note
+FB-041,Pressure Ulcer,Stage 2,Right heel,1.3,1.6,0.4,,assessment+note
+FB-042,Pressure Ulcer,Stage 2,Sacral region,1.2,1.8,0.3,light,assessment+note
+FB-043,Diabetic,N,Left foot,3.7,2.1,1.3,heavy,assessment+note
+FB-044,Venous,N,Left lower leg,6.9,1.7,0.2,heavy,assessment+note
+FB-045,,,,3.4,2.4,,,assessment+note
+FB-046,Diabetic,,Right plantar,4.7,0.9,0.9,moderate,assessment+note
+FB-047,,,,4.7,3.7,,,assessment+note
+FB-048,Burn,,Left upper arm,1.1,2.0,0.2,moderate,assessment+note
+FB-049,Surgical,N,Abdominal wall,2.3,3.5,1.0,moderate,assessment+note
+FB-050,Pressure Ulcer,Stage 2,Left buttock,3.3,2.5,0.3,none,assessment+note
+FB-051,Pressure Ulcer,N,Sacral region,5.2,2.2,1.3,heavy,assessment+note
+FB-052,,,,4.6,2.4,,,assessment+note
+FB-053,,,Right lower leg,7.4,1.1,0.6,,assessment+note
+FB-054,Burn,,Left upper arm,5.4,4.4,0.2,moderate,assessment+note
+FB-055,Diabetic,N,Right plantar,3.1,1.5,0.3,moderate,assessment+note
+FB-056,,,,1.1,3.5,,,assessment+note
+FB-057,Diabetic,,Right plantar,1.8,1.1,0.9,light,assessment+note
+FB-058,Diabetic,N,Left foot,2.2,1.8,1.5,heavy,assessment+note
+FB-059,Pressure Ulcer,,Left buttock,3.8,2.7,1.0,moderate,assessment+note
+FB-060,,,,1.0,0.9,,,assessment+note
+FB-061,Diabetic,,Left plantar,4.9,3.0,1.1,moderate,assessment+note
+FB-062,Pressure Ulcer,N,Left buttock,5.1,1.6,1.6,heavy,assessment+note
+FB-063,Arterial,,Right lower extremity,2.9,1.3,0.3,moderate,assessment+note
+FB-064,Pressure Ulcer,Stage 2,Sacral region,3.1,2.5,0.2,none,assessment+note
+FB-065,Pressure Ulcer,,Left buttock,4.8,3.3,1.4,heavy,assessment+note
+FB-066,Pressure Ulcer,Stage 2,Left heel,2.1,2.2,0.4,light,assessment+note
+FB-067,,,,2.3,1.1,,,assessment+note
+FB-068,Surgical,N,Abdominal wall,4.1,2.7,1.4,heavy,assessment+note
+FB-069,Surgical,,Abdominal wall,4.4,2.6,1.4,moderate,assessment+note
+FB-070,Venous,N,Left lower leg,1.6,4.6,0.5,moderate,assessment+note
+FB-071,Abscess,,Right cervical,1.5,0.6,0.2,moderate,assessment+note
+FB-072,Diabetic,,Left foot,2.6,3.2,1.0,heavy,assessment+note
+FB-073,,,,4.9,1.6,,,assessment+note
+FB-074,Arterial,,Right lower extremity,1.6,1.4,0.5,moderate,assessment+note
+FB-075,Pressure Ulcer,,Left buttock,5.5,3.3,0.7,moderate,assessment+note
+FB-076,Pressure Ulcer,Stage 3,Right heel,4.6,3.3,1.2,light,assessment+note
+FB-077,Diabetic,,Left plantar,1.6,2.4,0.5,,assessment+note
+FB-078,,,,,,,moderate,assessment+note
+FB-079,Burn,N,Left upper arm,5.5,4.0,0.2,moderate,assessment+note
+FB-080,Abscess,,Right cervical,0.6,0.3,0.2,moderate,assessment+note
+FB-081,Abscess,N,Right cervical,1.7,0.5,0.3,moderate,assessment+note
+FB-082,Venous,,Right lower leg,5.7,1.2,0.3,moderate,assessment+note
+FB-083,Pressure Ulcer,Stage 3,Left heel,5.2,2.6,1.6,heavy,assessment+note
+FB-084,Diabetic,N,Left foot,4.5,2.0,1.9,moderate,assessment+note
+FB-085,Pressure Ulcer,Stage 4,Sacral region,8.2,6.3,1.7,moderate,assessment+note
+FB-086,Pressure Ulcer,,Right buttock,3.6,1.7,1.0,moderate,assessment+note
+FB-087,,N,Left plantar,3.9,3.9,,none,assessment+note
+FB-088,Diabetic Foot Ulcer,,Left foot,4.3,5.0,0.6,,assessment+note
+FB-089,Arterial,,Right lower extremity,2.2,1.5,0.4,light,assessment+note
+FB-090,,,Left lower leg,3.6,1.2,0.5,,assessment+note
+FC-001,Diabetic,,Left foot,4.3,4.4,1.3,moderate,assessment+note
+FC-002,,,,3.6,2.3,,,assessment+note
+FC-003,Pressure Ulcer,Stage 3,Right buttock,6.2,4.5,2.0,light,assessment+note
+FC-004,Burn,,Left upper arm,5.2,3.4,0.1,light,assessment+note
+FC-005,Surgical,,Abdominal wall,1.0,1.4,1.3,moderate,assessment+note
+FC-006,,,,1.8,3.5,1.5,,assessment+note
+FC-007,Diabetic,,Left foot,2.7,2.4,0.8,heavy,assessment+note
+FC-008,Venous,,Left lower leg,1.6,3.3,0.7,heavy,assessment+note
+FC-009,,,Left plantar,3.3,1.2,0.6,,assessment+note
+FC-010,Diabetic,N,Left plantar,1.5,3.7,0.7,light,assessment+note
+FC-011,,,diabetic Right plantar,,,,none,assessment+note
+FC-012,Pressure Ulcer,Stage 4,Right buttock,4.1,7.9,3.7,moderate,assessment+note
+FC-013,Venous,,Right lower leg,1.7,3.9,0.6,heavy,assessment+note
+FC-014,Pressure Ulcer,,Right buttock,3.7,3.8,0.3,heavy,assessment+note
+FC-015,Diabetic,N,Right plantar,1.8,1.8,0.6,moderate,assessment+note
+FC-016,Pressure Ulcer,Stage 3,Left hip,5.8,2.2,0.9,light,assessment+note
+FC-017,Diabetic,,Right plantar,2.7,0.9,0.8,moderate,assessment+note
+FC-018,Arterial,,Right lower extremity,2.2,1.5,0.7,moderate,assessment+note
+FC-019,Arterial,,Right lower extremity,1.9,2.2,0.5,moderate,assessment+note
+FC-020,Arterial,,Right lower extremity,3.0,1.8,0.2,moderate,assessment+note
+FC-021,Diabetic Foot Ulcer,N,Left foot,3.7,1.7,,moderate,assessment+note
+FC-022,,,,3.9,3.8,,,assessment+note
+FC-023,Pressure Ulcer,,Right buttock,3.4,1.6,1.3,heavy,assessment+note
+FC-024,Arterial,,Right lower extremity,0.5,0.6,0.5,light,assessment+note
+FC-025,Diabetic,,Left foot,3.3,2.9,1.5,heavy,assessment+note
+FC-026,Abscess,N,Right cervical,0.8,0.9,0.7,moderate,assessment+note
+FC-027,Venous,,Right lower leg,1.7,1.8,0.2,heavy,assessment+note
+FC-028,,N,Left lower leg,3.6,1.9,,moderate,assessment+note
+FC-029,Diabetic,,Left foot,2.4,4.0,1.8,heavy,assessment+note
+FC-030,Diabetic,,Left plantar,3.0,2.8,1.1,,assessment+note
+FC-031,Diabetic,,Left plantar,2.3,2.1,0.8,light,assessment+note
+FC-032,Venous,,Left lower leg,3.1,2.4,0.2,heavy,assessment+note
+FC-033,Venous,,Right lower leg,3.0,2.8,0.5,heavy,assessment+note
+FC-034,Abscess,,Right cervical,0.5,1.2,0.2,moderate,assessment+note
+FC-035,,,,4.8,3.4,,,assessment+note
+FC-036,Pressure Ulcer,,Sacral region,5.9,2.0,1.7,heavy,assessment+note
+FC-037,Venous,,Right lower leg,4.9,1.0,0.3,moderate,assessment+note
+FC-038,Pressure Ulcer,,pressure ulcer Left buttock,,,,heavy,assessment+note
+FC-039,Diabetic,N,Left foot,2.8,4.6,0.8,heavy,assessment+note
+FC-040,Diabetic,,Left foot,3.3,4.7,0.8,heavy,assessment+note
+FC-041,Pressure Ulcer,Stage 4,Right heel,9.1,5.2,3.3,moderate,assessment+note
+FC-042,Pressure Ulcer,,Sacral region,3.7,2.5,1.0,heavy,assessment+note
+FC-043,,,,4.0,4.4,,,assessment+note
+FC-044,Diabetic,,Left foot,2.2,2.6,0.6,moderate,assessment+note
+FC-045,,,,1.9,2.8,1.5,,assessment+note
+FC-046,Arterial,N,Right lower extremity,1.2,2.0,1.0,moderate,assessment+note
+FC-047,Burn,N,Left upper arm,3.7,2.2,0.1,light,assessment+note
+FC-048,,,,2.8,3.1,,,assessment+note
+FC-049,Abscess,N,Right cervical,1.6,1.0,,light,assessment+note
+FC-050,Pressure Ulcer,Stage 4,Right buttock,5.3,4.5,,heavy,assessment+note
+FC-051,,,,6.3,3.9,,,assessment+note
+FC-052,Venous,,Left lower leg,2.2,5.4,0.6,moderate,assessment+note
+FC-053,Arterial,,Right lower extremity,2.0,0.8,1.0,moderate,assessment+note
+FC-054,Venous,,Right lower leg,6.2,5.7,0.5,moderate,assessment+note
+FC-055,Burn,,burn Left upper arm,,,,moderate,assessment+note
+FC-056,Abscess,N,Right cervical,1.1,1.1,0.7,moderate,assessment+note
+FC-057,Pressure Ulcer,Stage 2,Right buttock,1.6,1.2,0.4,,assessment+note
+FC-058,Pressure Ulcer,N,Sacral region,2.1,2.8,,moderate,assessment+note
+FC-059,Venous,,Right lower leg,1.7,2.0,0.4,heavy,assessment+note
+FC-060,Pressure Ulcer,Stage 4,Right buttock,4.6,4.1,,heavy,assessment+note
+FC-061,Pressure Ulcer,Stage 3,Right hip,6.4,4.7,1.4,light,assessment+note
+FC-062,Pressure Ulcer,,Sacral region,5.4,7.7,3.3,,assessment+note
+FC-063,Diabetic,N,Left foot,2.5,4.1,1.9,moderate,assessment+note
+FC-064,Pressure Ulcer,Stage 4,Right heel,8.4,7.8,3.7,moderate,assessment+note
+FC-065,Abscess,,Right cervical,1.1,1.4,0.7,moderate,assessment+note
+FC-066,Abscess,,Right cervical,1.3,1.0,0.6,,assessment+note
+FC-067,Pressure Ulcer,Stage 3,Left buttock,7.0,2.1,0.9,heavy,assessment+note
+FC-068,Burn,,Left upper arm,4.6,3.5,0.1,light,assessment+note
+FC-069,,,,2.2,1.2,,,assessment+note
+FC-070,,,Left plantar,1.4,0.8,1.5,,assessment+note
+FC-071,Burn,N,Left upper arm,1.8,1.2,0.0,light,assessment+note
+FC-072,Diabetic,,Left foot,2.2,4.8,1.0,moderate,assessment+note
+FC-073,Pressure Ulcer,Stage 4,Left heel,7.8,4.0,3.7,heavy,assessment+note
+FC-074,Venous,,Left lower leg,6.5,5.0,0.3,heavy,assessment+note
+FC-075,,,,0.5,0.5,,,assessment+note
+FC-076,Pressure Ulcer,Stage 4,Left buttock,8.3,5.7,2.1,heavy,assessment+note
+FC-077,Pressure Ulcer,Stage 3,Left heel,3.5,3.9,0.8,moderate,assessment+note
+FC-078,Venous,,Right lower leg,5.5,1.8,0.5,heavy,assessment+note
+FC-079,Diabetic,,Left plantar,1.2,1.6,0.6,light,assessment+note
+FC-080,Pressure Ulcer,Stage 3,Right buttock,6.0,5.0,0.5,light,assessment+note
+FC-081,Surgical,,Abdominal wall,4.3,3.2,1.2,heavy,assessment+note
+FC-082,,,,5.5,2.0,,,assessment+note
+FC-083,,,,5.8,3.8,,,assessment+note
+FC-084,Arterial,,Right lower extremity,0.7,2.0,0.7,light,assessment+note
+FC-085,Abscess,N,Right cervical,1.4,0.7,,light,assessment+note
+FC-086,Diabetic,,Right plantar,3.0,3.8,0.4,,assessment+note
+FC-087,Diabetic,,Right plantar,3.9,2.1,0.3,,assessment+note
+FC-088,Pressure Ulcer,Stage 2,Right heel,3.0,3.2,0.3,light,assessment+note
+FC-089,Pressure Ulcer,Stage 2,Left buttock,3.8,3.2,0.3,none,assessment+note
+FC-090,,,,1.0,2.9,,,assessment+note

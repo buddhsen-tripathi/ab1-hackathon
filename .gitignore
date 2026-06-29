@@ -5,3 +5,4 @@ backend/__pycache__
 backend/app/__pycache__
 *.pyc
 .env*.local
+.env
